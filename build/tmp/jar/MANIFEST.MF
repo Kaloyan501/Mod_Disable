@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Specification-Title: moddisable
+Specification-Vendor: Kaloyan Ivanov Donev (MineManiack)
+Specification-Version: 1
+Implementation-Title: ModDisable
+Implementation-Version: 1.0.0
+Implementation-Vendor: Kaloyan Ivanov Donev (MineManiack)
+Implementation-Timestamp: 2024-06-05T20:42:50+0300
+
