@@ -79,6 +79,7 @@ public class Disable_Mod {
     public static void registerCommand(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext buildContext) {
         dispatcher.register(
                 Commands.literal("disable_mod")
+                    .requires(source -> source.hasPermission(2))
                         .then(Commands.literal("enable")
                                 .then(Commands.literal("namespace")
                                         .then(Commands.argument("namespace", StringArgumentType.string())
