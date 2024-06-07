@@ -127,6 +127,7 @@ public class Disable_Mod {
                 source.sendSuccess(() -> Component.literal("[ModDisable] Mod namespace enabled!"), false);
                 break;
             case "disable namespace":
+                System.out.println("Namespace argument: " + namespace);
                 RecipeDisabler.disableRecipesByNamespace(namespace, context.getSource().getServer(), context.getSource().getPlayer());
                 source.sendSuccess(() -> Component.literal("[ModDisable] Mod namespace disabled!"), false);
                 break;

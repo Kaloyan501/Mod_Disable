@@ -118,6 +118,10 @@ public class JsonHelper {
             return false;
         }
 
+        if (data == null) {
+            System.out.println("DATA IS NULL!!!");
+        }
+
         JsonArray disabledItems = data.getAsJsonArray("disabled_items");
         for (JsonElement element: disabledItems) {
             if (element.getAsString().equals(BuiltInRegistries.ITEM.getKey(item).toString())){
