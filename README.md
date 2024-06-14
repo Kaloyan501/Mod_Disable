@@ -14,4 +14,4 @@ A simple Minecraft Mod to disable recipes and items from other mods.
 For the player's disabled_items file to be created and for the namespace disable feature to work, you first need to disable an item!
 Enabling and disabling of items and namespace recipes applies server-wide and not on a player by player basis.
 
-<h1>The creator of this program is not responsible for any damage done by this program and does not come with ANY warranty.</h1>
+<h1>The creator of this program is not responsible for any damage done by this program and it does not come with ANY warranty.</h1>
