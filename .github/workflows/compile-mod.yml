@@ -37,6 +37,17 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-gradle-
 
-    # Run Gradle build
+    # Set execute permissions on gradlew
+    - name: Make gradlew executable
+      run: chmod +x ./gradlew
+
+    # Run Gradle build with increased verbosity
     - name: Build with Gradle
-      run: ./gradlew build
+      run: ./gradlew build --info
+
+    # Upload build artifact
+    - name: Upload build artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: build-artifact
+        path: build/libs/*.jar  # Adjust this path to where your artifact is generated
