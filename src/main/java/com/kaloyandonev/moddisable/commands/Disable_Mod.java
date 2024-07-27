@@ -19,36 +19,24 @@ package com.kaloyandonev.moddisable.commands;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
-import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import com.sun.jdi.connect.Connector;
-import net.minecraft.client.gui.screens.social.PlayerEntry;
 import net.minecraft.commands.CommandBuildContext;
-import net.minecraft.commands.CommandSource;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
-import net.minecraft.commands.arguments.MessageArgument;
 import net.minecraft.commands.arguments.item.ItemArgument;
-import net.minecraft.network.chat.ChatType;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.players.PlayerList;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 import com.kaloyandonev.moddisable.helpers.JsonHelper;
 import com.kaloyandonev.moddisable.helpers.RecipeDisabler;
-import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
-import javax.json.Json;
 import java.io.File;
 
 
@@ -79,7 +67,8 @@ public class Disable_Mod {
     public static void registerCommand(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext buildContext) {
         dispatcher.register(
                 Commands.literal("disable_mod")
-                    .requires(source -> source.hasPermission(2))
+                        .requires(source -> source.hasPermission(2))
+
                         .then(Commands.literal("enable")
                                 .then(Commands.literal("namespace")
                                         .then(Commands.argument("namespace", StringArgumentType.string())

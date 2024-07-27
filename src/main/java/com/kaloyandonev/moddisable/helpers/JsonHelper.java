@@ -58,7 +58,12 @@ public class JsonHelper {
         }
 
         JsonArray disabledItems = data.getAsJsonArray("disabled_items");
-        disabledItems.add(BuiltInRegistries.ITEM.getKey(item).toString());
+        if ((BuiltInRegistries.ITEM.getKey(item).toString()).equals("minecraft:air")){
+            System.out.println("Message from JsonHelper: Item minecraft:air will NOT be added to JSON.");
+        } else {
+            disabledItems.add(BuiltInRegistries.ITEM.getKey(item).toString());
+        }
+
 
         writePlayerData(playerFile, data);
     }

@@ -21,11 +21,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.kaloyandonev.moddisable.DisableModMain;
 import com.kaloyandonev.moddisable.commands.Disable_Mod;
-import com.mojang.brigadier.context.CommandContext;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import com.mojang.serialization.Dynamic;
-import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.entity.player.Player;
@@ -40,31 +35,44 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.ForgeRegistries;
 
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.*;
 import java.io.File;
+
+import java.io.PrintStream;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.jline.utils.Log;
 
 
 @Mod.EventBusSubscriber(modid = DisableModMain.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class RecipeDisabler {
+
+    private static final Logger LOGGER = LogManager.getLogger();
     private static final List<String> recipesToRemove = new ArrayList<>();
     private static final Map<String, Recipe<?>> removedRecipes = new HashMap<>();
 
     public static JsonArray previousJsonArray;
 
     public static void queueRecipeRemoval(String recipeId) {
-        System.out.println("/////////////////////////queueRecipeRemoval is about to disable item: " + recipeId);
-        recipesToRemove.add(recipeId);
-        System.out.println(recipesToRemove);
+        LOGGER.warn("[Mod_Disable] queueRecipeRemoval is about to disable item: " + recipeId);
+        if (recipeId.equals("minecraft:air")) {
+            LOGGER.warn("[Mod_Disable] recipeId is minecraft:air, discarding...");
+        } else {
+            recipesToRemove.add(recipeId);
+            LOGGER.info("[Mod_Disable] recipesToRemove is: " + recipesToRemove);
+        }
+
     }
 
     @SubscribeEvent
+    @SuppressWarnings (value="unused")
     public static void onServerStarting(ServerStartingEvent event){
         MinecraftForge.EVENT_BUS.addListener(RecipeDisabler::onServerTick);
     }
@@ -84,6 +92,7 @@ public class RecipeDisabler {
         try {
             Field recipesField = findRecipesField(recipeManager);
             recipesField.setAccessible(true);
+            @SuppressWarnings (value="unchecked")
             Map<RecipeType<?>, Map<ResourceLocation, Recipe<?>>> recipes = (Map<RecipeType<?>, Map<ResourceLocation, Recipe<?>>>) recipesField.get(recipeManager);
 
             // Create a new map to hold the modified recipes
@@ -99,7 +108,7 @@ public class RecipeDisabler {
                     if (recipesToRemove.contains(recipe.getId().toString())) {
                         removedRecipes.put(recipe.getId().toString(), recipe);
                         toRemove.add(recipe.getId());
-                        System.out.print("Removed recipe: " + recipe.getId());
+                        LOGGER.info("[Mod_Disable] Removed recipe: " + recipe.getId());
                     }
                 }
 
@@ -113,8 +122,10 @@ public class RecipeDisabler {
             recipesField.set(recipeManager, newRecipes);
 
             recipesToRemove.clear();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
+
+            //V 1.0.1 - Add NullPointerException here, so no NullPointerException happens
+        } catch (IllegalAccessException | NullPointerException er) {
+            er.printStackTrace();
         }
     }
 
@@ -123,8 +134,10 @@ public class RecipeDisabler {
         Recipe<?> recipe = removedRecipes.get(recipeId);
         if (recipe != null) {
             try {
-                Field recipesField = RecipeManager.class.getDeclaredField("recipes");
+                //Non-production but working way to get recipesField: Field recipesField = RecipeManager.class.getDeclaredField("recipes");
+                Field recipesField = findRecipesField(recipeManager);
                 recipesField.setAccessible(true);
+                @SuppressWarnings (value="unchecked")
                 Map<RecipeType<?>, Map<ResourceLocation, Recipe<?>>> recipes = (Map<RecipeType<?>, Map<ResourceLocation, Recipe<?>>>) recipesField.get(recipeManager);
 
                 //Create a new map to hold the modified recipes
@@ -134,12 +147,12 @@ public class RecipeDisabler {
 
                 removedRecipes.remove(recipeId);
                 recipesField.set(recipeManager, newRecipes);
-                System.out.println("Re-enabled recipe: " + recipeId);
-            } catch (NoSuchFieldException | IllegalAccessException e) {
+                LOGGER.info("[Mod_Disable] Re-enabled recipe: " + recipeId);
+            } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
         } else {
-            System.out.print("Recipe not found: " + recipeId);
+            LOGGER.info("[Mod_Disable] Recipe not found: " + recipeId);
         }
     }
 
@@ -151,8 +164,13 @@ public class RecipeDisabler {
             for (JsonElement element : jsonArray) {
                 String recipeId = element.getAsString();
                 if (!recipesToRemove.contains(recipeId)) {
-                    System.out.println("////////////////// queueRecipeRemovalFromJson is about to give recipe " + recipeId + " to queueRecipeRemoval!");
-                    queueRecipeRemoval(recipeId);
+                    if (recipeId.equals("minecraft:air")){
+                        LOGGER.warn("[Mod_Disable] Item ID to disable is minecraft:air, discarding...");
+                    } else {
+                        LOGGER.warn("[Mod_Disable] queueRecipeRemovalFromJson is about to give recipe " + recipeId + " to queueRecipeRemoval!");
+                        queueRecipeRemoval(recipeId);
+                    }
+
                 }
 
             }
@@ -167,13 +185,18 @@ public class RecipeDisabler {
         }
     }
 
-
+    @SuppressWarnings (value="unused")
     public static void enableRecipesByNamespace(String namespace, MinecraftServer server, Player player){
 
         RecipeManager recipeManager = server.getRecipeManager();
         try{
-            Field recipesField = RecipeManager.class.getDeclaredField("recipes");
+
+            //Non-production but working way to get recipesField: Field recipesField = RecipeManager.class.getDeclaredField("recipes");
+
+            Field recipesField = findRecipesField(recipeManager);
+
             recipesField.setAccessible(true);
+            @SuppressWarnings (value="unchecked")
             Map<RecipeType<?>, Map<ResourceLocation, Recipe<?>>> recipes = (Map<RecipeType<?>, Map<ResourceLocation, Recipe<?>>>) recipesField.get(recipeManager);
             ResourceLocation recipeId;
             Item item;
@@ -186,7 +209,7 @@ public class RecipeDisabler {
 
                         //if (item != null) {
                             JsonHelper.enableItem(item, player);
-                            System.out.println("////Enabled item " + item);
+                            LOGGER.info("[Mod_Disable] Enabled item " + item);
                         //} else {
                             //System.out.println("Item not found for recipe: " + recipeId);
                         //}
@@ -195,7 +218,7 @@ public class RecipeDisabler {
                     }
                 }
             }
-        } catch (NoSuchFieldException | IllegalAccessException e) {
+        } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
     }
@@ -205,12 +228,12 @@ public class RecipeDisabler {
         JsonObject data = JsonHelper.readPlayerData(playerFile);
 
         if (data.has("disabled_items")) {
-            System.out.println("////removedItemsByNamespace data.has disabled_items if was passed!");
+            LOGGER.debug("[Mod_Disable] removedItemsByNamespace data.has disabled_items if was passed!");
             JsonArray disabledItems = data.getAsJsonArray("disabled_items");
             JsonArray newDisabledItems = new JsonArray();
 
             for (JsonElement element : disabledItems) {
-                System.out.println("////namespace + : if passed!");
+                LOGGER.debug("namespace + : if passed!");
                 if (!element.getAsString().startsWith(namespace + ":")) {
                     newDisabledItems.add(element);
                 }
@@ -218,10 +241,11 @@ public class RecipeDisabler {
 
             data.add("disabled_items", newDisabledItems);
             JsonHelper.writePlayerData(playerFile, data);
-            System.out.println("Removed items with namespace: " + namespace);
+            LOGGER.info("[Mod_Disable] Removed items with namespace: " + namespace);
         }
     }
 
+    /*
     public static void disableRecipesByNamespace(String namespace, MinecraftServer server, Player player) {
 
         if (Disable_Mod.IsDebugEnabled) {
@@ -235,6 +259,7 @@ public class RecipeDisabler {
             if (Disable_Mod.IsDebugEnabled) {
                 System.out.println("Reflection on recipesField successful");
             }
+            @SuppressWarnings (value="unchecked")
             Map<RecipeType<?>, Map<ResourceLocation, Recipe<?>>> recipes = (Map<RecipeType<?>, Map<ResourceLocation, Recipe<?>>>) recipesField.get(recipeManager);
 
             for (Map<ResourceLocation, Recipe<?>> recipeMap : recipes.values()) {
@@ -264,15 +289,55 @@ public class RecipeDisabler {
         }
     }
 
+
+     */
+
+    public static void disableRecipesByNamespace(String namespace, MinecraftServer server, Player player) {
+        if (Disable_Mod.IsDebugEnabled) {
+            LOGGER.info("[Mod_Disable] disableRecipesByNamespace called with namespace: " + namespace);
+        }
+
+        RecipeManager recipeManager = server.getRecipeManager();
+        try {
+            //Non-production but working way to get recipesField: Field recipesField = RecipeManager.class.getDeclaredField("recipes");
+
+            Field recipesField = findRecipesField(recipeManager);
+            recipesField.setAccessible(true);
+            LOGGER.debug("[Mod_Disable] Reflection on recipesField successful");
+            Map<RecipeType<?>, Map<ResourceLocation, Recipe<?>>> recipes = (Map<RecipeType<?>, Map<ResourceLocation, Recipe<?>>>) recipesField.get(recipeManager);
+
+            for (Map<ResourceLocation, Recipe<?>> recipeMap : recipes.values()) {
+                for (Recipe<?> recipe : recipeMap.values()) {
+                    ResourceLocation recipeId = recipe.getId();
+                    if (recipeId.getNamespace().equals(namespace)) {
+                        LOGGER.info("[Mod_Disable] Disabling recipe: " + recipeId);
+                        queueRecipeRemoval(recipeId.toString());
+                    }
+                }
+            }
+
+            for (Item item : ForgeRegistries.ITEMS) {
+                ResourceLocation itemRegistryName = ForgeRegistries.ITEMS.getKey(item);
+                if (itemRegistryName != null && itemRegistryName.getNamespace().equals(namespace)) {
+                    LOGGER.info("[Mod_Disable] Disabling item: " + itemRegistryName);
+                    JsonHelper.disableItem(item, player);
+                }
+            }
+
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @SuppressWarnings (value="unused")
     private static Field findRecipesField(RecipeManager recipeManager) {
         try {
             return RecipeManager.class.getDeclaredField("recipes");
-        } catch (NoSuchFieldException e) {
-            // Try the obfuscated name (for example, in a production environment)
-            for (Field field : RecipeManager.class.getDeclaredFields()) {
-                if (Map.class.isAssignableFrom(field.getType())) {
-                    return field;
-                }
+        } catch (NoSuchFieldException e1) {
+            try {
+                return RecipeManager.class.getDeclaredField("f_44007_");
+            } catch (NoSuchFieldException e2) {
+                e2.printStackTrace();
             }
         }
         return null;
