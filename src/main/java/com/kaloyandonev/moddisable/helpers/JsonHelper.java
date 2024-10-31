@@ -21,6 +21,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.*;
+import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.StaticPathStorage;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -39,7 +40,21 @@ import java.io.InputStream;
 public class JsonHelper {
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-    private static final File DATA_DIR = new File("disabled_items");
+    //private static final File DATA_DIR = new File("disabled_items");
+    private static File DATA_DIR = StaticPathStorage.getSubWorldFolderFile();
+
+    // Method to get the data directory with lazy initialization
+    private static File getDataDir() {
+        //if (DATA_DIR == null) {
+        DATA_DIR = StaticPathStorage.getSubWorldFolderFile();
+
+        // Ensure the directory exists
+        if (!DATA_DIR.exists()) {
+            DATA_DIR.mkdirs(); // Create the directory if it does not exist
+        }
+        //}
+        return DATA_DIR;
+    }
 
     static {
         if (!DATA_DIR.exists()){
@@ -69,7 +84,7 @@ public class JsonHelper {
     }
 
     public static File getPlayerFile(Player player){
-        return new File(DATA_DIR, player.getUUID().toString() + ".json");
+        return new File(getDataDir(), player.getUUID().toString() + ".json");
     }
 
     public static JsonObject readPlayerData(File file) {
@@ -113,6 +128,30 @@ public class JsonHelper {
 
 
     }
+
+    /*
+    public static boolean isItemDisabled(Item item, Player player){
+        File playerFile = getPlayerFile(player);
+
+        JsonObject data = readPlayerData(playerFile);
+
+        if (!data.has("disabled_items")){
+            return false;
+        }
+
+        if (data == null) {
+            System.out.println("DATA IS NULL!!!");
+        }
+
+        JsonArray disabledItems = data.getAsJsonArray("disabled_items");
+        for (JsonElement element: disabledItems) {
+            if (element.getAsString().equals(BuiltInRegistries.ITEM.getKey(item).toString())){
+                return true;
+            }
+        }
+        return false;
+    }
+     */
 
     public static boolean isItemDisabled(Item item, Player player){
         File playerFile = getPlayerFile(player);

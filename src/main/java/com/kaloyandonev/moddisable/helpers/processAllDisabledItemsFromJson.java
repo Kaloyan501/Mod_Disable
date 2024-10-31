@@ -17,16 +17,32 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 package com.kaloyandonev.moddisable.helpers;
 
+import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.StaticPathStorage;
 import net.minecraft.server.MinecraftServer;
 
 import java.io.File;
 
 public class processAllDisabledItemsFromJson {
 
-    private static final File DATA_DIR = new File("disabled_items");
+    //private static final File DATA_DIR = new File("disabled_items");
+    private static File DATA_DIR = StaticPathStorage.getSubWorldFolderFile();
+
+    // Method to get the data directory with lazy initialization
+    private static File getDataDir() {
+        //if (DATA_DIR == null) {
+        DATA_DIR = StaticPathStorage.getSubWorldFolderFile();
+
+        // Ensure the directory exists
+        if (!DATA_DIR.exists()) {
+            DATA_DIR.mkdirs(); // Create the directory if it does not exist
+        }
+        //}
+        return DATA_DIR;
+    }
 
     public static void processAllDisabledItemsFromJson() {
-        if (!DATA_DIR.exists() || !DATA_DIR.isDirectory()){
+        getDataDir();
+        if (!getDataDir().exists() || !DATA_DIR.isDirectory()){
             System.out.println("Directory not found: " + DATA_DIR.getAbsolutePath());
             return;
         }

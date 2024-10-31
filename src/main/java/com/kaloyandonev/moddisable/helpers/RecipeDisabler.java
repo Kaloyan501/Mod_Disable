@@ -61,12 +61,12 @@ public class RecipeDisabler {
     public static JsonArray previousJsonArray;
 
     public static void queueRecipeRemoval(String recipeId) {
-        LOGGER.warn("[Mod_Disable] queueRecipeRemoval is about to disable item: " + recipeId);
+        //LOGGER.warn("[Mod_Disable] queueRecipeRemoval is about to disable item: " + recipeId);
         if (recipeId.equals("minecraft:air")) {
             LOGGER.warn("[Mod_Disable] recipeId is minecraft:air, discarding...");
         } else {
             recipesToRemove.add(recipeId);
-            LOGGER.info("[Mod_Disable] recipesToRemove is: " + recipesToRemove);
+            //LOGGER.info("[Mod_Disable] recipesToRemove is: " + recipesToRemove);
         }
 
     }
@@ -87,11 +87,37 @@ public class RecipeDisabler {
         }
     }
 
+    // V 1.1.0 Add cashing for RecipesField, so it isn't created every tick. This makes the Garbage collector happy :)
+    private static Field cachedRecipesField;
+
+    private static Field getRecipesField(RecipeManager recipeManager){
+        if (cachedRecipesField == null) {
+            cachedRecipesField = findRecipesField(recipeManager);
+            if (cachedRecipesField != null) {
+                cachedRecipesField.setAccessible(true);
+            }
+        }
+        return cachedRecipesField;
+    }
+    // END
+
+
     private static void removeQueuedRecipes(MinecraftServer server) {
+        if (recipesToRemove.isEmpty()) {
+            //LOGGER.info("recipesToRemove list is empty, exiting early.");
+            return;
+        }
+
         RecipeManager recipeManager = server.getRecipeManager();
         try {
-            Field recipesField = findRecipesField(recipeManager);
-            recipesField.setAccessible(true);
+            Field recipesField = getRecipesField(recipeManager);
+            if (recipesField == null) {
+                LOGGER.error("[Mod Disable] [CRITICAL] recipesField was not created! If you are seeing this error, report this issue to the Github repo!");
+                LOGGER.error("[Mod Disable] [CRITICAL] recipesField was not created! If you are seeing this error, report this issue to the Github repo!");
+                LOGGER.error("[Mod Disable] [CRITICAL] recipesField was not created! If you are seeing this error, report this issue to the Github repo!");
+                return;
+            }
+
             @SuppressWarnings (value="unchecked")
             Map<RecipeType<?>, Map<ResourceLocation, Recipe<?>>> recipes = (Map<RecipeType<?>, Map<ResourceLocation, Recipe<?>>>) recipesField.get(recipeManager);
 
@@ -112,11 +138,20 @@ public class RecipeDisabler {
                     }
                 }
 
+                if (!toRemove.isEmpty()) {
+                    recipeMap.keySet().removeAll(toRemove);
+                }
+
+                /*
                 for (ResourceLocation recipeId : toRemove) {
                     recipeMap.remove(recipeId);
                 }
 
+                 */
+
                 newRecipes.put(entry.getKey(), recipeMap);
+
+
             }
 
             recipesField.set(recipeManager, newRecipes);
@@ -167,7 +202,7 @@ public class RecipeDisabler {
                     if (recipeId.equals("minecraft:air")){
                         LOGGER.warn("[Mod_Disable] Item ID to disable is minecraft:air, discarding...");
                     } else {
-                        LOGGER.warn("[Mod_Disable] queueRecipeRemovalFromJson is about to give recipe " + recipeId + " to queueRecipeRemoval!");
+                        //LOGGER.warn("[Mod_Disable] queueRecipeRemovalFromJson is about to give recipe " + recipeId + " to queueRecipeRemoval!");
                         queueRecipeRemoval(recipeId);
                     }
 
@@ -330,7 +365,8 @@ public class RecipeDisabler {
     }
 
     @SuppressWarnings (value="unused")
-    private static Field findRecipesField(RecipeManager recipeManager) {
+    private static Field
+    findRecipesField(RecipeManager recipeManager) {
         try {
             return RecipeManager.class.getDeclaredField("recipes");
         } catch (NoSuchFieldException e1) {

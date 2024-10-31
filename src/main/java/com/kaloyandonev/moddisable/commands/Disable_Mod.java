@@ -17,50 +17,99 @@
 
 package com.kaloyandonev.moddisable.commands;
 
+import com.kaloyandonev.moddisable.helpers.isSinglePlayer;
+import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.*;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import net.minecraft.client.Minecraft;
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.item.ItemArgument;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 
 import com.kaloyandonev.moddisable.helpers.JsonHelper;
 import com.kaloyandonev.moddisable.helpers.RecipeDisabler;
+import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
+import java.nio.file.Path;
 
 
 public class Disable_Mod {
 
-    public static boolean IsDebugEnabled = false;
-    private static final File DATA_DIR = new File("disabled_items");
+    public static boolean IsDebugEnabled = true;
+    //private Path DATA_DIR_PATH = StaticPathStorage.getSubWorldFolderPath();
+    //private static final File DATA_DIR = new File("disabled_items");
+    public static File DATA_DIR = null;
+
+
+
+    private static final Logger logger = LogManager.getLogger(Disable_Mod.class);
+    private isSinglePlayer isSinglePlayer = new isSinglePlayer();
 
     public Disable_Mod(){
 
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
+        //FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::ClientCode);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onLoadComplete);
+
+
+
 
         MinecraftForge.EVENT_BUS.register(this);
     }
 
+    /*
     private void setup(final FMLCommonSetupEvent event) {
-        //Initial setup
+    }
+    */
+
+    public void onLoadComplete(FMLLoadCompleteEvent event){
+        isSinglePlayer.checkisSingplePlayer(event);
     }
 
+    public void ResetDataDir(){
+        DATA_DIR = null;
+    }
+
+    @OnlyIn(Dist.CLIENT)
     private void ClientCode(final FMLCommonSetupEvent event) {
-        //Client-side setup
+        logger.warn("ClientCode is about to run!");
+        Minecraft.getInstance().execute(() -> {
+            // Create your screenCrator instance
+            ScreenCrator screenCrator = new ScreenCrator(
+                    Component.literal("Migration Title"), // Title of the screen
+                    Component.literal("Description of the screen"), // Description
+                    confirmed -> {
+                        // Handle migration logic here
+                        return false; // Adjust as needed
+                    }
+            );
+
+            // Open the new screen
+            Minecraft.getInstance().setScreen(screenCrator);
+        });
     }
 
 
@@ -68,7 +117,6 @@ public class Disable_Mod {
         dispatcher.register(
                 Commands.literal("disable_mod")
                         .requires(source -> source.hasPermission(2))
-
                         .then(Commands.literal("enable")
                                 .then(Commands.literal("namespace")
                                         .then(Commands.argument("namespace", StringArgumentType.string())
@@ -92,6 +140,19 @@ public class Disable_Mod {
                         */
     }
 
+    // Method to get the data directory with lazy initialization
+    private static File getDataDir() {
+        //if (DATA_DIR == null) {
+            DATA_DIR = StaticPathStorage.getSubWorldFolderFile();
+
+            // Ensure the directory exists
+            if (!DATA_DIR.exists()) {
+                DATA_DIR.mkdirs(); // Create the directory if it does not exist
+            }
+        //}
+        return DATA_DIR;
+    }
+
     //Method to handle namespaces
     private static int execute(CommandContext<CommandSourceStack> context, String action, String target, String namespace){
         CommandSourceStack source = context.getSource();
@@ -106,7 +167,11 @@ public class Disable_Mod {
             return 0;
         }
 
-        String PlayerFile = new File(DATA_DIR, player.getUUID().toString() + ".json").toString();
+        String PlayerFile = new File(getDataDir(), player.getUUID().toString() + ".json").toString();
+
+        if (IsDebugEnabled = true) {
+            source.sendSuccess(() -> Component.literal("[ModDisable] [DEBUG] PlayerFile var is: " + PlayerFile), true);
+        }
 
         switch (actionTarget) {
             case "enable namespace":
@@ -145,7 +210,7 @@ public class Disable_Mod {
             return 0;
         }
 
-        String PlayerFile = new File(DATA_DIR, player.getUUID().toString() + ".json").toString();
+        String PlayerFile = new File(getDataDir(), player.getUUID().toString() + ".json").toString();
 
         if (IsDebugEnabled = true) {
             source.sendSuccess(() -> Component.literal("[ModDisable] [DEBUG] PlayerFile var is: " + PlayerFile), true);
