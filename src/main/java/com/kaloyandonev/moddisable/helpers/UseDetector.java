@@ -8,11 +8,14 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import net.minecraftforge.fml.common.Mod;
@@ -52,15 +55,27 @@ public class UseDetector {
         handleUse(player, player.getMainHandItem(), pos, () -> event.setCanceled(true));
     }
 
+    @SubscribeEvent(priority = EventPriority.HIGH)
+    public void onBlockInteraction(PlayerInteractEvent.RightClickBlock event) {
+        Player player = event.getEntity();
+        Level world = event.getLevel();
+        BlockPos pos = event.getPos();
+        BlockState state = world.getBlockState(pos);
+
+        ItemStack blockItemStack = new ItemStack(state.getBlock().asItem());
+        handleUse(player, blockItemStack, pos, () -> event.setCanceled(true));
+
+    }
+
     private void handleUse(Player player, ItemStack itemStack, BlockPos pos, Runnable cancelAction) {
         if (player == null || itemStack.isEmpty() || pos == null) return;
 
         // Check if the item is disabled locally
         if (!ServerCheckHelper.isConnectedToDedicatedServer()) {
             if (JsonHelper.isItemDisabled(itemStack.getItem(), player)) {
-                cancelAction.run(); // Cancel the action
                 handleItemUse(player, itemStack);
                 syncInventory(player); // Sync inventory after cancel
+                cancelAction.run(); // Cancel the action
             }
         } else {
             // For dedicated servers, check item state from the server
@@ -68,9 +83,9 @@ public class UseDetector {
             futureResponse.thenAccept(isDisabled -> {
                 if (isDisabled) {
                     player.getServer().execute(() -> {
-                        cancelAction.run(); // Cancel the action
                         handleItemUse(player, itemStack);
                         syncInventory(player); // Sync inventory after server response
+                        cancelAction.run(); // Cancel the action
                     });
                 }
             }).exceptionally(e -> {
@@ -84,11 +99,9 @@ public class UseDetector {
         if (player == null || itemStack.isEmpty()) return;
 
         // Notify the player if the item is disabled
-        if (!JsonHelper.isItemDisabled(itemStack.getItem(), player)) {
-            if (player instanceof ServerPlayer) {
-                CommandSourceStack sourceStack = player.createCommandSourceStack();
-                sourceStack.sendFailure(Component.literal("This item is disabled!"));
-            }
+        if (!JsonHelper.isItemDisabled(itemStack.getItem(), player) && player instanceof ServerPlayer) {
+            CommandSourceStack sourceStack = player.createCommandSourceStack();
+            sourceStack.sendFailure(Component.literal("This item is disabled!"));
         }
     }
 

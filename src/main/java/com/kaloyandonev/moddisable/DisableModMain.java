@@ -17,10 +17,8 @@
 package com.kaloyandonev.moddisable;
 
 import com.kaloyandonev.moddisable.IsItemDisabledSocketHelper.ModNetworking;
-import com.kaloyandonev.moddisable.commands.Disable_Mod;
 import com.kaloyandonev.moddisable.helpers.ServerCheckHelper;
 import com.kaloyandonev.moddisable.helpers.UseDetector;
-import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.ClientTickHandler;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.ClientWorldFolderFinder;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.MigrateTask;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.StaticPathStorage;
@@ -28,15 +26,11 @@ import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -46,7 +40,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
-import org.apache.logging.log4j.core.jmx.Server;
 import org.slf4j.Logger;
 import com.kaloyandonev.moddisable.helpers.processAllDisabledItemsFromJson;
 import net.minecraftforge.event.server.ServerStartedEvent;
@@ -71,7 +64,6 @@ public class DisableModMain
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
-        //MinecraftForge.EVENT_BUS.register(ServerModEvents);
 
         // Register our mod's ForgeConfigSpec so that Forge can create and load the config file for us
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
@@ -107,29 +99,27 @@ public class DisableModMain
         @SubscribeEvent
         @OnlyIn(Dist.CLIENT)
         //@SuppressWarnings(value = "unused")
-        //public void onServerStarting(ServerStartingEvent event) {
         public static void onServerStarted(ServerStartedEvent event){
 
 
             //  Do something when the server starts
             LOGGER.warn("HELLO from server started! (Not to be confused with starting!)");
-            System.out.println("HELLO from server started! (Not to be confused with starting!)");
 
             MinecraftServer server = event.getServer();
             ServerLevel world = server.getLevel(Level.OVERWORLD);
 
-            if (server.isDedicatedServer() == false) {
+            if (!server.isDedicatedServer()) {
                 ClientWorldFolderFinder folderFinder = new ClientWorldFolderFinder();
                 Path subWorldFolderPath = folderFinder.getWorldSubfolderPath(world);
 
                 StaticPathStorage.setSubWorldFolderPath(subWorldFolderPath);
-                LOGGER.info("subWorldFolderPath is " + subWorldFolderPath);
+                LOGGER.info("subWorldFolderPath is {}", subWorldFolderPath);
 
                 MigrateTask migrateTask = new MigrateTask();
                 migrateTask.performMigration();
             }
 
-            System.out.println("MigrateTask is about to run!");
+            LOGGER.debug("[Mod Disable] MigrateTask is about to run!");
 
             processAllDisabledItemsFromJson.processAllDisabledItemsFromJson();
 
@@ -144,7 +134,7 @@ public class DisableModMain
 
             ClientWorldFolderFinder folderFinder = new ClientWorldFolderFinder();
             Path subWorldFolderPath = folderFinder.getWorldSubfolderPath(world);
-            LOGGER.info("subWorldFolderPath is " + subWorldFolderPath);
+            LOGGER.info("subWorldFolderPath is {}", subWorldFolderPath);
 
             StaticPathStorage.setSubWorldFolderPath(subWorldFolderPath);
 
@@ -154,23 +144,6 @@ public class DisableModMain
         }
 
     }
-
-
-    /*@Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
-    public class PlayerEvents {
-
-        @SubscribeEvent
-        public static void onPlayerLogout(PlayerEvent.PlayerLoggedOutEvent event) {
-            ServerPlayer player = (ServerPlayer) event.getEntity();
-            MinecraftServer server = player.getServer();
-            if (server != null && !server.isDedicatedServer()) {
-                LOGGER.info("[Mod Disable] [Info] Player logged out of non dedicated server, resetting local DATA_DIR variables");
-
-            }
-
-        }
-    }
-    */
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
     @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
@@ -183,9 +156,8 @@ public class DisableModMain
             // Some client setup code
             LOGGER.info("HELLO FROM CLIENT SETUP");
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
-            //MinecraftForge.EVENT_BUS.register(new ClientTickHandler());
-            if (ServerCheckHelper.isConnectedToDedicatedServer() == true) {
-                LOGGER.info("[Mod Disable] [DEBUG] We are connected to a dedicated server!");
+            if (ServerCheckHelper.isConnectedToDedicatedServer()) {
+                LOGGER.info("[Mod Disable] t[DEBUG] We are connected to a dedicated server!");
             } else {
                 LOGGER.info("[Mod Disable] [DEBUG] We are NOT connected to a dedicated server!");
             }

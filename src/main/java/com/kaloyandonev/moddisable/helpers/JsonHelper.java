@@ -25,40 +25,37 @@ import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.StaticPathStorag
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.levelgen.structure.structures.OceanMonumentPieces;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import javax.json.Json;
-import javax.json.JsonReader;
-import java.io.FileInputStream;
-import java.io.InputStream;
 
 public class JsonHelper {
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-    //private static final File DATA_DIR = new File("disabled_items");
-    private static File DATA_DIR = StaticPathStorage.getSubWorldFolderFile();
+    private static File dataDir = StaticPathStorage.getSubWorldFolderFile();
+
+    private static final Logger logger = LogManager.getLogger();
+
+    static String jsonFieldName = "disabled_items";
 
     // Method to get the data directory with lazy initialization
     private static File getDataDir() {
-        //if (DATA_DIR == null) {
-        DATA_DIR = StaticPathStorage.getSubWorldFolderFile();
+        dataDir = StaticPathStorage.getSubWorldFolderFile();
 
         // Ensure the directory exists
-        if (!DATA_DIR.exists()) {
-            DATA_DIR.mkdirs(); // Create the directory if it does not exist
+        if (!dataDir.exists()) {
+            dataDir.mkdirs(); // Create the directory if it does not exist
         }
-        //}
-        return DATA_DIR;
+        return dataDir;
     }
 
     static {
-        if (!DATA_DIR.exists()){
-            DATA_DIR.mkdir();
+        if (!dataDir.exists()){
+            dataDir.mkdir();
         }
     }
 
@@ -68,13 +65,15 @@ public class JsonHelper {
 
         JsonObject data = readPlayerData(playerFile);
 
-        if (!data.has("disabled_items")) {
-            data.add("disabled_items", new JsonArray());
+
+
+        if (!data.has(jsonFieldName)) {
+            data.add(jsonFieldName, new JsonArray());
         }
 
-        JsonArray disabledItems = data.getAsJsonArray("disabled_items");
+        JsonArray disabledItems = data.getAsJsonArray(jsonFieldName);
         if ((BuiltInRegistries.ITEM.getKey(item).toString()).equals("minecraft:air")){
-            System.out.println("Message from JsonHelper: Item minecraft:air will NOT be added to JSON.");
+            logger.info("[Mod Disable] [JsonHelper] Item minecraft:air will NOT be added to JSON");
         } else {
             disabledItems.add(BuiltInRegistries.ITEM.getKey(item).toString());
         }
@@ -110,8 +109,7 @@ public class JsonHelper {
 
         JsonObject data = readPlayerData(playerFile);
 
-        //if (!data.has("disabled_items")) {
-            JsonArray disabledItems = data.getAsJsonArray("disabled_items");
+            JsonArray disabledItems = data.getAsJsonArray(jsonFieldName);
             JsonArray newDisabledItems = new JsonArray();
 
             for (JsonElement element : disabledItems) {
@@ -120,30 +118,20 @@ public class JsonHelper {
                 }
             }
 
-            data.add("disabled_items", newDisabledItems);
+            data.add(jsonFieldName, newDisabledItems);
             writePlayerData(playerFile, data);
-            System.out.println("So enableItem is running, huh? This thingy majingy in in JsonHelper BTW");
-        //}
-
-
-
     }
 
-    /*
     public static boolean isItemDisabled(Item item, Player player){
         File playerFile = getPlayerFile(player);
 
         JsonObject data = readPlayerData(playerFile);
 
-        if (!data.has("disabled_items")){
+        if (!data.has(jsonFieldName)){
             return false;
         }
 
-        if (data == null) {
-            System.out.println("DATA IS NULL!!!");
-        }
-
-        JsonArray disabledItems = data.getAsJsonArray("disabled_items");
+        JsonArray disabledItems = data.getAsJsonArray(jsonFieldName);
         for (JsonElement element: disabledItems) {
             if (element.getAsString().equals(BuiltInRegistries.ITEM.getKey(item).toString())){
                 return true;
@@ -151,32 +139,6 @@ public class JsonHelper {
         }
         return false;
     }
-     */
-
-    public static boolean isItemDisabled(Item item, Player player){
-        File playerFile = getPlayerFile(player);
-
-        JsonObject data = readPlayerData(playerFile);
-
-        if (!data.has("disabled_items")){
-            return false;
-        }
-
-        if (data == null) {
-            System.out.println("DATA IS NULL!!!");
-        }
-
-        JsonArray disabledItems = data.getAsJsonArray("disabled_items");
-        for (JsonElement element: disabledItems) {
-            if (element.getAsString().equals(BuiltInRegistries.ITEM.getKey(item).toString())){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private static final Gson gson = new Gson();
-
 
     public static JsonArray readJsonArrayFromFile(String filePath) {
         try (FileReader reader = new FileReader(filePath)) {

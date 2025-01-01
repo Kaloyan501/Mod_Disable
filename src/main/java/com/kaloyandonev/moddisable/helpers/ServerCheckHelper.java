@@ -19,17 +19,10 @@
 package com.kaloyandonev.moddisable.helpers;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.loading.FMLLoader;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class ServerCheckHelper {
-
-    private static final Logger logger = LogManager.getLogger();
-
     /**
      * Checks if the Minecraft client is connected to a dedicated server.
      * @return true if connected to a dedicated server, false otherwise.
@@ -39,7 +32,6 @@ public class ServerCheckHelper {
         if (FMLLoader.getDist() == Dist.CLIENT) {
             return Minecraft.getInstance().isSingleplayer() ? false : true;
         } else {
-            logger.info("Running on a dedicated server.");
             return false; // On dedicated server, return false
         }
     }

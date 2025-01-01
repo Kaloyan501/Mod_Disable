@@ -18,7 +18,6 @@
 
 package com.kaloyandonev.moddisable.helpers;
 
-import com.kaloyandonev.moddisable.commands.Disable_Mod;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

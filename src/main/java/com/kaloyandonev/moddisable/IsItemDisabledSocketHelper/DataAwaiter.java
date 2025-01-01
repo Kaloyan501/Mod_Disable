@@ -18,8 +18,6 @@
 
 package com.kaloyandonev.moddisable.IsItemDisabledSocketHelper;
 
-import com.kaloyandonev.moddisable.IsItemDisabledSocketHelper.IsItemDisableDedicatedPacket;
-import com.kaloyandonev.moddisable.IsItemDisabledSocketHelper.ModNetworking;
 import net.minecraft.client.Minecraft;
 
 import java.util.concurrent.CompletableFuture;

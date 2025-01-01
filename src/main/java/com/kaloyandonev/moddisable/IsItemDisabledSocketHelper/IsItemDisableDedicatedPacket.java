@@ -18,8 +18,6 @@
 
 package com.kaloyandonev.moddisable.IsItemDisabledSocketHelper;
 
-import com.kaloyandonev.moddisable.IsItemDisabledSocketHelper.ItemDisableDedicatedResponsePacket;
-import com.kaloyandonev.moddisable.IsItemDisabledSocketHelper.ModNetworking;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.StaticPathStorage;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
@@ -34,10 +32,14 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import net.minecraftforge.network.PacketDistributor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class IsItemDisableDedicatedPacket {
     private final String itemName;
     private final UUID playerUUID;
+
+    private static final Logger logger = LogManager.getLogger(IsItemDisableDedicatedPacket.class);
 
     public IsItemDisableDedicatedPacket(String itemName, UUID playerUUID) {
         this.itemName = itemName;
@@ -78,7 +80,7 @@ public class IsItemDisableDedicatedPacket {
 
         // Ensure the folder exists
         if (folder == null || !folder.isDirectory()) {
-            System.err.println("Folder does not exist or is not a directory: " + folder);
+            logger.error("[Mod Disable] Folder does not exist or is not a directory: {}", folder);
             return false;
         }
 
@@ -87,7 +89,7 @@ public class IsItemDisableDedicatedPacket {
 
         // Check if the player's file exists
         if (!playerFile.exists()) {
-            System.err.println("Player JSON file does not exist: " + playerFile);
+            logger.error("[Mod Disable] Player JSON file does not exist: {}", playerFile);
             return false;
         }
 
@@ -106,7 +108,7 @@ public class IsItemDisableDedicatedPacket {
                 }
             }
         } catch (IOException e) {
-            System.err.println("Error reading player JSON file: " + e.getMessage());
+            logger.error("[Mod Disable] Error reading player JSON file: {}", e.getMessage());
             return false;
         }
 

@@ -24,7 +24,7 @@ import net.minecraftforge.network.NetworkEvent;
 import java.util.function.Supplier;
 
 
-        //Send packet using ModNetworking.CHANNEL.sendToServer(new IsItemDisableDedicatedPacket(itemName));
+//Send packet using ModNetworking.CHANNEL.sendToServer(new IsItemDisableDedicatedPacket(itemName));
 
 public class ItemDisableDedicatedResponsePacket {
     private final String itemName;

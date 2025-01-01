@@ -29,21 +29,16 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.item.ItemArgument;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 
 import com.kaloyandonev.moddisable.helpers.JsonHelper;
 import com.kaloyandonev.moddisable.helpers.RecipeDisabler;
-import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -51,14 +46,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
-import java.nio.file.Path;
+
+import static com.kaloyandonev.moddisable.helpers.config.InitialStateDataHandler.executeConfigRequest;
+import static com.kaloyandonev.moddisable.helpers.config.InitialStateDataHandler.executeReinitRequest;
 
 
 public class Disable_Mod {
 
-    public static boolean IsDebugEnabled = true;
-    //private Path DATA_DIR_PATH = StaticPathStorage.getSubWorldFolderPath();
-    //private static final File DATA_DIR = new File("disabled_items");
+    public static boolean IsDebugEnabled = false;
     public static File DATA_DIR = null;
 
 
@@ -70,7 +65,6 @@ public class Disable_Mod {
 
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
-        //FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::ClientCode);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onLoadComplete);
 
@@ -80,16 +74,11 @@ public class Disable_Mod {
         MinecraftForge.EVENT_BUS.register(this);
     }
 
-    /*
-    private void setup(final FMLCommonSetupEvent event) {
-    }
-    */
-
     public void onLoadComplete(FMLLoadCompleteEvent event){
-        isSinglePlayer.checkisSingplePlayer(event);
+        isSinglePlayer.checkisSinglePlayer(event);
     }
 
-    public void ResetDataDir(){
+    public static void ResetDataDir(){
         DATA_DIR = null;
     }
 
@@ -101,10 +90,7 @@ public class Disable_Mod {
             ScreenCrator screenCrator = new ScreenCrator(
                     Component.literal("Migration Title"), // Title of the screen
                     Component.literal("Description of the screen"), // Description
-                    confirmed -> {
-                        // Handle migration logic here
-                        return false; // Adjust as needed
-                    }
+                    confirmed -> {return false;}
             );
 
             // Open the new screen
@@ -116,48 +102,78 @@ public class Disable_Mod {
     public static void registerCommand(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext buildContext) {
         dispatcher.register(
                 Commands.literal("disable_mod")
-                        .requires(source -> source.hasPermission(2))
+                        // 'enable' command
                         .then(Commands.literal("enable")
+                                .requires(source -> source.hasPermission(2))
                                 .then(Commands.literal("namespace")
                                         .then(Commands.argument("namespace", StringArgumentType.string())
-                                            .executes(context -> execute(context, "enable", "namespace", StringArgumentType.getString(context, "namespace")))))
+                                                .executes(context -> execute(context, "enable", "namespace", StringArgumentType.getString(context, "namespace")))
+                                        )
+                                )
                                 .then(Commands.literal("item")
                                         .then(Commands.argument("item", ItemArgument.item(buildContext))
-                                                .executes(context -> executeWithItem(context, "enable", "item", ItemArgument.getItem(context, "item").getItem())))))
+                                                .executes(context -> executeWithItem(context, "enable", "item", ItemArgument.getItem(context, "item").getItem()))
+                                        )
+                                )
+                        )
+                        // 'disable' command
                         .then(Commands.literal("disable")
+                                .requires(source -> source.hasPermission(2))
                                 .then(Commands.literal("namespace")
                                         .then(Commands.argument("namespace", StringArgumentType.string())
-                                            .executes(context -> execute(context, "disable", "namespace", StringArgumentType.getString(context, "namespace")))))
+                                                .executes(context -> execute(context, "disable", "namespace", StringArgumentType.getString(context, "namespace")))
+                                        )
+                                )
                                 .then(Commands.literal("item")
                                         .then(Commands.argument("item", ItemArgument.item(buildContext))
-                                                .executes(context -> executeWithItem(context, "disable", "item", ItemArgument.getItem(context, "item").getItem()))))));
-                        /*Debug feature, remove in production version.
-                        .then(Commands.literal("debug")
-                            .then(Commands.literal("disable_recipe_stick")
-                                .executes(context -> executeDebug(context, "debug","debug_disable_recipe_stick")))
-                            .then(Commands.literal("enable_recipe_stick")
-                                    .executes(context -> executeDebug(context, "debug", "enable_recipe_stick")))));
-                        */
+                                                .executes(context -> executeWithItem(context, "disable", "item", ItemArgument.getItem(context, "item").getItem()))
+                                        )
+                                )
+                        )
+                        // 'config' command
+                        .then(Commands.literal("config")
+                                .requires(source -> source.hasPermission(2))
+                                .then(Commands.literal("DefaultDisabledItemsListFromPlayerUUID")
+                                        .then(Commands.argument("player", StringArgumentType.string())
+                                                .executes(context -> executeConfigRequest(context, "DefaultDisabledItemsListFromPlayerUUID", StringArgumentType.getString(context, "player")))
+                                        )
+                                )
+                                .then(Commands.literal("init")
+                                        .executes(context -> executeConfigRequest(context, "Init", "Null"))
+                                )
+                                .then(Commands.literal("reinit")
+                                        .requires(source -> source.hasPermission(2))
+                                        .then(Commands.argument("PlayerUUID", StringArgumentType.string())
+                                                .executes(context -> executeReinitRequest(context, "Reinit", StringArgumentType.getString(context, "PlayerUUID"), "nonconfirm"))
+                                                .then(Commands.argument("confirm", StringArgumentType.string())
+                                                        .executes(context -> executeReinitRequest(context, "Reinit", StringArgumentType.getString(context, "PlayerUUID"), StringArgumentType.getString(context, "confirm")))
+                                                )
+                                        )
+                                )
+                        )
+        );
+
     }
+
 
     // Method to get the data directory with lazy initialization
     private static File getDataDir() {
-        //if (DATA_DIR == null) {
-            DATA_DIR = StaticPathStorage.getSubWorldFolderFile();
+        DATA_DIR = StaticPathStorage.getSubWorldFolderFile();
 
-            // Ensure the directory exists
-            if (!DATA_DIR.exists()) {
-                DATA_DIR.mkdirs(); // Create the directory if it does not exist
-            }
-        //}
+        // Ensure the directory exists
+        if (!DATA_DIR.exists()) {
+            DATA_DIR.mkdirs(); // Create the directory if it does not exist
+        }
         return DATA_DIR;
     }
+
+    //Method to handle per-modpack config
 
     //Method to handle namespaces
     private static int execute(CommandContext<CommandSourceStack> context, String action, String target, String namespace){
         CommandSourceStack source = context.getSource();
         String actionTarget = action + " " + target;
-        source.sendSuccess(() -> Component.literal("[ModDisable] [Debug] actionTarget is " + actionTarget), false);
+
         Player player;
 
         try {
@@ -170,7 +186,7 @@ public class Disable_Mod {
         String PlayerFile = new File(getDataDir(), player.getUUID().toString() + ".json").toString();
 
         if (IsDebugEnabled = true) {
-            source.sendSuccess(() -> Component.literal("[ModDisable] [DEBUG] PlayerFile var is: " + PlayerFile), true);
+            //source.sendSuccess(() -> Component.literal("[ModDisable] [DEBUG] PlayerFile var is: " + PlayerFile), true);
         }
 
         switch (actionTarget) {
@@ -182,7 +198,7 @@ public class Disable_Mod {
                 source.sendSuccess(() -> Component.literal("[ModDisable] Mod namespace enabled!"), false);
                 break;
             case "disable namespace":
-                System.out.println("Namespace argument: " + namespace);
+                logger.info("[Mod Disable]Namespace argument: {}", namespace);
                 RecipeDisabler.disableRecipesByNamespace(namespace, context.getSource().getServer(), context.getSource().getPlayer());
                 source.sendSuccess(() -> Component.literal("[ModDisable] Mod namespace disabled!"), false);
                 break;
@@ -199,7 +215,7 @@ public class Disable_Mod {
         Item Item = ItemArgument.getItem(context, "item").getItem();
         String itemName = itemStack.getDisplayName().getString();
         String actionTarget = action + " " + target + " " + itemName;
-        source.sendSuccess(() -> Component.literal("[ModDisable] [Debug] actionTarget is " + actionTarget), false);
+        //source.sendSuccess(() -> Component.literal("[ModDisable] [Debug] actionTarget is " + actionTarget), false);
         Player player;
 
 
@@ -213,7 +229,7 @@ public class Disable_Mod {
         String PlayerFile = new File(getDataDir(), player.getUUID().toString() + ".json").toString();
 
         if (IsDebugEnabled = true) {
-            source.sendSuccess(() -> Component.literal("[ModDisable] [DEBUG] PlayerFile var is: " + PlayerFile), true);
+            //source.sendSuccess(() -> Component.literal("[ModDisable] [DEBUG] PlayerFile var is: " + PlayerFile), true);
         }
 
 
@@ -222,8 +238,8 @@ public class Disable_Mod {
 
                 JsonHelper.enableItem(item, player);
                 source.sendSuccess(() -> Component.literal("[ModDisable] Mod item " + itemName + " enabled!"), false);
-                if (IsDebugEnabled = true) {
-                    source.sendSuccess(() -> Component.literal("[ModDisable] [DEBUG] RecipeDisabler is about to run!"), false);
+                if (IsDebugEnabled) {
+                    //source.sendSuccess(() -> Component.literal("[ModDisable] [DEBUG] RecipeDisabler is about to run!"), false);
                 }
                 RecipeDisabler.enableAllRecipes(source.getServer());
                 RecipeDisabler.queueRecipeRemovalFromJson(PlayerFile);

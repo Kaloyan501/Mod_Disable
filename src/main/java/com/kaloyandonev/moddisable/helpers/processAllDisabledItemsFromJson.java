@@ -17,26 +17,27 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 package com.kaloyandonev.moddisable.helpers;
 
+import com.kaloyandonev.moddisable.commands.Disable_Mod;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.StaticPathStorage;
-import net.minecraft.server.MinecraftServer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 
 public class processAllDisabledItemsFromJson {
 
-    //private static final File DATA_DIR = new File("disabled_items");
     private static File DATA_DIR = StaticPathStorage.getSubWorldFolderFile();
+
+    private static final Logger logger = LogManager.getLogger(processAllDisabledItemsFromJson.class);
 
     // Method to get the data directory with lazy initialization
     private static File getDataDir() {
-        //if (DATA_DIR == null) {
         DATA_DIR = StaticPathStorage.getSubWorldFolderFile();
 
         // Ensure the directory exists
         if (!DATA_DIR.exists()) {
             DATA_DIR.mkdirs(); // Create the directory if it does not exist
         }
-        //}
         return DATA_DIR;
     }
 
@@ -49,12 +50,12 @@ public class processAllDisabledItemsFromJson {
 
         File[] files = DATA_DIR.listFiles((dir, name) -> name.endsWith(".json"));
         if (files == null || files.length == 0) {
-            System.out.println("No files found in dir: " + DATA_DIR.getAbsolutePath());
+            logger.debug("[Mod Disable] No files found in dir: {}", DATA_DIR.getAbsolutePath());
         }
 
         for (File file : files) {
-            System.out.println("Disabling recipes for file: " + file.getName());
-            System.out.println("JSON file path is: " + file.getAbsolutePath());
+            logger.debug("[Mod Disable]Disabling recipes for file: {}", file.getName());
+            logger.debug("[Mod Disable]JSON file path is: {}", file.getAbsolutePath());
             RecipeDisabler.queueRecipeRemovalFromJson(file.getAbsolutePath());
         }
     }

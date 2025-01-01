@@ -35,9 +35,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.ForgeRegistries;
 
-
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,10 +42,10 @@ import java.util.List;
 import java.util.Map;
 import java.io.File;
 
-import java.io.PrintStream;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.jline.utils.Log;
+
+import javax.annotation.CheckForNull;
 
 
 @Mod.EventBusSubscriber(modid = DisableModMain.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
@@ -61,12 +58,10 @@ public class RecipeDisabler {
     public static JsonArray previousJsonArray;
 
     public static void queueRecipeRemoval(String recipeId) {
-        //LOGGER.warn("[Mod_Disable] queueRecipeRemoval is about to disable item: " + recipeId);
         if (recipeId.equals("minecraft:air")) {
             LOGGER.warn("[Mod_Disable] recipeId is minecraft:air, discarding...");
         } else {
             recipesToRemove.add(recipeId);
-            //LOGGER.info("[Mod_Disable] recipesToRemove is: " + recipesToRemove);
         }
 
     }
@@ -74,6 +69,7 @@ public class RecipeDisabler {
     @SubscribeEvent
     @SuppressWarnings (value="unused")
     public static void onServerStarting(ServerStartingEvent event){
+        LOGGER.debug("Now hooking RecipeDisabler::onServerTick");
         MinecraftForge.EVENT_BUS.addListener(RecipeDisabler::onServerTick);
     }
 
@@ -104,7 +100,7 @@ public class RecipeDisabler {
 
     private static void removeQueuedRecipes(MinecraftServer server) {
         if (recipesToRemove.isEmpty()) {
-            //LOGGER.info("recipesToRemove list is empty, exiting early.");
+            //recipesToRemove list is empty, exiting early.
             return;
         }
 
@@ -112,8 +108,6 @@ public class RecipeDisabler {
         try {
             Field recipesField = getRecipesField(recipeManager);
             if (recipesField == null) {
-                LOGGER.error("[Mod Disable] [CRITICAL] recipesField was not created! If you are seeing this error, report this issue to the Github repo!");
-                LOGGER.error("[Mod Disable] [CRITICAL] recipesField was not created! If you are seeing this error, report this issue to the Github repo!");
                 LOGGER.error("[Mod Disable] [CRITICAL] recipesField was not created! If you are seeing this error, report this issue to the Github repo!");
                 return;
             }
@@ -134,21 +128,13 @@ public class RecipeDisabler {
                     if (recipesToRemove.contains(recipe.getId().toString())) {
                         removedRecipes.put(recipe.getId().toString(), recipe);
                         toRemove.add(recipe.getId());
-                        LOGGER.info("[Mod_Disable] Removed recipe: " + recipe.getId());
+                        LOGGER.info("[Mod_Disable] Removed recipe: {}", recipe.getId());
                     }
                 }
 
                 if (!toRemove.isEmpty()) {
                     recipeMap.keySet().removeAll(toRemove);
                 }
-
-                /*
-                for (ResourceLocation recipeId : toRemove) {
-                    recipeMap.remove(recipeId);
-                }
-
-                 */
-
                 newRecipes.put(entry.getKey(), recipeMap);
 
 
@@ -182,12 +168,12 @@ public class RecipeDisabler {
 
                 removedRecipes.remove(recipeId);
                 recipesField.set(recipeManager, newRecipes);
-                LOGGER.info("[Mod_Disable] Re-enabled recipe: " + recipeId);
+                LOGGER.info("[Mod_Disable] Re-enabled recipe: {}", recipeId);
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
         } else {
-            LOGGER.info("[Mod_Disable] Recipe not found: " + recipeId);
+            LOGGER.info("[Mod_Disable] Recipe not found: {}", recipeId);
         }
     }
 
@@ -202,7 +188,6 @@ public class RecipeDisabler {
                     if (recipeId.equals("minecraft:air")){
                         LOGGER.warn("[Mod_Disable] Item ID to disable is minecraft:air, discarding...");
                     } else {
-                        //LOGGER.warn("[Mod_Disable] queueRecipeRemovalFromJson is about to give recipe " + recipeId + " to queueRecipeRemoval!");
                         queueRecipeRemoval(recipeId);
                     }
 
@@ -242,14 +227,9 @@ public class RecipeDisabler {
                         recipeId = recipe.getId();
                         item = ForgeRegistries.ITEMS.getValue(recipeId);
 
-                        //if (item != null) {
-                            JsonHelper.enableItem(item, player);
-                            LOGGER.info("[Mod_Disable] Enabled item " + item);
-                        //} else {
-                            //System.out.println("Item not found for recipe: " + recipeId);
-                        //}
 
-
+                        JsonHelper.enableItem(item, player);
+                        LOGGER.info("[Mod_Disable] Enabled item {}", item);
                     }
                 }
             }
@@ -276,67 +256,20 @@ public class RecipeDisabler {
 
             data.add("disabled_items", newDisabledItems);
             JsonHelper.writePlayerData(playerFile, data);
-            LOGGER.info("[Mod_Disable] Removed items with namespace: " + namespace);
+            LOGGER.info("[Mod_Disable] Removed items with namespace: {}", namespace);
         }
     }
 
-    /*
-    public static void disableRecipesByNamespace(String namespace, MinecraftServer server, Player player) {
-
-        if (Disable_Mod.IsDebugEnabled) {
-            System.out.println("disableRecipesByNamespace called with namespace: " + namespace);
-        }
-
-        RecipeManager recipeManager = server.getRecipeManager();
-        try {
-            Field recipesField = findRecipesField(recipeManager);
-            recipesField.setAccessible(true);
-            if (Disable_Mod.IsDebugEnabled) {
-                System.out.println("Reflection on recipesField successful");
-            }
-            @SuppressWarnings (value="unchecked")
-            Map<RecipeType<?>, Map<ResourceLocation, Recipe<?>>> recipes = (Map<RecipeType<?>, Map<ResourceLocation, Recipe<?>>>) recipesField.get(recipeManager);
-
-            for (Map<ResourceLocation, Recipe<?>> recipeMap : recipes.values()) {
-                for (Recipe<?> recipe : recipeMap.values()) {
-                    ResourceLocation recipeId = recipe.getId();
-                    if (Disable_Mod.IsDebugEnabled) {
-                        System.out.println("Checking recipe: " + recipeId);
-                    }
-                    if (recipeId.getNamespace().equals(namespace)) {
-                        if (Disable_Mod.IsDebugEnabled) {
-                            System.out.println("If recipe.getId().getNamespace().equals(namespace) passed!");
-                            System.out.println("recipeId is: " + recipeId);
-                        }
-                        Item item = ForgeRegistries.ITEMS.getValue(recipeId);
-                        if (Disable_Mod.IsDebugEnabled) {
-                            System.out.println("Item is: " + item);
-                        }
-                        if (item != null) {
-                            JsonHelper.disableItem(item, player);
-                            queueRecipeRemoval(recipeId.toString());
-                        }
-                    }
-                }
-            }
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-     */
-
     public static void disableRecipesByNamespace(String namespace, MinecraftServer server, Player player) {
         if (Disable_Mod.IsDebugEnabled) {
-            LOGGER.info("[Mod_Disable] disableRecipesByNamespace called with namespace: " + namespace);
+            LOGGER.info("[Mod_Disable] disableRecipesByNamespace called with namespace: {}", namespace);
         }
 
         RecipeManager recipeManager = server.getRecipeManager();
         try {
             //Non-production but working way to get recipesField: Field recipesField = RecipeManager.class.getDeclaredField("recipes");
-
             Field recipesField = findRecipesField(recipeManager);
+
             recipesField.setAccessible(true);
             LOGGER.debug("[Mod_Disable] Reflection on recipesField successful");
             Map<RecipeType<?>, Map<ResourceLocation, Recipe<?>>> recipes = (Map<RecipeType<?>, Map<ResourceLocation, Recipe<?>>>) recipesField.get(recipeManager);
@@ -345,7 +278,7 @@ public class RecipeDisabler {
                 for (Recipe<?> recipe : recipeMap.values()) {
                     ResourceLocation recipeId = recipe.getId();
                     if (recipeId.getNamespace().equals(namespace)) {
-                        LOGGER.info("[Mod_Disable] Disabling recipe: " + recipeId);
+                        LOGGER.info("[Mod_Disable] Disabling recipe: {}", recipeId);
                         queueRecipeRemoval(recipeId.toString());
                     }
                 }
@@ -354,7 +287,7 @@ public class RecipeDisabler {
             for (Item item : ForgeRegistries.ITEMS) {
                 ResourceLocation itemRegistryName = ForgeRegistries.ITEMS.getKey(item);
                 if (itemRegistryName != null && itemRegistryName.getNamespace().equals(namespace)) {
-                    LOGGER.info("[Mod_Disable] Disabling item: " + itemRegistryName);
+                    LOGGER.info("[Mod_Disable] Disabling item: {}", itemRegistryName);
                     JsonHelper.disableItem(item, player);
                 }
             }
