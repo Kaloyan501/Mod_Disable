@@ -8,7 +8,10 @@ A simple Minecraft Mod to disable recipes and items from other mods.
 # Commands
   - /disable_mod - main command to interface with the mod
   - /disable_mod <enable/disable> item - enables/disables a specific item
-  - /disable_mod <enable/disable> namespace - Disables all items within a namespace (for example, all items starting with minecraft:)
+  - /disable_mod <enable/disable> namespace - Disables all items within a namespace (for example, all items starting with minecraft: )
+  - /disable_mod config DefaultDisabledItemsListFromPlayerUUID <UUID> - generates a default disabled items list for a modpack, allowing large servers to not lag while searching for namespaces for new players. First, disable all namespaces you want to be disabled for new players for your player, then provide your UUID. to this command.
+  - /disable_mod init - Copies the default disabled items list to the player that initiated the command's UUID. Use this instead of manually disabling every mod namespace.
+  - /disable_mod reinit <UUID> - Reinits a corrupted disabled items list by doing the same as init. Note: This will delete the selected player's mod unlock progress!
 
 *Important!*
 For the player's disabled_items file to be created and for the namespace disable feature to work, you first need to disable an item!
