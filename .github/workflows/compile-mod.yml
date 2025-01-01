@@ -59,7 +59,7 @@ jobs:
     - name: Extract version and Minecraft version
       id: extract_version
       run: |
-        artifact_path=$(find build/libs -name "*.jar" | head -n 1)
+        artifact_path=$(find build -name "*.jar" | head -n 1)  # Updated path to reflect no subdirectory
         filename=$(basename "$artifact_path")
         regex='mod-disable-(.+)-mc(.+)\.jar'
         if [[ $filename =~ $regex ]]; then
@@ -75,9 +75,20 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: build-artifact
-        path: build/libs/*.jar
+        path: build/*.jar  # Updated to reflect the correct path
 
-    # Create a GitHub release if requested
+    # Check if release with the same tag already exists
+    - name: Check if release exists
+      id: check_release
+      run: |
+        release_exists=$(curl -s "https://api.github.com/repos/${{ github.repository }}/releases/tags/${{ github.event.inputs.release_type }}-${{ env.mod_version }}-mc-${{ env.mc_version }}" | grep -c '"id":')
+        echo "Release exists: $release_exists"
+        if [ $release_exists -gt 0 ]; then
+          echo "Release with tag ${{ github.event.inputs.release_type }}-${{ env.mod_version }}-mc-${{ env.mc_version }} already exists!"
+          exit 0
+        fi
+
+    # Create a GitHub Release if not exists
     - name: Create GitHub Release
       if: ${{ success() }}
       id: create_release
@@ -91,7 +102,7 @@ jobs:
         draft: false
         prerelease: ${{ github.event.inputs.release_type == 'beta' }}
 
-    # Upload jar to release
+    # Upload JAR to GitHub Release
     - name: Upload JAR to Release
       if: ${{ success() }}
       uses: actions/upload-release-asset@v1
@@ -99,6 +110,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: build/libs/*.jar
+        asset_path: build/*.jar  # Ensure this path matches the location of the JAR file
         asset_name: mod-disable-${{ env.mod_version }}-mc-${{ env.mc_version }}.jar
         asset_content_type: application/java-archive
