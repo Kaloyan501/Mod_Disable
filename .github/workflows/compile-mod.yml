@@ -66,7 +66,9 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: build-artifact
-        path: build/*.jar  # Assuming JAR file is directly in the build directory
+        path: build/libs/*.jar  # Changed to 'libs' to reflect the correct output directory
+        if-no-files-found: warn  # Handle the case where no files are found
+        include-hidden-files: false
 
     # Check if release with the same tag already exists
     - name: Check if release exists
@@ -101,6 +103,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: build/${{ github.event.inputs.jar_filename }}  # User-provided JAR filename
-        asset_name: ${{ github.event.inputs.jar_filename }}  # Use the same filename for the release asset
+        asset_path: build/libs/${{ github.event.inputs.jar_filename }}  # Update path to 'libs' directory
+        asset_name: ${{ github.event.inputs.jar_filename }}  # Use the provided JAR filename
         asset_content_type: application/java-archive
