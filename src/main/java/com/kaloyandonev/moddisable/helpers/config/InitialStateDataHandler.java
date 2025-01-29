@@ -59,6 +59,7 @@ public class InitialStateDataHandler {
 
                 if (!SourceFile.exists()) {
                     source.sendFailure(Component.literal("Disabled items list does not exist for the provided UUID. Please provide only the UUID, including the - (Example: 550e8400-e29b-41d4-a716-446655440000 NOT 550e8400-e29b-41d4-a716-446655440000.json or 550e8400e29b41d4a716446655440000. You can find all player UUIDs in your world's folder under Mod_Disable_Data. Additional info: Player file path: " + SourceFile.toPath()));
+                    return 1;
                 } else {
                     try {
                         copyFile(SourceFile, DestionationFile);
@@ -87,21 +88,26 @@ public class InitialStateDataHandler {
                             RecipeDisabler.enableAllRecipes(source.getServer());
                             RecipeDisabler.queueRecipeRemovalFromJson(PlayerDisabledItemsFile.toString());
                             source.sendSuccess(() -> Component.literal("[Mod Disable] Reload of disabled recipes started for your player."), false);
+                            return 0;
                         } catch (IOException e) {
                             source.sendFailure(Component.literal("[Mod Disable] An exception occurred while trying to copy the default disabled items list to your player disabled items list. Exception is: " + e));
                             logger.error("[Mod Disable] An exception occurred while trying to copy the default disabled items list to the player disabled items list for player with UUID {} Exception is: {}", player.getUUID(), e);
+                            return 1;
                         }
 
                     } else {
                         if (!ServerCheckHelper.isConnectedToDedicatedServer()) {
                             source.sendFailure(Component.literal("Your player's default disabled items list is already initialized. This is not an error. If you think your disabled items list is corrupted, please run /disable_mod config reinit " + player.getUUID()));
+                            return 1;
                         } else {
                             source.sendFailure(Component.literal("Your player's default disabled items list is already initialized. This is not an error. If you think your file is corrupted and are trying to reinitialize it, please contact this message to your server administrator and tell them to run the /disable_mod config reinit command with your UUID, which is " + player.getUUID()));
+                            return 0;
                         }
                     }
 
                 } catch (CommandSyntaxException e) {
                     source.sendFailure(Component.literal("[Mod Disable] You must be a player to run this command!"));
+                    return 1;
                 }
         }
 

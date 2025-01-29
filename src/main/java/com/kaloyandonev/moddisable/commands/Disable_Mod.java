@@ -59,7 +59,7 @@ public class Disable_Mod {
 
 
     private static final Logger logger = LogManager.getLogger(Disable_Mod.class);
-    private isSinglePlayer isSinglePlayer = new isSinglePlayer();
+    private final isSinglePlayer isSinglePlayer = new isSinglePlayer();
 
     public Disable_Mod(){
 
@@ -132,8 +132,8 @@ public class Disable_Mod {
                         )
                         // 'config' command
                         .then(Commands.literal("config")
-                                .requires(source -> source.hasPermission(2))
                                 .then(Commands.literal("DefaultDisabledItemsListFromPlayerUUID")
+                                        .requires(source -> source.hasPermission(2))
                                         .then(Commands.argument("player", StringArgumentType.string())
                                                 .executes(context -> executeConfigRequest(context, "DefaultDisabledItemsListFromPlayerUUID", StringArgumentType.getString(context, "player")))
                                         )
@@ -152,8 +152,8 @@ public class Disable_Mod {
                                 )
                         )
         );
-
     }
+
 
 
     // Method to get the data directory with lazy initialization
