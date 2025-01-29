@@ -20,13 +20,10 @@ package com.kaloyandonev.moddisable.helpers.config;
 import com.kaloyandonev.moddisable.helpers.RecipeDisabler;
 import com.kaloyandonev.moddisable.helpers.ServerCheckHelper;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.StaticPathStorage;
-import com.mojang.brigadier.context.CommandContext;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import net.minecraft.client.Minecraft;
+import com.mojang.brigadier.context.CommandContext;import net.minecraft.client.Minecraft;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -73,7 +70,7 @@ public class InitialStateDataHandler {
 
             case "Init":
                 ServerPlayer player;
-                player = source.getPlayer(); // Safely get player (null if console)
+                player = source.getPlayer();
                 if (player == null) {
                     source.sendFailure(Component.literal("[Mod Disable] This command must be executed by a player!"));
                     return 1;
