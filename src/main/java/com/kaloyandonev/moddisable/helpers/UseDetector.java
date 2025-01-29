@@ -22,6 +22,8 @@ import com.kaloyandonev.moddisable.IsItemDisabledSocketHelper.DataAwaiter;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.core.BlockPos;
@@ -45,44 +47,53 @@ public class UseDetector {
     private static final Logger logger = LogManager.getLogger();
 
     @SubscribeEvent(priority = EventPriority.HIGH)
-    public void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
-        Player player = event.getEntity();
-        BlockPos pos = event.getPos();
-        handleUse(player, event.getItemStack(), pos, () -> event.setCanceled(true));
-    }
-
-    @SubscribeEvent(priority = EventPriority.HIGH)
     public void onRightClickItem(PlayerInteractEvent.RightClickItem event) {
-        Player player = event.getEntity();
+        Entity entity = event.getEntity();
+        if (!(entity instanceof Player player)) {
+            return; // Ignore non-player entities (like bots, NPCs, etc.)
+        }
+
         BlockPos pos = player.blockPosition();
         handleUse(player, event.getItemStack(), pos, () -> event.setCanceled(true));
     }
 
     @SubscribeEvent(priority = EventPriority.HIGH)
     public void onUseItemFinish(LivingEntityUseItemEvent.Finish event) {
-        Player player = (Player) event.getEntity();
+        LivingEntity entity = event.getEntity();
+        if (!(entity instanceof Player player)) {
+            return; // Ignore non-player entities
+        }
+
         BlockPos pos = player.blockPosition();
         handleUse(player, event.getItem(), pos, () -> event.setCanceled(true));
     }
 
     @SubscribeEvent(priority = EventPriority.HIGH)
     public void onAttackEntity(AttackEntityEvent event) {
-        Player player = event.getEntity();
+        Entity entity = event.getEntity();
+        if (!(entity instanceof Player player)) {
+            return; // Ignore non-player entities
+        }
+
         BlockPos pos = player.blockPosition();
         handleUse(player, player.getMainHandItem(), pos, () -> event.setCanceled(true));
     }
 
     @SubscribeEvent(priority = EventPriority.HIGH)
     public void onBlockInteraction(PlayerInteractEvent.RightClickBlock event) {
-        Player player = event.getEntity();
+        Entity entity = event.getEntity();
+        if (!(entity instanceof Player player)) {
+            return; // Ignore non-player entities
+        }
+
         Level world = event.getLevel();
         BlockPos pos = event.getPos();
         BlockState state = world.getBlockState(pos);
 
         ItemStack blockItemStack = new ItemStack(state.getBlock().asItem());
         handleUse(player, blockItemStack, pos, () -> event.setCanceled(true));
-
     }
+
 
     private void handleUse(Player player, ItemStack itemStack, BlockPos pos, Runnable cancelAction) {
         if (player == null || itemStack.isEmpty() || pos == null) return;

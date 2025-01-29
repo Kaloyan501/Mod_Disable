@@ -4,14 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="13fe1274-636e-4834-94a4-9b833a0b7af4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Mod_Disable.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Mod_Disable.main.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Mod_Disable.test.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ModDisable.ipr" beforeDir="false" afterPath="$PROJECT_DIR$/ModDisable.ipr" afterDir="false" />
+    <list default="true" id="13fe1274-636e-4834-94a4-9b833a0b7af4" name="Changes" comment="Fix #8">
       <change beforePath="$PROJECT_DIR$/ModDisable.iws" beforeDir="false" afterPath="$PROJECT_DIR$/ModDisable.iws" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/commands/Disable_Mod.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/commands/Disable_Mod.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/config/InitialStateDataHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/config/InitialStateDataHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -124,6 +120,12 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "Kaloyan501"
+  }
+}]]></component>
   <component name="GithubPullRequestsUISettings"><![CDATA[{
   "selectedUrlAndAccountId": {
     "url": "https://github.com/Kaloyan501/Mod_Disable.git",
@@ -289,9 +291,20 @@
       <option name="presentableId" value="Default" />
       <updated>1738130029107</updated>
     </task>
+    <task id="LOCAL-00001" summary="Fix #8">
+      <option name="closed" value="true" />
+      <created>1738145475265</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1738145475266</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
+    <MESSAGE value="Fix #8" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix #8" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
   </component>
 </project>
