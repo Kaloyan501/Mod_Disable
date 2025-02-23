@@ -4,8 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="13fe1274-636e-4834-94a4-9b833a0b7af4" name="Changes" comment="Updating code from local to origin">
+    <list default="true" id="13fe1274-636e-4834-94a4-9b833a0b7af4" name="Changes" comment="Remove unused imports">
       <change beforePath="$PROJECT_DIR$/ModDisable.iws" beforeDir="false" afterPath="$PROJECT_DIR$/ModDisable.iws" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Mod_Disable.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Mod_Disable.main.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Mod_Disable.test.iml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/config/InitialStateDataHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/config/InitialStateDataHandler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -139,6 +142,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Gradle.Download Sources.executor": "Run",
     "Gradle.Mod_Disable [build].executor": "Run",
     "Gradle.Mod_Disable [runClient].executor": "Debug",
     "Gradle.Mod_Disable [runServer].executor": "Debug",
@@ -150,7 +154,7 @@
     "settings.editor.selected.configurable": "editor.preferences.import"
   }
 }]]></component>
-  <component name="RunManager" selected="Gradle.Mod_Disable [runServer]">
+  <component name="RunManager" selected="Gradle.Mod_Disable [runClient]">
     <configuration default="true" type="Applet" factoryName="Applet">
       <module name="" />
       <option name="MAIN_CLASS_NAME" />
@@ -269,8 +273,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.Mod_Disable [runServer]" />
         <item itemvalue="Gradle.Mod_Disable [runClient]" />
+        <item itemvalue="Gradle.Mod_Disable [runServer]" />
         <item itemvalue="Gradle.Mod_Disable [build]" />
       </list>
     </recent_temporary>
@@ -322,26 +326,24 @@
       <option name="project" value="LOCAL" />
       <updated>1738186526900</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Remove unused imports">
+      <option name="closed" value="true" />
+      <created>1738188006372</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1738188006372</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Fix #8" />
     <MESSAGE value="Fix #9" />
     <MESSAGE value="Updating code from local to origin" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updating code from local to origin" />
+    <MESSAGE value="Remove unused imports" />
+    <option name="LAST_COMMIT_MESSAGE" value="Remove unused imports" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.minecraftforge/fmlloader/1.20.1-47.3.5/dc36aaad8320f6c0a0a006ba6dfe8b548c0a0ec/fmlloader-1.20.1-47.3.5.jar!/net/minecraftforge/fml/loading/RuntimeDistCleaner.class</url>
-          <line>53</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Mod_Disable$Mod_Disable__runClient_.ic" NAME="Mod_Disable [runClient] Coverage Results" MODIFIED="1738185578739" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />

@@ -20,10 +20,12 @@ package com.kaloyandonev.moddisable.helpers.config;
 import com.kaloyandonev.moddisable.helpers.RecipeDisabler;
 import com.kaloyandonev.moddisable.helpers.ServerCheckHelper;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.StaticPathStorage;
-import com.mojang.brigadier.context.CommandContext;import net.minecraft.client.Minecraft;
+import com.mojang.brigadier.context.CommandContext;
+import net.minecraft.client.Minecraft;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraftforge.fml.loading.FMLPaths;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -38,7 +40,9 @@ public class InitialStateDataHandler {
     public static int executeConfigRequest(CommandContext<CommandSourceStack> context, String action, String argument, CommandSourceStack source) {
 
 
-        File GeneralConfigFolder = new File(Minecraft.getInstance().gameDirectory, "config/ModDisable");
+        //File GeneralConfigFolder = new File(Minecraft.getInstance().gameDirectory, "config/ModDisable");
+
+        File GeneralConfigFolder = new File(FMLPaths.CONFIGDIR.get().toFile(), "ModDisable");
 
         if (!GeneralConfigFolder.exists()) {
             logger.info("[Mod Disable] Creating config folder.");
@@ -57,8 +61,13 @@ public class InitialStateDataHandler {
                     return 1;
                 } else {
                     try {
-                        copyFile(SourceFile, DestionationFile);
-                        source.sendSuccess(() -> Component.literal("[Mod Disable] Default disabled items list set successfully."), false);
+                        if (DestionationFile.exists()) {
+                            source.sendFailure(Component.literal("[Mod Disable] Default Disabled Items List already exists. Try deleting it and running this command again."));
+                        } else {
+                            copyFile(SourceFile, DestionationFile);
+                            source.sendSuccess(() -> Component.literal("[Mod Disable] Default disabled items list set successfully."), false);
+                        }
+
                     } catch (IOException e) {
                         source.sendFailure(Component.literal("[Mod Disable] executeConfigRequest threw an IOException. Returning a non-zero state. Exception: " + e));
                         logger.error("[Mod Disable] executeConfigRequest threw an IOException. Returning a non-zero state.");
