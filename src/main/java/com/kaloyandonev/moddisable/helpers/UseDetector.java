@@ -25,16 +25,17 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import net.minecraftforge.fml.common.Mod;
@@ -86,13 +87,16 @@ public class UseDetector {
             return; // Ignore non-player entities
         }
 
-        Level world = event.getLevel();
-        BlockPos pos = event.getPos();
-        BlockState state = world.getBlockState(pos);
-
-        ItemStack blockItemStack = new ItemStack(state.getBlock().asItem());
-        handleUse(player, blockItemStack, pos, () -> event.setCanceled(true));
+        // Use the item stack from the event instead of checking the world state.
+        ItemStack itemStack = event.getItemStack();
+        if (itemStack.getItem() instanceof BlockItem blockItem) {
+            Block block = blockItem.getBlock();
+            ItemStack blockItemStack = new ItemStack(block.asItem());
+            BlockPos placedBlockPos = event.getPos().relative(event.getFace());
+            handleUse(player, blockItemStack, placedBlockPos, () -> event.setCanceled(true));
+        }
     }
+
 
 
     private void handleUse(Player player, ItemStack itemStack, BlockPos pos, Runnable cancelAction) {
