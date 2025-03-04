@@ -21,11 +21,11 @@ import com.kaloyandonev.moddisable.helpers.RecipeDisabler;
 import com.kaloyandonev.moddisable.helpers.ServerCheckHelper;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.StaticPathStorage;
 import com.mojang.brigadier.context.CommandContext;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.client.Minecraft;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraftforge.fml.loading.FMLPaths;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -37,13 +37,12 @@ public class InitialStateDataHandler {
 
     static final Logger logger = LogManager.getLogger();
 
-    public static int executeConfigRequest(CommandContext<CommandSourceStack> context, String action, String argument) {
+    public static int executeConfigRequest(CommandContext<CommandSourceStack> context, String action, String argument, CommandSourceStack source) {
 
 
-        CommandSourceStack source = context.getSource();
+        //File GeneralConfigFolder = new File(Minecraft.getInstance().gameDirectory, "config/ModDisable");
 
-
-        File GeneralConfigFolder = new File(Minecraft.getInstance().gameDirectory, "config/ModDisable");
+        File GeneralConfigFolder = new File(FMLPaths.CONFIGDIR.get().toFile(), "ModDisable");
 
         if (!GeneralConfigFolder.exists()) {
             logger.info("[Mod Disable] Creating config folder.");
@@ -62,8 +61,13 @@ public class InitialStateDataHandler {
                     return 1;
                 } else {
                     try {
-                        copyFile(SourceFile, DestionationFile);
-                        source.sendSuccess(() -> Component.literal("[Mod Disable] Default disabled items list set successfully."), false);
+                        if (DestionationFile.exists()) {
+                            source.sendFailure(Component.literal("[Mod Disable] Default Disabled Items List already exists. Try deleting it and running this command again."));
+                        } else {
+                            copyFile(SourceFile, DestionationFile);
+                            source.sendSuccess(() -> Component.literal("[Mod Disable] Default disabled items list set successfully."), false);
+                        }
+
                     } catch (IOException e) {
                         source.sendFailure(Component.literal("[Mod Disable] executeConfigRequest threw an IOException. Returning a non-zero state. Exception: " + e));
                         logger.error("[Mod Disable] executeConfigRequest threw an IOException. Returning a non-zero state.");
@@ -74,40 +78,37 @@ public class InitialStateDataHandler {
             return 0;
 
             case "Init":
-                Player player;
+                ServerPlayer player;
+                player = source.getPlayer();
+                if (player == null) {
+                    source.sendFailure(Component.literal("[Mod Disable] This command must be executed by a player!"));
+                    return 1;
+                }
+                File PlayerDisabledItemsFile = new File(StaticPathStorage.getSubWorldFolderFile(), player.getUUID().toString() + ".json");
+                File DefaultDisabledItemsList = new File(GeneralConfigFolder, "DefaultDisabledItemsList.json");
 
-                try {
-                    player = source.getPlayerOrException();
-                    File PlayerDisabledItemsFile = new File(StaticPathStorage.getSubWorldFolderFile(), player.getUUID().toString() + ".json");
-                    File DefaultDisabledItemsList = new File(GeneralConfigFolder, "DefaultDisabledItemsList.json");
-
-                    if (!PlayerDisabledItemsFile.exists()) {
-                        try {
-                            copyFile(DefaultDisabledItemsList, PlayerDisabledItemsFile);
-                            source.sendSuccess(() -> Component.literal("[Mod Disable] Default disabled items list copied to your player disabled items list location."), false);
-                            RecipeDisabler.enableAllRecipes(source.getServer());
-                            RecipeDisabler.queueRecipeRemovalFromJson(PlayerDisabledItemsFile.toString());
-                            source.sendSuccess(() -> Component.literal("[Mod Disable] Reload of disabled recipes started for your player."), false);
-                            return 0;
-                        } catch (IOException e) {
-                            source.sendFailure(Component.literal("[Mod Disable] An exception occurred while trying to copy the default disabled items list to your player disabled items list. Exception is: " + e));
-                            logger.error("[Mod Disable] An exception occurred while trying to copy the default disabled items list to the player disabled items list for player with UUID {} Exception is: {}", player.getUUID(), e);
-                            return 1;
-                        }
-
-                    } else {
-                        if (!ServerCheckHelper.isConnectedToDedicatedServer()) {
-                            source.sendFailure(Component.literal("Your player's default disabled items list is already initialized. This is not an error. If you think your disabled items list is corrupted, please run /disable_mod config reinit " + player.getUUID()));
-                            return 1;
-                        } else {
-                            source.sendFailure(Component.literal("Your player's default disabled items list is already initialized. This is not an error. If you think your file is corrupted and are trying to reinitialize it, please contact this message to your server administrator and tell them to run the /disable_mod config reinit command with your UUID, which is " + player.getUUID()));
-                            return 0;
-                        }
+                if (!PlayerDisabledItemsFile.exists()) {
+                    try {
+                        copyFile(DefaultDisabledItemsList, PlayerDisabledItemsFile);
+                        source.sendSuccess(() -> Component.literal("[Mod Disable] Default disabled items list copied to your player disabled items list location."), false);
+                        RecipeDisabler.enableAllRecipes(source.getServer());
+                        RecipeDisabler.queueRecipeRemovalFromJson(PlayerDisabledItemsFile.toString());
+                        source.sendSuccess(() -> Component.literal("[Mod Disable] Reload of disabled recipes started for your player."), false);
+                        return 0;
+                    } catch (IOException e) {
+                        source.sendFailure(Component.literal("[Mod Disable] An exception occurred while trying to copy the default disabled items list to your player disabled items list. Exception is: " + e));
+                        logger.error("[Mod Disable] An exception occurred while trying to copy the default disabled items list to the player disabled items list for player with UUID {} Exception is: {}", player.getUUID(), e);
+                        return 1;
                     }
 
-                } catch (CommandSyntaxException e) {
-                    source.sendFailure(Component.literal("[Mod Disable] You must be a player to run this command!"));
-                    return 1;
+                } else {
+                    if (!ServerCheckHelper.isConnectedToDedicatedServer()) {
+                        source.sendFailure(Component.literal("Your player's default disabled items list is already initialized. This is not an error. If you think your disabled items list is corrupted, please run /disable_mod config reinit " + player.getUUID()));
+                        return 1;
+                    } else {
+                        source.sendFailure(Component.literal("Your player's default disabled items list is already initialized. This is not an error. If you think your file is corrupted and are trying to reinitialize it, please contact this message to your server administrator and tell them to run the /disable_mod config reinit command with your UUID, which is " + player.getUUID()));
+                        return 0;
+                    }
                 }
         }
 
