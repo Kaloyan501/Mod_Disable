@@ -26,14 +26,19 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.apache.logging.log4j.LogManager;
@@ -82,18 +87,35 @@ public class UseDetector {
 
     @SubscribeEvent(priority = EventPriority.HIGH)
     public void onBlockInteraction(PlayerInteractEvent.RightClickBlock event) {
-        Entity entity = event.getEntity();
-        if (!(entity instanceof Player player)) {
-            return; // Ignore non-player entities
+        if (event.getLevel().isClientSide()) return; // Ensure server-side execution
+
+        Player player = event.getEntity();
+        if (!(player instanceof ServerPlayer)) return;
+
+        // Use raycasting to get the block the player is actually looking at.
+        BlockHitResult hitResult = (BlockHitResult) player.pick(5.0D, 0.0F, false);
+        BlockPos targetPos;
+        if (hitResult.getType() == HitResult.Type.BLOCK) {
+            targetPos = hitResult.getBlockPos();
+        } else {
+            // Fallback: use the block position from the event
+            targetPos = event.getPos();
         }
 
-        // Use the item stack from the event instead of checking the world state.
-        ItemStack itemStack = event.getItemStack();
-        if (itemStack.getItem() instanceof BlockItem blockItem) {
-            Block block = blockItem.getBlock();
-            ItemStack blockItemStack = new ItemStack(block.asItem());
-            BlockPos placedBlockPos = event.getPos().relative(event.getFace());
-            handleUse(player, blockItemStack, placedBlockPos, () -> event.setCanceled(true));
+        Level level = event.getLevel();
+        BlockState state = level.getBlockState(targetPos);
+        Block block = state.getBlock();
+
+        logger.info("Player is looking at block: {}", block.getDescriptionId());
+        logger.info("Held item: {}", event.getItemStack().getItem());
+
+        // Convert the block to its corresponding item.
+        Item blockItem = block.asItem();
+        // Check if blockItem is not air (some blocks may not have a proper item representation)
+        if (!blockItem.equals(Items.AIR) && JsonHelper.isItemDisabled(blockItem, player)) {
+            event.setCanceled(true);
+            event.setUseBlock(Event.Result.DENY);
+            player.displayClientMessage(Component.literal("This block is disabled!"), true);
         }
     }
 
@@ -134,6 +156,7 @@ public class UseDetector {
         if (!JsonHelper.isItemDisabled(itemStack.getItem(), player) && player instanceof ServerPlayer) {
             CommandSourceStack sourceStack = player.createCommandSourceStack();
             sourceStack.sendFailure(Component.literal("This item is disabled!"));
+            player.displayClientMessage(Component.literal("This item is disabled!"), true);
         }
     }
 
