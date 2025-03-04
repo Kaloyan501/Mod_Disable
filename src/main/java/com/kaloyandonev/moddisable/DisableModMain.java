@@ -120,7 +120,6 @@ public class DisableModMain
             }
 
             LOGGER.debug("[Mod Disable] MigrateTask is about to run!");
-
             processAllDisabledItemsFromJson.processAllDisabledItemsFromJson();
 
         }
