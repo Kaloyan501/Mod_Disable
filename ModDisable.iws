@@ -126,12 +126,12 @@
     &quot;assignee&quot;: &quot;Kaloyan501&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/Kaloyan501/Mod_Disable.git",
-    "accountId": "812f1dde-bc08-4bf8-97fd-4213972d6d41"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Kaloyan501/Mod_Disable.git&quot;,
+    &quot;accountId&quot;: &quot;812f1dde-bc08-4bf8-97fd-4213972d6d41&quot;
   }
-}]]></component>
+}</component>
   <component name="ModuleEditorState">
     <option name="LAST_EDITED_MODULE_NAME" />
     <option name="LAST_EDITED_TAB_NAME" />
