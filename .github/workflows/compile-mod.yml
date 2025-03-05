@@ -44,7 +44,7 @@ jobs:
 
     # Cache Gradle dependencies
     - name: Cache Gradle packages
-      uses: actions/cache@v3
+      uses: actions/cache@v2
       with:
         path: |
           ~/.gradle/caches
@@ -63,7 +63,7 @@ jobs:
 
     # Upload build artifact
     - name: Upload build artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: build-artifact
         path: build/libs/*.jar  # Changed to 'libs' to reflect the correct output directory
