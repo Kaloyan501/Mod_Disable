@@ -16,7 +16,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 package com.kaloyandonev.moddisable.JEISupport;
 
-import net.minecraftforge.fml.ModList;
+import net.neoforged.fml.ModList;
 
 public class JEIChecker {
     public boolean IsJEIPresent;

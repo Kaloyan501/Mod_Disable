@@ -20,8 +20,8 @@ package com.kaloyandonev.moddisable.IsItemDisabledSocketHelper;
 
 import com.kaloyandonev.moddisable.DisableModMain;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.network.NetworkRegistry;
-import net.minecraftforge.network.simple.SimpleChannel;
+import net.neoforged.network.NetworkRegistry;
+import net.neoforged.network.simple.SimpleChannel;
 
 //Send packet using ModNetworking.CHANNEL.sendToServer(new IsItemDisableDedicatedPacket(itemName));
 

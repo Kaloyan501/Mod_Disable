@@ -19,8 +19,8 @@
 package com.kaloyandonev.moddisable.helpers;
 
 import net.minecraft.client.Minecraft;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.loading.FMLLoader;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.fml.loading.FMLLoader;
 
 public class ServerCheckHelper {
     /**

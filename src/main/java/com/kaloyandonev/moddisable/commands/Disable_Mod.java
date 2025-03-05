@@ -17,6 +17,7 @@
 
 package com.kaloyandonev.moddisable.commands;
 
+import com.kaloyandonev.moddisable.DisableModMain;
 import com.kaloyandonev.moddisable.helpers.isSinglePlayer;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.*;
 import com.mojang.brigadier.CommandDispatcher;
@@ -30,18 +31,21 @@ import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.item.ItemArgument;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.MinecraftForge;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.neoforge.common.NeoForge;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 import com.kaloyandonev.moddisable.helpers.JsonHelper;
 import com.kaloyandonev.moddisable.helpers.RecipeDisabler;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLEnvironment;
+import net.neoforged.fml.common.EventBusSubscriber;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -51,7 +55,7 @@ import static com.kaloyandonev.moddisable.helpers.config.InitialStateDataHandler
 import static com.kaloyandonev.moddisable.helpers.config.InitialStateDataHandler.executeReinitRequest;
 
 
-public class Disable_Mod {
+public class Disable_Mod{
 
     public static boolean IsDebugEnabled = false;
     public static File DATA_DIR = null;
@@ -82,20 +86,24 @@ public class Disable_Mod {
         DATA_DIR = null;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    //@OnlyIn(Dist.CLIENT)
     private void ClientCode(final FMLCommonSetupEvent event) {
-        logger.warn("ClientCode is about to run!");
-        Minecraft.getInstance().execute(() -> {
-            // Create your screenCrator instance
-            ScreenCrator screenCrator = new ScreenCrator(
-                    Component.literal("Migration Title"), // Title of the screen
-                    Component.literal("Description of the screen"), // Description
-                    confirmed -> {return false;}
-            );
+        if (FMLEnvironment.dist == Dist.CLIENT) {
+            logger.warn("ClientCode is about to run!");
+            Minecraft.getInstance().execute(() -> {
+                // Create your screenCrator instance
+                ScreenCrator screenCrator = new ScreenCrator(
+                        Component.literal("Migration Title"), // Title of the screen
+                        Component.literal("Description of the screen"), // Description
+                        confirmed -> {
+                            return false;
+                        }
+                );
 
-            // Open the new screen
-            Minecraft.getInstance().setScreen(screenCrator);
-        });
+                // Open the new screen
+                Minecraft.getInstance().setScreen(screenCrator);
+            });
+        }
     }
 
 

@@ -18,11 +18,12 @@
 package com.kaloyandonev.moddisable.events;
 
 import com.kaloyandonev.moddisable.DisableModMain;
-import net.minecraftforge.event.RegisterCommandsEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.neoforge.event.RegisterCommandsEvent;
+
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
 import com.kaloyandonev.moddisable.commands.Disable_Mod;
-import net.minecraftforge.server.command.ConfigCommand;
+import net.neoforged.neoforge.server.command.ConfigCommand;
 
 @Mod.EventBusSubscriber(modid = DisableModMain.MODID)
 public class ModEvents {

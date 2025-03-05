@@ -23,26 +23,42 @@ import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.ClientWorldFolde
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.MigrateTask;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.StaticPathStorage;
 import com.mojang.logging.LogUtils;
-import net.minecraft.client.Minecraft;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.fml.ModLoadingContext;
 import org.slf4j.Logger;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.material.MapColor;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.config.ModConfig;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
+import net.neoforged.neoforge.event.server.ServerStartingEvent;
+import net.neoforged.neoforge.registries.DeferredBlock;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredItem;
+import net.neoforged.neoforge.registries.DeferredRegister;
+
 import com.kaloyandonev.moddisable.helpers.processAllDisabledItemsFromJson;
-import net.minecraftforge.event.server.ServerStartedEvent;
+import net.neoforged.neoforge.event.server.ServerStartedEvent;
 
 import java.nio.file.Path;
 
@@ -55,19 +71,19 @@ public class DisableModMain
     // Directly reference a slf4j logger
     private static final Logger LOGGER = LogUtils.getLogger();
 
-    public DisableModMain()
+    public DisableModMain(IEventBus modEventBus, ModContainer modContainer)
     {
-        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+
 
 
 
 
         // Register ourselves for server and other game events we are interested in
-        MinecraftForge.EVENT_BUS.register(this);
+        NeoForge.EVENT_BUS.register(this);
 
         // Register our mod's ForgeConfigSpec so that Forge can create and load the config file for us
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
-        MinecraftForge.EVENT_BUS.register(new UseDetector());
+        modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+        NeoForge.EVENT_BUS.register(new UseDetector());
 
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
@@ -80,11 +96,6 @@ public class DisableModMain
 
         // Register packets
         ModNetworking.registerPackets();
-
-        // Example config log
-        if (Config.logDirtBlock) {
-            LOGGER.info("DIRT BLOCK >> {}", ForgeRegistries.BLOCKS.getKey(Blocks.DIRT));
-        }
     }
 
 
@@ -162,6 +173,5 @@ public class DisableModMain
             }
         }
     }
-
-
 }
+

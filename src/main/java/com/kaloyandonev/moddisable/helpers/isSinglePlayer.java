@@ -20,7 +20,7 @@ package com.kaloyandonev.moddisable.helpers;
 import com.kaloyandonev.moddisable.commands.Disable_Mod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
