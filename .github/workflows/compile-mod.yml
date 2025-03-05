@@ -63,7 +63,7 @@ jobs:
 
     # Upload build artifact
     - name: Upload build artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v2
       with:
         name: build-artifact
         path: build/libs/*.jar  # Changed to 'libs' to reflect the correct output directory
