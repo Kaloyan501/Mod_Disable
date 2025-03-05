@@ -65,7 +65,7 @@ public class ScreenCrator extends Screen {
     public void render(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
 
 
-        this.renderBackground(pGuiGraphics);
+        this.renderBackground(pGuiGraphics, 20, 20, 1);
         pGuiGraphics.drawCenteredString(this.font, this.title, this.width / 2, 50, 15744024);
         this.message.renderCentered(pGuiGraphics, this.width / 2 , 70);
         super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);

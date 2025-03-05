@@ -32,18 +32,17 @@ import net.minecraft.commands.arguments.item.ItemArgument;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.common.NeoForge;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 import com.kaloyandonev.moddisable.helpers.JsonHelper;
 import com.kaloyandonev.moddisable.helpers.RecipeDisabler;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.fml.loading.FMLEnvironment;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.fml.common.EventBusSubscriber;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -65,17 +64,12 @@ public class Disable_Mod{
     private static final Logger logger = LogManager.getLogger(Disable_Mod.class);
     private final isSinglePlayer isSinglePlayer = new isSinglePlayer();
 
-    public Disable_Mod(){
+    public Disable_Mod(IEventBus modEventBus){
 
-        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        modEventBus.addListener(this::ClientCode);
+        modEventBus.addListener(this::onLoadComplete);
 
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::ClientCode);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onLoadComplete);
-
-
-
-
-        MinecraftForge.EVENT_BUS.register(this);
+        NeoForge.EVENT_BUS.register(this);
     }
 
     public void onLoadComplete(FMLLoadCompleteEvent event){

@@ -4,30 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="13fe1274-636e-4834-94a4-9b833a0b7af4" name="Changes" comment="Fix preventing the UI of block entities from opening when disabled.">
-      <change afterPath="$PROJECT_DIR$/build.gradle.forge" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle.properties.forge" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.github/workflows/compile-mod.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/compile-mod.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ModDisable.ipr" beforeDir="false" afterPath="$PROJECT_DIR$/ModDisable.ipr" afterDir="false" />
+    <list default="true" id="13fe1274-636e-4834-94a4-9b833a0b7af4" name="Changes" comment="Prepare for NeoForge">
       <change beforePath="$PROJECT_DIR$/ModDisable.iws" beforeDir="false" afterPath="$PROJECT_DIR$/ModDisable.iws" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradlew" beforeDir="false" afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradlew.bat" beforeDir="false" afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/DisableModMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/DisableModMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/IsItemDisabledSocketHelper/ModNetworking.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/IsItemDisabledSocketHelper/ModNetworking.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/JEISupport/JEIChecker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/JEISupport/JEIChecker.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/commands/Disable_Mod.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/commands/Disable_Mod.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/events/ModEvents.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/events/ModEvents.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/ServerCheckHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/ServerCheckHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/config/InitialStateDataHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/config/InitialStateDataHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/isSinglePlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/isSinglePlayer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/migrators/pre_1_1_0_migrator/ClientTickHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/migrators/pre_1_1_0_migrator/ClientTickHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/migrators/pre_1_1_0_migrator/MigrateTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/migrators/pre_1_1_0_migrator/MigrateTask.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/RecipeDisabler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/RecipeDisabler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/migrators/pre_1_1_0_migrator/ScreenCrator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/migrators/pre_1_1_0_migrator/ScreenCrator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/migrators/pre_1_1_0_migrator/ToastNotifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/migrators/pre_1_1_0_migrator/ToastNotifier.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -400,7 +382,15 @@
       <option name="project" value="LOCAL" />
       <updated>1741124015107</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Prepare for NeoForge">
+      <option name="closed" value="true" />
+      <created>1741210768817</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1741210768817</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -418,7 +408,8 @@
     <MESSAGE value="Fix #8" />
     <MESSAGE value="Fix #13" />
     <MESSAGE value="Fix preventing the UI of block entities from opening when disabled." />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix preventing the UI of block entities from opening when disabled." />
+    <MESSAGE value="Prepare for NeoForge" />
+    <option name="LAST_COMMIT_MESSAGE" value="Prepare for NeoForge" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
   </component>
   <component name="XDebuggerManager">
