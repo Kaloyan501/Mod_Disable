@@ -26,13 +26,13 @@ import net.minecraft.client.gui.components.toasts.Toast;
 import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.network.chat.Component;
 import net.neoforged.api.distmarker.Dist;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
 
-@Mod.EventBusSubscriber(modid = DisableModMain.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
+@EventBusSubscriber(modid = DisableModMain.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientTickHandler {
 
     public static boolean hasRun = false;
@@ -42,8 +42,8 @@ public class ClientTickHandler {
 
 
     @SubscribeEvent
-    public static void onClientTick(TickEvent.ClientTickEvent event) {
-        if (event.phase == TickEvent.Phase.START && hasRendered == false && Migration_110_Json_Check.checkForDisableModFolder()) {
+    public static void onClientTick(ClientTickEvent event) {
+        if (hasRendered == false && Migration_110_Json_Check.checkForDisableModFolder()) {
 
             Minecraft minecraft = Minecraft.getInstance();
 

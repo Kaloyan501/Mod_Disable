@@ -21,19 +21,23 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.kaloyandonev.moddisable.DisableModMain;
 import com.kaloyandonev.moddisable.commands.Disable_Mod;
+import com.kaloyandonev.moddisable.mixins.RecipeManagerAccessor;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraftforge.common.MinecraftForge;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.server.ServerStartingEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.event.tick.ServerTickEvent;
+import net.neoforged.bus.api.SubscribeEvent;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -45,15 +49,13 @@ import java.io.File;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.annotation.CheckForNull;
 
-
-@Mod.EventBusSubscriber(modid = DisableModMain.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+@EventBusSubscriber(modid = DisableModMain.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class RecipeDisabler {
 
     private static final Logger LOGGER = LogManager.getLogger();
-    private static final List<String> recipesToRemove = new ArrayList<>();
-    private static final Map<String, Recipe<?>> removedRecipes = new HashMap<>();
+    private static final List<ResourceLocation> recipesToRemove = new ArrayList<>();
+    private static final Map<ResourceLocation, Recipe<?>> removedRecipes = new HashMap<>();
 
     public static JsonArray previousJsonArray;
 
@@ -67,19 +69,17 @@ public class RecipeDisabler {
     }
 
     @SubscribeEvent
-    @SuppressWarnings (value="unused")
     public static void onServerStarting(ServerStartingEvent event){
         LOGGER.debug("Now hooking RecipeDisabler::onServerTick");
-        MinecraftForge.EVENT_BUS.addListener(RecipeDisabler::onServerTick);
+        NeoForge.EVENT_BUS.addListener(RecipeDisabler::onServerTick);
     }
 
-    public static void onServerTick(TickEvent.ServerTickEvent event) {
-        if (event.phase == TickEvent.Phase.END) {
-            MinecraftServer server = event.getServer();
-            //If something breaks add !recipesToRemove.isEmpty() && to the if below
-            if (server != null) {
-                removeQueuedRecipes(server);
-            }
+    @SubscribeEvent
+    public static void onServerTick(ServerTickEvent event) {
+        // Check that we're in the tick's end phase (if the event provides phases)
+        MinecraftServer server = event.getServer();
+        if (server != null) {
+            removeQueuedRecipes(server);
         }
     }
 
@@ -97,85 +97,56 @@ public class RecipeDisabler {
     }
     // END
 
-
     private static void removeQueuedRecipes(MinecraftServer server) {
         if (recipesToRemove.isEmpty()) {
-            //recipesToRemove list is empty, exiting early.
             return;
         }
 
         RecipeManager recipeManager = server.getRecipeManager();
-        try {
-            Field recipesField = getRecipesField(recipeManager);
-            if (recipesField == null) {
-                LOGGER.error("[Mod Disable] [CRITICAL] recipesField was not created! If you are seeing this error, report this issue to the Github repo!");
-                return;
+        RecipeManagerAccessor accessor = (RecipeManagerAccessor) recipeManager;
+
+        Map<ResourceLocation, RecipeHolder<?>> byNameMap = new HashMap<>(accessor.getByName());
+
+        for (ResourceLocation recipeId : new ArrayList<>(byNameMap.keySet())) {
+            RecipeHolder<?> recipeHolder = byNameMap.get(recipeId);
+            if (recipesToRemove.contains(recipeHolder.value().toString())) {
+                removedRecipes.put(recipeHolder.value(), recipeHolder.value());
+
+                byNameMap.remove(recipeId);
+                LOGGER.info("[Mod_Disable] Removed recipe: {}", recipeHolder.value());
             }
-
-            @SuppressWarnings (value="unchecked")
-            Map<RecipeType<?>, Map<ResourceLocation, Recipe<?>>> recipes = (Map<RecipeType<?>, Map<ResourceLocation, Recipe<?>>>) recipesField.get(recipeManager);
-
-            // Create a new map to hold the modified recipes
-            Map<RecipeType<?>, Map<ResourceLocation, Recipe<?>>> newRecipes = new HashMap<>();
-
-            for (Map.Entry<RecipeType<?>, Map<ResourceLocation, Recipe<?>>> entry : recipes.entrySet()) {
-                Map<ResourceLocation, Recipe<?>> recipeMap = new HashMap<>(entry.getValue());
-
-                List<ResourceLocation> toRemove = new ArrayList<>();
-
-                for (Map.Entry<ResourceLocation, Recipe<?>> recipeEntry : recipeMap.entrySet()) {
-                    Recipe<?> recipe = recipeEntry.getValue();
-                    if (recipesToRemove.contains(recipe.getId().toString())) {
-                        removedRecipes.put(recipe.getId().toString(), recipe);
-                        toRemove.add(recipe.getId());
-                        LOGGER.info("[Mod_Disable] Removed recipe: {}", recipe.getId());
-                    }
-                }
-
-                if (!toRemove.isEmpty()) {
-                    recipeMap.keySet().removeAll(toRemove);
-                }
-                newRecipes.put(entry.getKey(), recipeMap);
-
-
-            }
-
-            recipesField.set(recipeManager, newRecipes);
-
-            recipesToRemove.clear();
-
-            //V 1.0.1 - Add NullPointerException here, so no NullPointerException happens
-        } catch (IllegalAccessException | NullPointerException er) {
-            er.printStackTrace();
         }
+
+        accessor.setByName(byNameMap);
+        recipesToRemove.clear();
     }
 
-    public static void enableRecipe(String recipeId, MinecraftServer server) {
+    private static void removeQueuedRecipes(MinecraftServer server) {
+        if (recipesToRemove.isEmpty()) {
+            return;
+        }
+
         RecipeManager recipeManager = server.getRecipeManager();
-        Recipe<?> recipe = removedRecipes.get(recipeId);
-        if (recipe != null) {
-            try {
-                //Non-production but working way to get recipesField: Field recipesField = RecipeManager.class.getDeclaredField("recipes");
-                Field recipesField = findRecipesField(recipeManager);
-                recipesField.setAccessible(true);
-                @SuppressWarnings (value="unchecked")
-                Map<RecipeType<?>, Map<ResourceLocation, Recipe<?>>> recipes = (Map<RecipeType<?>, Map<ResourceLocation, Recipe<?>>>) recipesField.get(recipeManager);
+        RecipeManagerAccessor accessor = (RecipeManagerAccessor) recipeManager;
 
-                //Create a new map to hold the modified recipes
-                Map<RecipeType<?>, Map<ResourceLocation, Recipe<?>>> newRecipes = new HashMap<>(recipes);
+        // Retrieve the current recipe map
+        Map<ResourceLocation, RecipeHolder<?>> byNameMap = new HashMap<>(accessor.getByName());
 
-                newRecipes.computeIfAbsent(recipe.getType(), k -> new HashMap<>()).put(recipe.getId(), recipe);
-
-                removedRecipes.remove(recipeId);
-                recipesField.set(recipeManager, newRecipes);
-                LOGGER.info("[Mod_Disable] Re-enabled recipe: {}", recipeId);
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
+        // Iterate over the recipes to remove
+        for (ResourceLocation recipeId : recipesToRemove) {
+            RecipeHolder<?> recipeHolder = byNameMap.remove(recipeId);
+            if (recipeHolder != null) {
+                // Use the recipe's ResourceLocation as the key
+                removedRecipes.put(recipeId, recipeHolder.value());
+                LOGGER.info("[Mod_Disable] Removed recipe: {}", recipeId);
             }
-        } else {
-            LOGGER.info("[Mod_Disable] Recipe not found: {}", recipeId);
         }
+
+        // Update the RecipeManager with the modified map
+        accessor.setByName(byNameMap);
+        recipesToRemove.clear();
     }
+
 
     public static void queueRecipeRemovalFromJson(String jsonFilePath) {
         JsonArray jsonArray = JsonHelper.readJsonArrayFromFile(jsonFilePath);
@@ -225,8 +196,7 @@ public class RecipeDisabler {
                 for (Recipe<?> recipe : recipeMap.values()) {
                     if (recipe.getId().getNamespace().equals(namespace)) {
                         recipeId = recipe.getId();
-                        item = ForgeRegistries.ITEMS.getValue(recipeId);
-
+                        item = BuiltInRegistries.ITEM.get(recipeId);
 
                         JsonHelper.enableItem(item, player);
                         LOGGER.info("[Mod_Disable] Enabled item {}", item);
@@ -284,8 +254,8 @@ public class RecipeDisabler {
                 }
             }
 
-            for (Item item : ForgeRegistries.ITEMS) {
-                ResourceLocation itemRegistryName = ForgeRegistries.ITEMS.getKey(item);
+            for (Item item : BuiltInRegistries.ITEM) {
+                ResourceLocation itemRegistryName = BuiltInRegistries.ITEM.getKey(item);
                 if (itemRegistryName != null && itemRegistryName.getNamespace().equals(namespace)) {
                     LOGGER.info("[Mod_Disable] Disabling item: {}", itemRegistryName);
                     JsonHelper.disableItem(item, player);

@@ -36,7 +36,7 @@ public class ToastNotifier {
         if (minecraft != null) {
             SystemToast.add(
                     minecraft.getToasts(),
-                    SystemToast.SystemToastIds.TUTORIAL_HINT,
+                    SystemToast.SystemToastId.NARRATOR_TOGGLE,
                     Component.literal(title),
                     Component.literal(message)
             );

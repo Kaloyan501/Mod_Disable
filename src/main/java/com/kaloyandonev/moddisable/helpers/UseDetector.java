@@ -35,20 +35,23 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
-import net.minecraftforge.event.entity.player.AttackEntityEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.eventbus.api.Event;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.neoforged.neoforge.event.entity.living.LivingEntityUseItemEvent;
+import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.Event;
+
+import net.neoforged.fml.common.EventBusSubscriber;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.api.distmarker.Dist;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.api.distmarker.Dist;
+
 
 import java.util.concurrent.CompletableFuture;
 
-@Mod.EventBusSubscriber(modid = DisableModMain.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
+@EventBusSubscriber(modid = DisableModMain.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class UseDetector {
     private static final Logger logger = LogManager.getLogger();
 
@@ -64,7 +67,7 @@ public class UseDetector {
     }
 
     @SubscribeEvent(priority = EventPriority.HIGH)
-    public void onUseItemFinish(LivingEntityUseItemEvent.Finish event) {
+    public void onUseItemFinish(LivingEntityUseItemEvent.Start event) {
         LivingEntity entity = event.getEntity();
         if (!(entity instanceof Player player)) {
             return; // Ignore non-player entities
@@ -114,7 +117,6 @@ public class UseDetector {
         // Check if blockItem is not air (some blocks may not have a proper item representation)
         if (!blockItem.equals(Items.AIR) && JsonHelper.isItemDisabled(blockItem, player)) {
             event.setCanceled(true);
-            event.setUseBlock(Event.Result.DENY);
             player.displayClientMessage(Component.literal("This block is disabled!"), true);
         }
     }

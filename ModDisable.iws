@@ -4,11 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="13fe1274-636e-4834-94a4-9b833a0b7af4" name="Changes" comment="Prepare for NeoForge">
+    <list default="true" id="13fe1274-636e-4834-94a4-9b833a0b7af4" name="Changes" comment="Import renames and stuff">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/mixins/RecipeManagerAccessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ModDisable.ipr" beforeDir="false" afterPath="$PROJECT_DIR$/ModDisable.ipr" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ModDisable.iws" beforeDir="false" afterPath="$PROJECT_DIR$/ModDisable.iws" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/commands/Disable_Mod.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/commands/Disable_Mod.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/DisableModMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/DisableModMain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/IsItemDisabledSocketHelper/ModNetworking.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/IsItemDisabledSocketHelper/ModNetworking.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/events/ModEvents.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/events/ModEvents.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/RecipeDisabler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/RecipeDisabler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/migrators/pre_1_1_0_migrator/ScreenCrator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/migrators/pre_1_1_0_migrator/ScreenCrator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/migrators/pre_1_1_0_migrator/ClientTickHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/migrators/pre_1_1_0_migrator/ClientTickHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/migrators/pre_1_1_0_migrator/ToastNotifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/migrators/pre_1_1_0_migrator/ToastNotifier.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -92,6 +97,13 @@
       </state>
     </system>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -107,6 +119,9 @@
     &quot;accountId&quot;: &quot;812f1dde-bc08-4bf8-97fd-4213972d6d41&quot;
   }
 }</component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="jar://$PROJECT_DIR$/build/moddev/artifacts/neoforge-21.1.77-minecraft-merged.jar!/net/minecraft/client/Minecraft.java" root0="SKIP_INSPECTION" />
+  </component>
   <component name="ModuleEditorState">
     <option name="LAST_EDITED_MODULE_NAME" />
     <option name="LAST_EDITED_TAB_NAME" />
@@ -314,8 +329,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="Gradle.Mod_Disable_Remote [build]" />
-        <item itemvalue="Gradle.Mod_Disable [runClient]" />
         <item itemvalue="Gradle.Mod_Disable [runServer]" />
+        <item itemvalue="Gradle.Mod_Disable [runClient]" />
       </list>
     </recent_temporary>
   </component>
@@ -390,7 +405,15 @@
       <option name="project" value="LOCAL" />
       <updated>1741210768817</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Import renames and stuff">
+      <option name="closed" value="true" />
+      <created>1741214546956</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1741214546956</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -409,7 +432,8 @@
     <MESSAGE value="Fix #13" />
     <MESSAGE value="Fix preventing the UI of block entities from opening when disabled." />
     <MESSAGE value="Prepare for NeoForge" />
-    <option name="LAST_COMMIT_MESSAGE" value="Prepare for NeoForge" />
+    <MESSAGE value="Import renames and stuff" />
+    <option name="LAST_COMMIT_MESSAGE" value="Import renames and stuff" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -417,32 +441,32 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
-          <line>56</line>
+          <line>59</line>
           <option name="timeStamp" value="18" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
-          <line>57</line>
+          <line>60</line>
           <option name="timeStamp" value="19" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
-          <line>58</line>
+          <line>61</line>
           <option name="timeStamp" value="20" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
-          <line>59</line>
+          <line>62</line>
           <option name="timeStamp" value="21" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
-          <line>61</line>
+          <line>64</line>
           <option name="timeStamp" value="22" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
-          <line>62</line>
+          <line>65</line>
           <properties>
             <option name="lambda-ordinal" value="-1" />
           </properties>
@@ -450,32 +474,32 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
-          <line>63</line>
+          <line>66</line>
           <option name="timeStamp" value="24" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
-          <line>67</line>
+          <line>70</line>
           <option name="timeStamp" value="26" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
-          <line>68</line>
+          <line>71</line>
           <option name="timeStamp" value="27" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
-          <line>69</line>
+          <line>72</line>
           <option name="timeStamp" value="28" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
-          <line>70</line>
+          <line>73</line>
           <option name="timeStamp" value="29" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
-          <line>73</line>
+          <line>76</line>
           <properties>
             <option name="lambda-ordinal" value="-1" />
           </properties>
@@ -483,17 +507,17 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
-          <line>72</line>
+          <line>75</line>
           <option name="timeStamp" value="32" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
-          <line>74</line>
+          <line>77</line>
           <option name="timeStamp" value="33" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
-          <line>55</line>
+          <line>58</line>
           <properties class="com.kaloyandonev.moddisable.helpers.UseDetector" method="onRightClickItem">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
@@ -502,7 +526,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
-          <line>66</line>
+          <line>69</line>
           <properties class="com.kaloyandonev.moddisable.helpers.UseDetector" method="onUseItemFinish">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />

@@ -101,7 +101,7 @@ public class DisableModMain
 
 
 
-    @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+    @EventBusSubscriber(modid = MODID, bus = EventBusSubscriber.Bus.MOD)
     //@OnlyIn(Dist.DEDICATED_SERVER)
     public static class ServerModEvents {
 
@@ -156,7 +156,7 @@ public class DisableModMain
     }
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
-    @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+    @EventBusSubscriber(modid = MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     @SuppressWarnings(value = "unused")
     public static class ClientModEvents
     {
