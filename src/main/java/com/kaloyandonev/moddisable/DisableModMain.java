@@ -91,11 +91,6 @@ public class DisableModMain
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
-        // Some common setup code
-        LOGGER.info("HELLO FROM COMMON SETUP");
-
-        // Register packets
-        ModNetworking.registerPackets();
     }
 
 
