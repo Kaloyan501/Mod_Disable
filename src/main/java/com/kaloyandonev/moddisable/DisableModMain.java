@@ -16,7 +16,8 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 package com.kaloyandonev.moddisable;
 
-import com.kaloyandonev.moddisable.IsItemDisabledSocketHelper.ModNetworking;
+import com.google.gson.*;
+import com.kaloyandonev.moddisable.disablelogic.playerjoinsyncpacket.PlayerJoinSyncPacket;
 import com.kaloyandonev.moddisable.helpers.ServerCheckHelper;
 import com.kaloyandonev.moddisable.helpers.UseDetector;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.ClientWorldFolderFinder;
@@ -25,21 +26,20 @@ import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.StaticPathStorag
 import com.mojang.logging.LogUtils;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.LevelResource;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.fml.ModLoadingContext;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.neoforged.neoforge.event.server.ServerLifecycleEvent;
+import net.neoforged.neoforge.network.PacketDistributor;
+import net.neoforged.neoforge.network.registration.PayloadRegistrar;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import org.slf4j.Logger;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.food.FoodProperties;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.MapColor;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -50,17 +50,18 @@ import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
-import net.neoforged.neoforge.event.server.ServerStartingEvent;
-import net.neoforged.neoforge.registries.DeferredBlock;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredItem;
-import net.neoforged.neoforge.registries.DeferredRegister;
 
 import com.kaloyandonev.moddisable.helpers.processAllDisabledItemsFromJson;
 import net.neoforged.neoforge.event.server.ServerStartedEvent;
 
+import java.io.IOException;
 import java.nio.file.Path;
+import java.io.File;
+import java.io.FileReader;
+import java.util.UUID;
+
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(DisableModMain.MODID)
@@ -73,11 +74,6 @@ public class DisableModMain
 
     public DisableModMain(IEventBus modEventBus, ModContainer modContainer)
     {
-
-
-
-
-
         // Register ourselves for server and other game events we are interested in
         NeoForge.EVENT_BUS.register(this);
 
@@ -85,16 +81,7 @@ public class DisableModMain
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
         NeoForge.EVENT_BUS.register(new UseDetector());
 
-        // Register the commonSetup method for modloading
-        modEventBus.addListener(this::commonSetup);
-
     }
-
-    private void commonSetup(final FMLCommonSetupEvent event) {
-    }
-
-
-
 
     @EventBusSubscriber(modid = MODID, bus = EventBusSubscriber.Bus.MOD)
     //@OnlyIn(Dist.DEDICATED_SERVER)

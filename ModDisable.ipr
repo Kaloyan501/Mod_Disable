@@ -1,21 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <resourceExtensions>
-      <entry name=".+\.(properties|xml|html|dtd|tld)" />
-      <entry name=".+\.(gif|png|jpeg|jpg)" />
-    </resourceExtensions>
-    <wildcardResourcePatterns>
-      <entry name="!?*.class" />
-      <entry name="!?*.scala" />
-      <entry name="!?*.groovy" />
-      <entry name="!?*.java" />
-    </wildcardResourcePatterns>
-    <bytecodeTargetLevel target="21" />
-  </component>
-  <component name="CopyrightManager" default="" />
-  <component name="DependencyValidationManager">
-    <option name="SKIP_IMPORT_STATEMENTS" value="false" />
+    <bytecodeTargetLevel>
+      <module name="Mod_Disable_Remote" target="21" />
+      <module name="Mod_Disable_Remote.main" target="21" />
+      <module name="Mod_Disable_Remote.test" target="21" />
+    </bytecodeTargetLevel>
   </component>
   <component name="DiscordProjectSettings">
     <option name="show" value="PROJECT_FILES" />
@@ -28,12 +18,13 @@
     <option name="button2Url" value="" />
     <option name="customApplicationId" value="" />
   </component>
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="GradleMigrationSettings" migrationVersion="1" />
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleJvm" value="17" />
+        <option name="gradleJvm" value="21" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
@@ -42,75 +33,22 @@
       </GradleProjectSettings>
     </option>
   </component>
-  <component name="GradleUISettings">
-    <setting name="root" />
-  </component>
-  <component name="GradleUISettings2">
-    <setting name="root" />
-  </component>
-  <component name="IdProvider" IDEtalkID="11DA1DB66DD62DDA1ED602B7079FE97C" />
   <component name="InspectionProjectProfileManager">
     <profile version="1.0">
       <option name="myName" value="Project Default" />
     </profile>
     <version value="1.0" />
   </component>
-  <component name="JavadocGenerationManager">
-    <option name="OUTPUT_DIRECTORY" value="$USER_HOME$/NeoForgeJavaDocs" />
-    <option name="OPTION_DOCUMENT_TAG_USE" value="true" />
-    <option name="OPTION_DOCUMENT_TAG_AUTHOR" value="true" />
-    <option name="OPTION_DOCUMENT_TAG_VERSION" value="true" />
-  </component>
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/ModDisable.ipr/.idea/ModDisable.ipr.iml" filepath="$PROJECT_DIR$/ModDisable.ipr/.idea/ModDisable.ipr.iml" />
       <module fileurl="file://$PROJECT_DIR$/Mod_Disable_Remote.iml" filepath="$PROJECT_DIR$/Mod_Disable_Remote.iml" />
       <module fileurl="file://$PROJECT_DIR$/Mod_Disable_Remote.main.iml" filepath="$PROJECT_DIR$/Mod_Disable_Remote.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/Mod_Disable_Remote.test.iml" filepath="$PROJECT_DIR$/Mod_Disable_Remote.test.iml" />
     </modules>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_21" project-jdk-name="17" project-jdk-type="JavaSDK">
-    <output url="file://$PROJECT_DIR$/out" />
-  </component>
-  <component name="RemoteRepositoriesConfiguration">
-    <remote-repository>
-      <option name="id" value="central" />
-      <option name="name" value="Maven Central repository" />
-      <option name="url" value="https://repo1.maven.org/maven2" />
-    </remote-repository>
-    <remote-repository>
-      <option name="id" value="jboss.community" />
-      <option name="name" value="JBoss Community repository" />
-      <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
-    </remote-repository>
-    <remote-repository>
-      <option name="id" value="maven2" />
-      <option name="name" value="maven2" />
-      <option name="url" value="https://libraries.minecraft.net/" />
-    </remote-repository>
-    <remote-repository>
-      <option name="id" value="MavenRepo" />
-      <option name="name" value="MavenRepo" />
-      <option name="url" value="https://repo.maven.apache.org/maven2/" />
-    </remote-repository>
-    <remote-repository>
-      <option name="id" value="ParchmentMC" />
-      <option name="name" value="ParchmentMC" />
-      <option name="url" value="https://maven.parchmentmc.org/" />
-    </remote-repository>
-    <remote-repository>
-      <option name="id" value="maven" />
-      <option name="name" value="maven" />
-      <option name="url" value="https://maven.minecraftforge.net/" />
-    </remote-repository>
-  </component>
-  <component name="SvnBranchConfigurationManager">
-    <option name="mySupportsUserInfoFilter" value="true" />
-  </component>
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
-  </component>
-  <component name="com.obiscr.chatgpt.settings.EasyCodeState">
-    <option name="projectFiles" value="$PROJECT_DIR$/build/downloadMCMeta/version.json;C:/koko_programing/Mod_Disable_Remote/run/saves/New World/advancements/380df991-f603-344c-a090-369bad2a924a.json;C:/koko_programing/Mod_Disable_Remote/run/saves/New World/Mod_Disable_Data/380df991-f603-344c-a090-369bad2a924a.json;C:/koko_programing/Mod_Disable_Remote/run/saves/New World/stats/380df991-f603-344c-a090-369bad2a924a.json;C:/koko_programing/Mod_Disable_Remote/run/banned-ips.json;C:/koko_programing/Mod_Disable_Remote/run/banned-players.json;C:/koko_programing/Mod_Disable_Remote/run/ops.json;C:/koko_programing/Mod_Disable_Remote/run/usercache.json;C:/koko_programing/Mod_Disable_Remote/run/usernamecache.json;C:/koko_programing/Mod_Disable_Remote/run/whitelist.json;C:/koko_programing/Mod_Disable_Remote/src/main/java/com/kaloyandonev/moddisable/commands/Disable_Mod.java;C:/koko_programing/Mod_Disable_Remote/src/main/java/com/kaloyandonev/moddisable/events/ModEvents.java;C:/koko_programing/Mod_Disable_Remote/src/main/java/com/kaloyandonev/moddisable/helpers/config/InitialStateDataHandler.java;C:/koko_programing/Mod_Disable_Remote/src/main/java/com/kaloyandonev/moddisable/helpers/CopyFolderContents.java;C:/koko_programing/Mod_Disable_Remote/src/main/java/com/kaloyandonev/moddisable/helpers/isSinglePlayer.java;C:/koko_programing/Mod_Disable_Remote/src/main/java/com/kaloyandonev/moddisable/helpers/JsonHelper.java;C:/koko_programing/Mod_Disable_Remote/src/main/java/com/kaloyandonev/moddisable/helpers/processAllDisabledItemsFromJson.java;C:/koko_programing/Mod_Disable_Remote/src/main/java/com/kaloyandonev/moddisable/helpers/RecipeDisabler.java;C:/koko_programing/Mod_Disable_Remote/src/main/java/com/kaloyandonev/moddisable/helpers/RecursiveFolderDeleter.java;C:/koko_programing/Mod_Disable_Remote/src/main/java/com/kaloyandonev/moddisable/helpers/ServerCheckHelper.java;C:/koko_programing/Mod_Disable_Remote/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java;C:/koko_programing/Mod_Disable_Remote/src/main/java/com/kaloyandonev/moddisable/IsItemDisabledSocketHelper/DataAwaiter.java;C:/koko_programing/Mod_Disable_Remote/src/main/java/com/kaloyandonev/moddisable/IsItemDisabledSocketHelper/IsItemDisableDedicatedPacket.java;C:/koko_programing/Mod_Disable_Remote/src/main/java/com/kaloyandonev/moddisable/IsItemDisabledSocketHelper/ItemDisableDedicatedResponsePacket.java;C:/koko_programing/Mod_Disable_Remote/src/main/java/com/kaloyandonev/moddisable/IsItemDisabledSocketHelper/ModNetworking.java;C:/koko_programing/Mod_Disable_Remote/src/main/java/com/kaloyandonev/moddisable/JEISupport/JEIChecker.java;C:/koko_programing/Mod_Disable_Remote/src/main/java/com/kaloyandonev/moddisable/migrators/pre_1_1_0_migrator/ClientTickHandler.java;C:/koko_programing/Mod_Disable_Remote/src/main/java/com/kaloyandonev/moddisable/migrators/pre_1_1_0_migrator/ClientWorldFolderFinder.java;C:/koko_programing/Mod_Disable_Remote/src/main/java/com/kaloyandonev/moddisable/migrators/pre_1_1_0_migrator/MigrateTask.java;C:/koko_programing/Mod_Disable_Remote/src/main/java/com/kaloyandonev/moddisable/migrators/pre_1_1_0_migrator/Migration_110_Json_Check.java;C:/koko_programing/Mod_Disable_Remote/src/main/java/com/kaloyandonev/moddisable/migrators/pre_1_1_0_migrator/ScreenCrator.java;C:/koko_programing/Mod_Disable_Remote/src/main/java/com/kaloyandonev/moddisable/migrators/pre_1_1_0_migrator/StaticPathStorage.java;C:/koko_programing/Mod_Disable_Remote/src/main/java/com/kaloyandonev/moddisable/migrators/pre_1_1_0_migrator/ToastNotifier.java;C:/koko_programing/Mod_Disable_Remote/src/main/java/com/kaloyandonev/moddisable/Config.java;C:/koko_programing/Mod_Disable_Remote/src/main/java/com/kaloyandonev/moddisable/DisableModMain.java;C:/koko_programing/Mod_Disable_Remote/.profileconfig.json;C:/koko_programing/Mod_Disable_Remote/README.md" />
   </component>
   <component name="libraryTable">
     <library name="Gradle: ca.weblite:java-objc-bridge:1.1" type="java-imported" external-system-id="GRADLE">
@@ -350,9 +288,7 @@
       <CLASSES>
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/commons-logging/commons-logging/1.2/4bfc12adfe4842bf07b657f0369c4cb522955686/commons-logging-1.2.jar!/" />
       </CLASSES>
-      <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/commons-logging/commons-logging/1.2/83033ee697035dfb9ce3503e1ac0c5a33021e503/commons-logging-1.2-javadoc.jar!/" />
-      </JAVADOC>
+      <JAVADOC />
       <SOURCES>
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/commons-logging/commons-logging/1.2/ecf26c7507d67782a3bbd148d170b31dfad001aa/commons-logging-1.2-sources.jar!/" />
       </SOURCES>
@@ -680,9 +616,7 @@
       <CLASSES>
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.sf.jopt-simple/jopt-simple/5.0.4/4fdac2fbe92dfad86aa6e9301736f6b4342a3f5c/jopt-simple-5.0.4.jar!/" />
       </CLASSES>
-      <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.sf.jopt-simple/jopt-simple/5.0.4/28ec088adeaedff5f9310ef29db91a90de14c392/jopt-simple-5.0.4-javadoc.jar!/" />
-      </JAVADOC>
+      <JAVADOC />
       <SOURCES>
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.sf.jopt-simple/jopt-simple/5.0.4/950831646d014c9162999019a3cb17d5fc01ac0d/jopt-simple-5.0.4-sources.jar!/" />
       </SOURCES>
@@ -1273,46 +1207,5 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.slf4j/slf4j-api/2.0.9/97e46b94d70f47892145e09d685461245584d596/slf4j-api-2.0.9-sources.jar!/" />
       </SOURCES>
     </library>
-  </component>
-  <component name="masterDetails">
-    <states>
-      <state key="ArtifactsStructureConfigurable.UI">
-        <UIState>
-          <splitter-proportions>
-            <SplitterProportionsDataImpl />
-          </splitter-proportions>
-          <settings />
-        </UIState>
-      </state>
-      <state key="Copyright.UI">
-        <UIState>
-          <splitter-proportions>
-            <SplitterProportionsDataImpl />
-          </splitter-proportions>
-        </UIState>
-      </state>
-      <state key="ProjectJDKs.UI">
-        <UIState>
-          <splitter-proportions>
-            <SplitterProportionsDataImpl>
-              <option name="proportions">
-                <list>
-                  <option value="0.2" />
-                </list>
-              </option>
-            </SplitterProportionsDataImpl>
-          </splitter-proportions>
-          <last-edited>1.6</last-edited>
-        </UIState>
-      </state>
-      <state key="ScopeChooserConfigurable.UI">
-        <UIState>
-          <splitter-proportions>
-            <SplitterProportionsDataImpl />
-          </splitter-proportions>
-          <settings />
-        </UIState>
-      </state>
-    </states>
   </component>
 </project>

@@ -19,8 +19,12 @@ package com.kaloyandonev.moddisable.helpers;
 
 import com.kaloyandonev.moddisable.DisableModMain;
 import com.kaloyandonev.moddisable.IsItemDisabledSocketHelper.DataAwaiter;
+import com.kaloyandonev.moddisable.disablelogic.playerjoinsyncpacket.PlayerJoinSyncPacket;
 import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -43,10 +47,13 @@ import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.Event;
 
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.network.PacketDistributor;
+import net.neoforged.neoforge.registries.DeferredRegister;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.api.distmarker.Dist;
+import org.checkerframework.checker.signature.qual.Identifier;
 
 
 import java.util.concurrent.CompletableFuture;
@@ -134,20 +141,14 @@ public class UseDetector {
                 cancelAction.run(); // Cancel the action
             }
         } else {
-            // For dedicated servers, check item state from the server
-            CompletableFuture<Boolean> futureResponse = DataAwaiter.getInstance().sendAndAwaitResponse(itemStack.getItem().toString());
-            futureResponse.thenAccept(isDisabled -> {
-                if (isDisabled) {
-                    player.getServer().execute(() -> {
-                        handleItemUse(player, itemStack);
-                        syncInventory(player); // Sync inventory after server response
-                        cancelAction.run(); // Cancel the action
-                    });
-                }
-            }).exceptionally(e -> {
-                logger.error("Error checking item state: {}", e.getMessage(), e);
-                return null;
-            });
+
+            Item item = itemStack.getItem();
+            Registry<Item> registry = BuiltInRegistries.ITEM;
+
+            ResourceLocation key = registry.getKey(item);
+            String idStr = key.toString();
+
+            PacketDistributor.sendToServer(new PlayerJoinSyncPacket.PlayerJoinRequest(idStr, player.getStringUUID()));
         }
     }
 
