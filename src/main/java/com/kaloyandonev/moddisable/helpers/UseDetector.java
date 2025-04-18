@@ -18,7 +18,6 @@
 package com.kaloyandonev.moddisable.helpers;
 
 import com.kaloyandonev.moddisable.DisableModMain;
-import com.kaloyandonev.moddisable.IsItemDisabledSocketHelper.DataAwaiter;
 import com.kaloyandonev.moddisable.disablelogic.playerjoinsyncpacket.PlayerJoinSyncPacket;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.Registry;
