@@ -56,7 +56,7 @@ public class processAllDisabledItemsFromJson {
         for (File file : files) {
             logger.debug("[Mod Disable]Disabling recipes for file: {}", file.getName());
             logger.debug("[Mod Disable]JSON file path is: {}", file.getAbsolutePath());
-            RecipeDisabler.queueRecipeRemovalFromJson(file.getAbsolutePath());
+            //RecipeDisabler.queueRecipeRemovalFromJson(file.getAbsolutePath());
         }
     }
 
