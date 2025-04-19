@@ -91,8 +91,8 @@ public class InitialStateDataHandler {
                     try {
                         copyFile(DefaultDisabledItemsList, PlayerDisabledItemsFile);
                         source.sendSuccess(() -> Component.literal("[Mod Disable] Default disabled items list copied to your player disabled items list location."), false);
-                        RecipeDisabler.enableAllRecipes(source.getServer());
-                        RecipeDisabler.queueRecipeRemovalFromJson(PlayerDisabledItemsFile.toString());
+                        //RecipeDisabler.enableAllRecipes(source.getServer());
+                        //RecipeDisabler.queueRecipeRemovalFromJson(PlayerDisabledItemsFile.toString());
                         source.sendSuccess(() -> Component.literal("[Mod Disable] Reload of disabled recipes started for your player."), false);
                         return 0;
                     } catch (IOException e) {
@@ -133,8 +133,6 @@ public class InitialStateDataHandler {
                         PlayerDisabledItemsFile.delete();
                         try {
                             copyFile(DefaultDisabledItemsList, PlayerDisabledItemsFile);
-                            RecipeDisabler.enableAllRecipes(source.getServer());
-                            RecipeDisabler.queueRecipeRemovalFromJson(PlayerDisabledItemsFile.toString());
                             source.sendSuccess(() -> Component.literal("[Mod Disable] Reinit done."), false);
                         } catch (IOException e) {
                             source.sendFailure(Component.literal("[Mod Disable] An exception was thrown while copying the disabled list file. Exception is: " + e));

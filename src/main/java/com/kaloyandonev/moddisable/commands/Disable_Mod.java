@@ -194,14 +194,15 @@ public class Disable_Mod{
         switch (actionTarget) {
             case "enable namespace":
 
-                RecipeDisabler.removeItemsByNamespace(namespace, player);
-                RecipeDisabler.enableAllRecipes(source.getServer());
-                RecipeDisabler.queueRecipeRemovalFromJson(PlayerFile);
+                //RecipeDisabler.removeItemsByNamespace(namespace, player);
+                //RecipeDisabler.enableAllRecipes(source.getServer());
+                //RecipeDisabler.queueRecipeRemovalFromJson(PlayerFile);
                 source.sendSuccess(() -> Component.literal("[ModDisable] Mod namespace enabled!"), false);
                 break;
             case "disable namespace":
                 logger.info("[Mod Disable]Namespace argument: {}", namespace);
-                RecipeDisabler.disableRecipesByNamespace(namespace, context.getSource().getServer(), context.getSource().getPlayer());
+                //RecipeDisabler.disableRecipesByNamespace(namespace, context.getSource().getServer(), context.getSource().getPlayer());
+                RecipeDisabler.RecipeRemoval_NameSpace_FromJson(namespace, player.getStringUUID());
                 source.sendSuccess(() -> Component.literal("[ModDisable] Mod namespace disabled!"), false);
                 break;
             default:
