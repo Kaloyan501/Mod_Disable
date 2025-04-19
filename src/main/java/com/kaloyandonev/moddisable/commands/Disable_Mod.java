@@ -29,7 +29,10 @@ import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.item.ItemArgument;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
@@ -238,20 +241,26 @@ public class Disable_Mod{
 
         switch (action + " " + target) {
             case "enable item":
-
-                JsonHelper.enableItem(item, player);
                 source.sendSuccess(() -> Component.literal("[ModDisable] Mod item " + itemName + " enabled!"), false);
                 if (IsDebugEnabled) {
                     //source.sendSuccess(() -> Component.literal("[ModDisable] [DEBUG] RecipeDisabler is about to run!"), false);
                 }
-                RecipeDisabler.enableAllRecipes(source.getServer());
-                RecipeDisabler.queueRecipeRemovalFromJson(PlayerFile);
+                //RecipeDisabler.enableAllRecipes(source.getServer());
+                //RecipeDisabler.queueRecipeRemovalFromJson(PlayerFile);
+                Registry<Item> registry = BuiltInRegistries.ITEM;
+                ResourceLocation key = registry.getKey(item);
+                String idStr = key.toString();
+                RecipeDisabler.RecipeAdditionFromJson(idStr, player.getStringUUID());
                 break;
             case "disable item":
 
-                JsonHelper.disableItem(item, player);
+                //JsonHelper.disableItem(item, player);
                 source.sendSuccess(() -> Component.literal("[ModDisable] Mod item " + itemName + " disabled!"), false);
-                RecipeDisabler.queueRecipeRemovalFromJson(PlayerFile);
+                //RecipeDisabler.queueRecipeRemovalFromJson(PlayerFile);
+                Registry<Item> registry1 = BuiltInRegistries.ITEM;
+                ResourceLocation key1 = registry1.getKey(item);
+                String idStr1 = key1.toString();
+                RecipeDisabler.RecipeRemovalFromJson(idStr1, player.getStringUUID());
                 break;
             default:
                 source.sendFailure(Component.literal("[ModDisable] Invalid action!"));
@@ -268,26 +277,29 @@ public class Disable_Mod{
 
         try {
             player = source.getPlayerOrException();
+            if (IsDebugEnabled = true){
+                source.sendSuccess(() -> Component.literal("[ModDisable] [DEBUG] A debug command was just ran, the debug boolean should be set to false and the debug command registrations should be removed in the production version!"), false);
+                switch (actionTarget){
+                    case "debug debug_disable_recipe_stick":
+                        //RecipeDisabler.queueRecipeRemoval("minecraft:stick");
+                        RecipeDisabler.RecipeRemovalFromJson("minecraft:stick", player.getStringUUID());
+                        break;
+                    case "debug enable_recipe_stick":
+                        //RecipeDisabler.enableRecipe("minecraft:stick", source.getServer());
+                        RecipeDisabler.RecipeAdditionFromJson("minecraft:stick", player.getStringUUID());
+                        break;
+                    default:
+                        source.sendFailure(Component.literal("[ModDisable] [DEBUG] Look at line 165."));
+                        break;
+                }
+            } else {
+                return 1;
+            }
         } catch (CommandSyntaxException e) {
             source.sendFailure(Component.literal("[ModDisable] You must be a player to run this command!"));
         }
 
-        if (IsDebugEnabled = true){
-            source.sendSuccess(() -> Component.literal("[ModDisable] [DEBUG] A debug command was just ran, the debug boolean should be set to false and the debug command registrations should be removed in the production version!"), false);
-            switch (actionTarget){
-                case "debug debug_disable_recipe_stick":
-                   RecipeDisabler.queueRecipeRemoval("minecraft:stick");
-                   break;
-                case "debug enable_recipe_stick":
-                    RecipeDisabler.enableRecipe("minecraft:stick", source.getServer());
-                    break;
-                default:
-                    source.sendFailure(Component.literal("[ModDisable] [DEBUG] Look at line 165."));
-                    break;
-            }
-        } else {
-            return 1;
-        }
+
         return 1;
     }
 }

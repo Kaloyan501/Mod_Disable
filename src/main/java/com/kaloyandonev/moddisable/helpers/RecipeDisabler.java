@@ -57,7 +57,33 @@ public class RecipeDisabler {
     }
 
     public static void RecipeAdditionFromJson(String itemId, String playerUUID) {
-        
+        MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
+        Path serverDir = server.getWorldPath(LevelResource.ROOT);
+
+        Path jsonPath = serverDir.resolve(playerUUID + ".json");
+
+        try {
+            String json = Files.readString(jsonPath, StandardCharsets.UTF_8);
+            String[] disabledItems = new Gson().fromJson(json, String[].class);
+            List<String> list = new ArrayList<>(Arrays.asList(disabledItems));
+            list.add(itemId);
+
+            JsonObject root = new JsonObject();
+            JsonArray arr = new JsonArray();
+            for (String id : list) arr.add(id);
+            root.add("disabled_items", arr);
+
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+            try (BufferedWriter writer = Files.newBufferedWriter(jsonPath, StandardCharsets.UTF_8)) {
+                gson.toJson(root, writer);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        } catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
     public static void RecipeRemoval_NameSpace_FromJson(String namespace, String playerUUID) {

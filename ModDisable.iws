@@ -5,10 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="13fe1274-636e-4834-94a4-9b833a0b7af4" name="Changes" comment="Create RecipeDisabler.java to start rewriting the horrible mess it was before.">
+      <change beforePath="$PROJECT_DIR$/ModDisable.ipr" beforeDir="false" afterPath="$PROJECT_DIR$/ModDisable.ipr" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ModDisable.iws" beforeDir="false" afterPath="$PROJECT_DIR$/ModDisable.iws" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/commands/Disable_Mod.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/commands/Disable_Mod.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/RecipeDisabler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/RecipeDisabler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/config/InitialStateDataHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/config/InitialStateDataHandler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,12 +68,7 @@
         </task>
         <projects_view>
           <tree_state>
-            <expand>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="Mod_Disable_Remote" type="f1a62948:ProjectNode" />
-              </path>
-            </expand>
+            <expand />
             <select />
           </tree_state>
         </projects_view>
@@ -118,6 +113,7 @@
       <profile-state />
     </entry>
   </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectReloadState">
     <option name="STATE" value="0" />
   </component>
@@ -125,16 +121,16 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Gradle.Mod_Disable_Remote [build].executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SONARLINT_PRECOMMIT_ANALYSIS": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/koko_programing/Mod_Disable_Remote"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Gradle.Mod_Disable_Remote [build].executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SONARLINT_PRECOMMIT_ANALYSIS&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/koko_programing/Mod_Disable_Remote&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\koko_programing\Mod_Disable_Remote" />
@@ -163,9 +159,9 @@
     </configuration>
     <configuration name="Client" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="net.neoforged.devlaunch.Main" />
-      <module name="Mod_Disable_Remote.main" />
-      <option name="PROGRAM_PARAMETERS" value="@C:\\koko_programing\\Mod_Disable_Remote\\build\\moddev\\clientRunProgramArgs.txt" />
-      <option name="VM_PARAMETERS" value="@C:\\koko_programing\\Mod_Disable_Remote\\build\\moddev\\clientRunVmArgs.txt -Dfml.modFolders=moddisable%%C:\\koko_programing\\Mod_Disable_Remote\\build\\classes\\java\\main;moddisable%%C:\\koko_programing\\Mod_Disable_Remote\\build\\resources\\main" />
+      <module name="Mod_Disable.main" />
+      <option name="PROGRAM_PARAMETERS" value="@$PROJECT_DIR$/build/moddev/clientRunProgramArgs.txt" />
+      <option name="VM_PARAMETERS" value="@$PROJECT_DIR$/build/moddev/clientRunVmArgs.txt -Dfml.modFolders=moddisable%%$PROJECT_DIR$/build/classes/java/main:moddisable%%$PROJECT_DIR$/build/resources/main" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/run" />
       <method v="2">
         <option name="BuildArtifacts" enabled="false" />
@@ -174,9 +170,9 @@
     </configuration>
     <configuration name="Data" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="net.neoforged.devlaunch.Main" />
-      <module name="Mod_Disable_Remote.main" />
-      <option name="PROGRAM_PARAMETERS" value="@C:\\koko_programing\\Mod_Disable_Remote\\build\\moddev\\dataRunProgramArgs.txt" />
-      <option name="VM_PARAMETERS" value="@C:\\koko_programing\\Mod_Disable_Remote\\build\\moddev\\dataRunVmArgs.txt -Dfml.modFolders=moddisable%%C:\\koko_programing\\Mod_Disable_Remote\\build\\classes\\java\\main;moddisable%%C:\\koko_programing\\Mod_Disable_Remote\\build\\resources\\main" />
+      <module name="Mod_Disable.main" />
+      <option name="PROGRAM_PARAMETERS" value="@$PROJECT_DIR$/build/moddev/dataRunProgramArgs.txt" />
+      <option name="VM_PARAMETERS" value="@$PROJECT_DIR$/build/moddev/dataRunVmArgs.txt -Dfml.modFolders=moddisable%%$PROJECT_DIR$/build/classes/java/main:moddisable%%$PROJECT_DIR$/build/resources/main" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/run" />
       <method v="2">
         <option name="BuildArtifacts" enabled="false" />
@@ -185,9 +181,9 @@
     </configuration>
     <configuration name="GameTestServer" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="net.neoforged.devlaunch.Main" />
-      <module name="Mod_Disable_Remote.main" />
-      <option name="PROGRAM_PARAMETERS" value="@C:\\koko_programing\\Mod_Disable_Remote\\build\\moddev\\gameTestServerRunProgramArgs.txt" />
-      <option name="VM_PARAMETERS" value="@C:\\koko_programing\\Mod_Disable_Remote\\build\\moddev\\gameTestServerRunVmArgs.txt -Dfml.modFolders=moddisable%%C:\\koko_programing\\Mod_Disable_Remote\\build\\classes\\java\\main;moddisable%%C:\\koko_programing\\Mod_Disable_Remote\\build\\resources\\main" />
+      <module name="Mod_Disable.main" />
+      <option name="PROGRAM_PARAMETERS" value="@$PROJECT_DIR$/build/moddev/gameTestServerRunProgramArgs.txt" />
+      <option name="VM_PARAMETERS" value="@$PROJECT_DIR$/build/moddev/gameTestServerRunVmArgs.txt -Dfml.modFolders=moddisable%%$PROJECT_DIR$/build/classes/java/main:moddisable%%$PROJECT_DIR$/build/resources/main" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/run" />
       <method v="2">
         <option name="BuildArtifacts" enabled="false" />
@@ -196,9 +192,9 @@
     </configuration>
     <configuration name="Server" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="net.neoforged.devlaunch.Main" />
-      <module name="Mod_Disable_Remote.main" />
-      <option name="PROGRAM_PARAMETERS" value="@C:\\koko_programing\\Mod_Disable_Remote\\build\\moddev\\serverRunProgramArgs.txt" />
-      <option name="VM_PARAMETERS" value="@C:\\koko_programing\\Mod_Disable_Remote\\build\\moddev\\serverRunVmArgs.txt -Dfml.modFolders=moddisable%%C:\\koko_programing\\Mod_Disable_Remote\\build\\classes\\java\\main;moddisable%%C:\\koko_programing\\Mod_Disable_Remote\\build\\resources\\main" />
+      <module name="Mod_Disable.main" />
+      <option name="PROGRAM_PARAMETERS" value="@$PROJECT_DIR$/build/moddev/serverRunProgramArgs.txt" />
+      <option name="VM_PARAMETERS" value="@$PROJECT_DIR$/build/moddev/serverRunVmArgs.txt -Dfml.modFolders=moddisable%%$PROJECT_DIR$/build/classes/java/main:moddisable%%$PROJECT_DIR$/build/resources/main" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/run" />
       <method v="2">
         <option name="BuildArtifacts" enabled="false" />
