@@ -5,10 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="13fe1274-636e-4834-94a4-9b833a0b7af4" name="Changes" comment="First commit for 1.21.1 that actually compiles YAY.&#10;Note: Totally broken and has unused code, do not use any 1.21.1 related commits before a stable one. They do now work.">
-      <change beforePath="$PROJECT_DIR$/ModDisable.ipr" beforeDir="false" afterPath="$PROJECT_DIR$/ModDisable.ipr" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/templates/META-INF/neoforge.mods.toml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ModDisable.iws" beforeDir="false" afterPath="$PROJECT_DIR$/ModDisable.iws" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/commands/Disable_Mod.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/commands/Disable_Mod.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/RecipeDisabler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/RecipeDisabler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Mod_Disable.main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Mod_Disable.main.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/DisableModMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/DisableModMain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/migrators/pre_1_1_0_migrator/ClientTickHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/migrators/pre_1_1_0_migrator/ClientTickHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/mods.toml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/log4j2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/log4j2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/pack.mcmeta" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/pack.mcmeta" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,7 +99,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/Kaloyan501/Mod_Disable.git&quot;,
-    &quot;accountId&quot;: &quot;812f1dde-bc08-4bf8-97fd-4213972d6d41&quot;
+    &quot;accountId&quot;: &quot;5a6caf09-40da-4d75-804c-7ad00277d0d6&quot;
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
@@ -123,13 +128,18 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;Gradle.Mod_Disable [runClient].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.Mod_Disable_Remote [build].executor&quot;: &quot;Run&quot;,
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;SONARLINT_PRECOMMIT_ANALYSIS&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/koko_programing/Mod_Disable_Remote&quot;
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/koko_programing/Mod_Disable_Remote&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;
   }
 }</component>
   <component name="RecentsManager">
@@ -137,7 +147,7 @@
       <recent name="C:\koko_programing\Mod_Disable_Remote" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.Mod_Disable_Remote [build]">
+  <component name="RunManager" selected="Gradle.Mod_Disable [runClient]">
     <configuration default="true" type="Applet" factoryName="Applet">
       <module name="" />
       <option name="MAIN_CLASS_NAME" />
@@ -300,9 +310,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.Mod_Disable [runClient]" />
         <item itemvalue="Gradle.Mod_Disable_Remote [build]" />
         <item itemvalue="Gradle.Mod_Disable [runServer]" />
-        <item itemvalue="Gradle.Mod_Disable [runClient]" />
       </list>
     </recent_temporary>
   </component>
@@ -433,7 +443,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745069244651</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="First commit for 1.21.1 that actually compiles YAY.&#10;Note: Totally broken and has unused code, do not use any 1.21.1 related commits before a stable one. They do now work.">
+      <option name="closed" value="true" />
+      <created>1745069530983</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1745069530983</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

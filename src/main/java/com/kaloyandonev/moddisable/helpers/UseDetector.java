@@ -55,9 +55,9 @@ import net.neoforged.api.distmarker.Dist;
 import org.checkerframework.checker.signature.qual.Identifier;
 
 
+
 import java.util.concurrent.CompletableFuture;
 
-@EventBusSubscriber(modid = DisableModMain.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class UseDetector {
     private static final Logger logger = LogManager.getLogger();
 
@@ -129,7 +129,7 @@ public class UseDetector {
 
 
 
-    private void handleUse(Player player, ItemStack itemStack, BlockPos pos, Runnable cancelAction) {
+    private static void handleUse(Player player, ItemStack itemStack, BlockPos pos, Runnable cancelAction) {
         if (player == null || itemStack.isEmpty() || pos == null) return;
 
         // Check if the item is disabled locally
@@ -151,7 +151,7 @@ public class UseDetector {
         }
     }
 
-    private void handleItemUse(Player player, ItemStack itemStack) {
+    private static void handleItemUse(Player player, ItemStack itemStack) {
         if (player == null || itemStack.isEmpty()) return;
 
         // Notify the player if the item is disabled
@@ -162,7 +162,7 @@ public class UseDetector {
         }
     }
 
-    private void syncInventory(Player player) {
+    private static void syncInventory(Player player) {
         if (player instanceof ServerPlayer) {
             ServerPlayer serverPlayer = (ServerPlayer) player;
             serverPlayer.inventoryMenu.sendAllDataToRemote(); // Sync the inventory

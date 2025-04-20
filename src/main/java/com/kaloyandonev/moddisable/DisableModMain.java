@@ -75,12 +75,11 @@ public class DisableModMain
     public DisableModMain(IEventBus modEventBus, ModContainer modContainer)
     {
         // Register ourselves for server and other game events we are interested in
-        NeoForge.EVENT_BUS.register(this);
+        //NeoForge.EVENT_BUS.register(this);
 
         // Register our mod's ForgeConfigSpec so that Forge can create and load the config file for us
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
         NeoForge.EVENT_BUS.register(new UseDetector());
-
     }
 
     @EventBusSubscriber(modid = MODID, bus = EventBusSubscriber.Bus.MOD)

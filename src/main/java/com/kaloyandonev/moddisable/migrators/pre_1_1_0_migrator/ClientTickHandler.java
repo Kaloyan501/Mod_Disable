@@ -32,7 +32,7 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 
-@EventBusSubscriber(modid = DisableModMain.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(modid = DisableModMain.MODID, bus = EventBusSubscriber.Bus.GAME, value = Dist.CLIENT)
 public class ClientTickHandler {
 
     public static boolean hasRun = false;
@@ -42,7 +42,7 @@ public class ClientTickHandler {
 
 
     @SubscribeEvent
-    public static void onClientTick(ClientTickEvent event) {
+    public static void onClientTick(ClientTickEvent.Pre event) {
         if (hasRendered == false && Migration_110_Json_Check.checkForDisableModFolder()) {
 
             Minecraft minecraft = Minecraft.getInstance();
