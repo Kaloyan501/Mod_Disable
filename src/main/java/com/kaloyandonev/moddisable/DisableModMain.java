@@ -82,7 +82,7 @@ public class DisableModMain
         NeoForge.EVENT_BUS.register(new UseDetector());
     }
 
-    @EventBusSubscriber(modid = MODID, bus = EventBusSubscriber.Bus.MOD)
+    @EventBusSubscriber(modid = MODID, bus = EventBusSubscriber.Bus.GAME)
     //@OnlyIn(Dist.DEDICATED_SERVER)
     public static class ServerModEvents {
 
