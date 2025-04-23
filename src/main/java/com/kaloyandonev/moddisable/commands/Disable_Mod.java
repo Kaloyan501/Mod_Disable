@@ -18,6 +18,7 @@
 package com.kaloyandonev.moddisable.commands;
 
 import com.kaloyandonev.moddisable.DisableModMain;
+import com.kaloyandonev.moddisable.helpers.PathHelper;
 import com.kaloyandonev.moddisable.helpers.isSinglePlayer;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.*;
 import com.mojang.brigadier.CommandDispatcher;
@@ -52,6 +53,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
 
 import static com.kaloyandonev.moddisable.helpers.config.InitialStateDataHandler.executeConfigRequest;
 import static com.kaloyandonev.moddisable.helpers.config.InitialStateDataHandler.executeReinitRequest;
@@ -260,7 +263,16 @@ public class Disable_Mod{
                 Registry<Item> registry1 = BuiltInRegistries.ITEM;
                 ResourceLocation key1 = registry1.getKey(item);
                 String idStr1 = key1.toString();
-                RecipeDisabler.RecipeRemovalFromJson(idStr1, player.getStringUUID());
+
+                try{
+                    Path serverDir = PathHelper.getFullWorldPath();
+                    Path jsonPath = PathHelper.getPlayerJsonFile(idStr1);
+                    RecipeDisabler.RecipeRemovalFromJson(idStr1, player.getStringUUID(), jsonPath);
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
+
+
                 break;
             default:
                 source.sendFailure(Component.literal("[ModDisable] Invalid action!"));
@@ -282,7 +294,14 @@ public class Disable_Mod{
                 switch (actionTarget){
                     case "debug debug_disable_recipe_stick":
                         //RecipeDisabler.queueRecipeRemoval("minecraft:stick");
-                        RecipeDisabler.RecipeRemovalFromJson("minecraft:stick", player.getStringUUID());
+                        try {
+                            Path serverDir = PathHelper.getFullWorldPath();
+                            Path jsonPath = PathHelper.getPlayerJsonFile(player.getStringUUID());
+                            RecipeDisabler.RecipeRemovalFromJson("minecraft:stick", player.getStringUUID(), jsonPath);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
                         break;
                     case "debug enable_recipe_stick":
                         //RecipeDisabler.enableRecipe("minecraft:stick", source.getServer());

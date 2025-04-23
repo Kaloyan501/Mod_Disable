@@ -1,39 +1,28 @@
 package com.kaloyandonev.moddisable.disablelogic.playerjoinsyncpacket;
 
-import ca.weblite.objc.Client;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.kaloyandonev.moddisable.DisableModMain;
+import com.kaloyandonev.moddisable.helpers.PathHelper;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.commands.arguments.item.ItemArgument;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.level.storage.LevelResource;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
-import net.neoforged.neoforge.event.level.NoteBlockEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
-import net.neoforged.neoforge.network.handlers.ClientPayloadHandler;
-import net.neoforged.neoforge.network.handlers.ServerPayloadHandler;
 import net.neoforged.neoforge.network.handling.DirectionalPayloadHandler;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.neoforged.neoforge.network.registration.HandlerThread;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
 
-import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Optional;
 import java.util.UUID;
 
 import static com.kaloyandonev.moddisable.DisableModMain.MODID;
@@ -107,14 +96,17 @@ public class PlayerJoinSyncPacket {
             UUID id = UUID.fromString(req.uuid());
 
             MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
-            Path serverDir = server.getWorldPath(LevelResource.ROOT);
 
-            Path jsonPath = serverDir.resolve(id.toString() + ".json");
 
             boolean isDisabled = false;
 
 
             try {
+                Path serverDir = PathHelper.getFullWorldPath();
+
+                Path jsonPath = PathHelper.getPlayerJsonFile(req.uuid);
+
+
                 String content = Files.readString(jsonPath, StandardCharsets.UTF_8);
 
                 JsonObject obj = JsonParser
