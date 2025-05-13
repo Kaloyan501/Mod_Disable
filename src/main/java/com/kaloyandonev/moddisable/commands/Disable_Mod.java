@@ -17,7 +17,7 @@
 
 package com.kaloyandonev.moddisable.commands;
 
-import com.kaloyandonev.moddisable.DisableModMain;
+import com.google.gson.JsonSyntaxException;
 import com.kaloyandonev.moddisable.helpers.PathHelper;
 import com.kaloyandonev.moddisable.helpers.isSinglePlayer;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.*;
@@ -228,12 +228,22 @@ public class Disable_Mod{
         Player player;
 
 
+
+        Path jsonPath = null;
+
         try {
             player = source.getPlayerOrException();
+            try {
+                Path serverDir = PathHelper.getFullWorldPath(); // if unused, remove this
+                jsonPath = PathHelper.getPlayerJsonFile(player.getStringUUID());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         } catch (CommandSyntaxException e) {
             source.sendFailure(Component.literal("You must be a player to use this command!"));
             return 0;
         }
+
 
         String PlayerFile = new File(getDataDir(), player.getUUID().toString() + ".json").toString();
 
@@ -253,7 +263,7 @@ public class Disable_Mod{
                 Registry<Item> registry = BuiltInRegistries.ITEM;
                 ResourceLocation key = registry.getKey(item);
                 String idStr = key.toString();
-                RecipeDisabler.RecipeAdditionFromJson(idStr, player.getStringUUID());
+                RecipeDisabler.RecipeRemovalFromJson(idStr, player.getStringUUID());
                 break;
             case "disable item":
 
@@ -265,10 +275,8 @@ public class Disable_Mod{
                 String idStr1 = key1.toString();
 
                 try{
-                    Path serverDir = PathHelper.getFullWorldPath();
-                    Path jsonPath = PathHelper.getPlayerJsonFile(idStr1);
-                    RecipeDisabler.RecipeRemovalFromJson(idStr1, player.getStringUUID(), jsonPath);
-                }catch (IOException e){
+                    RecipeDisabler.RecipeAdditionFromJson(idStr1, player.getStringUUID());
+                }catch (JsonSyntaxException | IllegalStateException e){
                     e.printStackTrace();
                 }
 
@@ -287,24 +295,28 @@ public class Disable_Mod{
         String actionTarget = action + " " + target;
         Player player;
 
+        Path jsonPath = null;
+
         try {
             player = source.getPlayerOrException();
+            try {
+                Path serverDir = PathHelper.getFullWorldPath();
+                jsonPath = PathHelper.getPlayerJsonFile(player.getStringUUID());
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+
             if (IsDebugEnabled = true){
                 source.sendSuccess(() -> Component.literal("[ModDisable] [DEBUG] A debug command was just ran, the debug boolean should be set to false and the debug command registrations should be removed in the production version!"), false);
                 switch (actionTarget){
                     case "debug debug_disable_recipe_stick":
                         //RecipeDisabler.queueRecipeRemoval("minecraft:stick");
-                        try {
-                            Path serverDir = PathHelper.getFullWorldPath();
-                            Path jsonPath = PathHelper.getPlayerJsonFile(player.getStringUUID());
-                            RecipeDisabler.RecipeRemovalFromJson("minecraft:stick", player.getStringUUID(), jsonPath);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                        RecipeDisabler.RecipeRemovalFromJson("minecraft:stick", player.getStringUUID());
 
                         break;
                     case "debug enable_recipe_stick":
                         //RecipeDisabler.enableRecipe("minecraft:stick", source.getServer());
+
                         RecipeDisabler.RecipeAdditionFromJson("minecraft:stick", player.getStringUUID());
                         break;
                     default:

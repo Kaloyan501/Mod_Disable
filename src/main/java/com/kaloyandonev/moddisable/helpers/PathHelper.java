@@ -1,15 +1,19 @@
 package com.kaloyandonev.moddisable.helpers;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.storage.LevelResource;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.UUID;
 import java.io.Writer;
 
@@ -44,22 +48,36 @@ public class PathHelper {
 
 
     public static Path getPlayerJsonFile(String playerUUID) throws IOException {
-        Path serverDir = PathHelper.getFullWorldPath();
-        Path jsonPath = serverDir.resolve("Mod_Disable_Data").resolve(playerUUID + ".json");
+        // Base directory for all player data
+        Path serverDir = PathHelper.getFullWorldPath()
+                .resolve("Mod_Disable_Data");
+        // Ensure the directory exists (creates parents if needed)
+        Files.createDirectories(serverDir);
 
-        if (!Files.exists(jsonPath)) {
-            Files.createDirectories(jsonPath.getParent());
+        // The target JSON file
+        Path jsonPath = serverDir.resolve(playerUUID + ".json");
 
-            JsonObject jsonObject = new JsonObject();
-            jsonObject.add("disabled_items", new JsonArray());
-            System.out.println("Creating non-existent json file.");
+        // If the file is missing, create it with an empty disabled_items array
+        if (Files.notExists(jsonPath)) {
+            JsonObject root = new JsonObject();
+            root.add("disabled_items", new JsonArray());
 
-            Gson gson = new Gson();
-            try (Writer writer = Files.newBufferedWriter(jsonPath)) {
-                gson.toJson(jsonObject, writer);
+            // Use pretty printing
+            Gson gson = new GsonBuilder()
+                    .setPrettyPrinting()
+                    .create();
+
+            // Create the file (fail if it somehow got created in the meantime)
+            try (BufferedWriter writer = Files.newBufferedWriter(
+                    jsonPath,
+                    StandardCharsets.UTF_8,
+                    StandardOpenOption.CREATE_NEW
+            )) {
+                gson.toJson(root, writer);
+                System.out.println("Created new JSON file at " + jsonPath);
             }
         } else {
-            System.out.println("Json file exists.");
+            System.out.println("JSON file already exists at " + jsonPath);
         }
 
         return jsonPath;
