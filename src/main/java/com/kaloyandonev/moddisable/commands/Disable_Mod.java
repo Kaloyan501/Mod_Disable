@@ -17,8 +17,6 @@
 
 package com.kaloyandonev.moddisable.commands;
 
-import com.google.gson.JsonSyntaxException;
-import com.kaloyandonev.moddisable.helpers.PathHelper;
 import com.kaloyandonev.moddisable.helpers.isSinglePlayer;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.*;
 import com.mojang.brigadier.CommandDispatcher;
@@ -35,38 +33,26 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.crafting.Recipe;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.common.NeoForge;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
-import com.kaloyandonev.moddisable.helpers.JsonHelper;
 import com.kaloyandonev.moddisable.helpers.RecipeDisabler;
-import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.neoforged.fml.loading.FMLEnvironment;
-import net.neoforged.fml.common.EventBusSubscriber;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
 
 import static com.kaloyandonev.moddisable.helpers.config.InitialStateDataHandler.executeConfigRequest;
 import static com.kaloyandonev.moddisable.helpers.config.InitialStateDataHandler.executeReinitRequest;
 
 
 public class Disable_Mod{
-
-    public static boolean IsDebugEnabled = false;
-    public static File DATA_DIR = null;
-
-
 
     private static final Logger logger = LogManager.getLogger(Disable_Mod.class);
     private final isSinglePlayer isSinglePlayer = new isSinglePlayer();
@@ -81,10 +67,6 @@ public class Disable_Mod{
 
     public void onLoadComplete(FMLLoadCompleteEvent event){
         isSinglePlayer.checkisSinglePlayer(event);
-    }
-
-    public static void ResetDataDir(){
-        DATA_DIR = null;
     }
 
     //@OnlyIn(Dist.CLIENT)
@@ -116,12 +98,12 @@ public class Disable_Mod{
                                 .requires(source -> source.hasPermission(2))
                                 .then(Commands.literal("namespace")
                                         .then(Commands.argument("namespace", StringArgumentType.string())
-                                                .executes(context -> execute(context, "enable", "namespace", StringArgumentType.getString(context, "namespace")))
+                                                .executes(context -> execute(context, "enable", StringArgumentType.getString(context, "namespace")))
                                         )
                                 )
                                 .then(Commands.literal("item")
                                         .then(Commands.argument("item", ItemArgument.item(buildContext))
-                                                .executes(context -> executeWithItem(context, "enable", "item", ItemArgument.getItem(context, "item").getItem()))
+                                                .executes(context -> executeWithItem(context, "enable", ItemArgument.getItem(context, "item").getItem()))
                                         )
                                 )
                         )
@@ -130,12 +112,12 @@ public class Disable_Mod{
                                 .requires(source -> source.hasPermission(2))
                                 .then(Commands.literal("namespace")
                                         .then(Commands.argument("namespace", StringArgumentType.string())
-                                                .executes(context -> execute(context, "disable", "namespace", StringArgumentType.getString(context, "namespace")))
+                                                .executes(context -> execute(context, "disable", StringArgumentType.getString(context, "namespace")))
                                         )
                                 )
                                 .then(Commands.literal("item")
                                         .then(Commands.argument("item", ItemArgument.item(buildContext))
-                                                .executes(context -> executeWithItem(context, "disable", "item", ItemArgument.getItem(context, "item").getItem()))
+                                                .executes(context -> executeWithItem(context, "disable", ItemArgument.getItem(context, "item").getItem()))
                                         )
                                 )
                         )
@@ -163,25 +145,10 @@ public class Disable_Mod{
         );
     }
 
-
-
-    // Method to get the data directory with lazy initialization
-    private static File getDataDir() {
-        DATA_DIR = StaticPathStorage.getSubWorldFolderFile();
-
-        // Ensure the directory exists
-        if (!DATA_DIR.exists()) {
-            DATA_DIR.mkdirs(); // Create the directory if it does not exist
-        }
-        return DATA_DIR;
-    }
-
-    //Method to handle per-modpack config
-
     //Method to handle namespaces
-    private static int execute(CommandContext<CommandSourceStack> context, String action, String target, String namespace){
+    private static int execute(CommandContext<CommandSourceStack> context, String action,  String namespace){
         CommandSourceStack source = context.getSource();
-        String actionTarget = action + " " + target;
+        String actionTarget = action + " " + "namespace";
 
         Player player;
 
@@ -192,16 +159,12 @@ public class Disable_Mod{
             return 0;
         }
 
-        if (IsDebugEnabled = true) {
-            //source.sendSuccess(() -> Component.literal("[ModDisable] [DEBUG] PlayerFile var is: " + PlayerFile), true);
-        }
-
         switch (actionTarget) {
             case "enable namespace":
                 try {
                     RecipeDisabler.EnableNamespace(player.getStringUUID(), namespace);
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    logger.error("Enabling namespace failed.", e);
                 }
                 source.sendSuccess(() -> Component.literal("[ModDisable] Mod namespace enabled!"), false);
                 break;
@@ -210,7 +173,7 @@ public class Disable_Mod{
                 try {
                     RecipeDisabler.DisableNamespace(player.getStringUUID(), namespace);
                 } catch (IOException e){
-                    e.printStackTrace();
+                    logger.error("Disabling namespace failed.", e);
                 }
 
                 source.sendSuccess(() -> Component.literal("[ModDisable] Mod namespace disabled!"), false);
@@ -222,43 +185,23 @@ public class Disable_Mod{
         return 1;
     }
     //Method to handle items
-    private static int executeWithItem(CommandContext<CommandSourceStack> context, String action, String target, Item item){
+    private static int executeWithItem(CommandContext<CommandSourceStack> context, String action, Item item){
         CommandSourceStack source = context.getSource();
         ItemStack itemStack = new ItemStack(item);
-        Item Item = ItemArgument.getItem(context, "item").getItem();
         String itemName = itemStack.getDisplayName().getString();
-        String actionTarget = action + " " + target + " " + itemName;
-        //source.sendSuccess(() -> Component.literal("[ModDisable] [Debug] actionTarget is " + actionTarget), false);
         Player player;
-
-
-
-        Path jsonPath = null;
 
         try {
             player = source.getPlayerOrException();
-            try {
-                Path serverDir = PathHelper.getFullWorldPath(); // if unused, remove this
-                jsonPath = PathHelper.getPlayerJsonFile(player.getStringUUID());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         } catch (CommandSyntaxException e) {
             source.sendFailure(Component.literal("You must be a player to use this command!"));
             return 0;
         }
 
-        if (IsDebugEnabled = true) {
-            //source.sendSuccess(() -> Component.literal("[ModDisable] [DEBUG] PlayerFile var is: " + PlayerFile), true);
-        }
 
-
-        switch (action + " " + target) {
+        switch (action + " " + "item") {
             case "enable item":
                 source.sendSuccess(() -> Component.literal("[ModDisable] Mod item " + itemName + " enabled!"), false);
-                if (IsDebugEnabled) {
-                    //source.sendSuccess(() -> Component.literal("[ModDisable] [DEBUG] RecipeDisabler is about to run!"), false);
-                }
                 Registry<Item> registry = BuiltInRegistries.ITEM;
                 ResourceLocation key = registry.getKey(item);
                 String idStr = key.toString();
@@ -266,15 +209,13 @@ public class Disable_Mod{
                 try{
                     RecipeDisabler.EnableItem(player.getStringUUID(), idStr);
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    logger.error("Enabling item failed with exception.", e);
                 }
 
                 break;
             case "disable item":
 
-                //JsonHelper.disableItem(item, player);
                 source.sendSuccess(() -> Component.literal("[ModDisable] Mod item " + itemName + " disabled!"), false);
-                //RecipeDisabler.queueRecipeRemovalFromJson(PlayerFile);
                 Registry<Item> registry1 = BuiltInRegistries.ITEM;
                 ResourceLocation key1 = registry1.getKey(item);
                 String idStr1 = key1.toString();
@@ -282,7 +223,7 @@ public class Disable_Mod{
                 try {
                     RecipeDisabler.DisableItem(player.getStringUUID(), idStr1);
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    logger.error("Disabling item failed with exception", e);
                 }
 
 
@@ -291,55 +232,6 @@ public class Disable_Mod{
                 source.sendFailure(Component.literal("[ModDisable] Invalid action!"));
                 return 0;
         }
-        return 1;
-    }
-
-    //Remove this in production version
-    private static int executeDebug(CommandContext<CommandSourceStack> context, String action, String target) {
-        CommandSourceStack source = context.getSource();
-        String actionTarget = action + " " + target;
-        Player player;
-
-        Path jsonPath = null;
-
-        try {
-            player = source.getPlayerOrException();
-            try {
-                Path serverDir = PathHelper.getFullWorldPath();
-                jsonPath = PathHelper.getPlayerJsonFile(player.getStringUUID());
-            } catch (IOException e){
-                e.printStackTrace();
-            }
-
-            if (IsDebugEnabled = true){
-                source.sendSuccess(() -> Component.literal("[ModDisable] [DEBUG] A debug command was just ran, the debug boolean should be set to false and the debug command registrations should be removed in the production version!"), false);
-                switch (actionTarget){
-                    case "debug debug_disable_recipe_stick":
-                        try {
-                            RecipeDisabler.DisableItem("minecraft:stick", player.getStringUUID());
-                        } catch (IOException e){
-                            e.printStackTrace();
-                        }
-                        break;
-                    case "debug enable_recipe_stick":
-                        try {
-                            RecipeDisabler.EnableItem("minecraft:stick", player.getStringUUID());
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        break;
-                    default:
-                        source.sendFailure(Component.literal("[ModDisable] [DEBUG] Look at line 165."));
-                        break;
-                }
-            } else {
-                return 1;
-            }
-        } catch (CommandSyntaxException e) {
-            source.sendFailure(Component.literal("[ModDisable] You must be a player to run this command!"));
-        }
-
-
         return 1;
     }
 }
