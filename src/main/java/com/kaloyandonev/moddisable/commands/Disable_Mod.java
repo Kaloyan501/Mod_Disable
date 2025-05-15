@@ -1,6 +1,6 @@
 //ModDisable
 //A Minecraft Mod to disable other Mods
-//Copyright (C) 2024 Kaloyan Ivanov Donev
+//Copyright (C) 2024-2025 Kaloyan Ivanov Donev
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -74,13 +74,11 @@ public class Disable_Mod{
         if (FMLEnvironment.dist == Dist.CLIENT) {
             logger.warn("ClientCode is about to run!");
             Minecraft.getInstance().execute(() -> {
-                // Create your screenCrator instance
+                // Create your screen Creator instance
                 ScreenCrator screenCrator = new ScreenCrator(
                         Component.literal("Migration Title"), // Title of the screen
                         Component.literal("Description of the screen"), // Description
-                        confirmed -> {
-                            return false;
-                        }
+                        confirmed -> false
                 );
 
                 // Open the new screen

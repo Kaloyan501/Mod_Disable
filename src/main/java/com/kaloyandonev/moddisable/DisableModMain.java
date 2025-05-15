@@ -1,6 +1,6 @@
 //ModDisable
 //A Minecraft Mod to disable other Mods
-//Copyright (C) 2024 Kaloyan Ivanov Donev
+//Copyright (C) 2024-2025 Kaloyan Ivanov Donev
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -16,34 +16,18 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 package com.kaloyandonev.moddisable;
 
-import com.google.gson.*;
-import com.kaloyandonev.moddisable.disablelogic.playerjoinsyncpacket.PlayerJoinSyncPacket;
 import com.kaloyandonev.moddisable.helpers.ServerCheckHelper;
 import com.kaloyandonev.moddisable.helpers.UseDetector;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.ClientWorldFolderFinder;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.MigrateTask;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.StaticPathStorage;
-import com.mojang.logging.LogUtils;
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.storage.LevelResource;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.neoforge.attachment.AttachmentType;
-import net.neoforged.neoforge.event.entity.player.PlayerEvent;
-import net.neoforged.neoforge.event.server.ServerLifecycleEvent;
-import net.neoforged.neoforge.network.PacketDistributor;
-import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
-import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,33 +40,14 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 
 import com.kaloyandonev.moddisable.helpers.processAllDisabledItemsFromJson;
 import net.neoforged.neoforge.event.server.ServerStartedEvent;
 
-import java.io.IOException;
 import java.nio.file.Path;
-import java.io.File;
-import java.io.FileReader;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
-import java.util.function.Supplier;
-import net.minecraft.core.Registry;       // For registry lookups
-import net.minecraft.resources.ResourceLocation; // For IDs
-import net.minecraft.world.item.Item;    // For the Item class
-import com.mojang.serialization.Codec;  // Codec interface
-
-
-
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 import static net.neoforged.neoforge.internal.versions.neoforge.NeoForgeVersion.MOD_ID;
-import static net.neoforged.neoforge.registries.NeoForgeRegistries.ATTACHMENT_TYPES;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(DisableModMain.MODID)

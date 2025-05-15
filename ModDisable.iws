@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="13fe1274-636e-4834-94a4-9b833a0b7af4" name="Changes" comment="Fixed the weird /saves/saves bug, but it seems that block place does not work when disabling items instad of namespaces.">
-      <change beforePath="$PROJECT_DIR$/ModDisable.ipr" beforeDir="false" afterPath="$PROJECT_DIR$/ModDisable.ipr" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ModDisable.iws" beforeDir="false" afterPath="$PROJECT_DIR$/ModDisable.iws" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/commands/Disable_Mod.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/commands/Disable_Mod.java" afterDir="false" />
-    </list>
+    <list default="true" id="13fe1274-636e-4834-94a4-9b833a0b7af4" name="Changes" comment="Recommit this the previous commit because IntelliJ UI is stupid." />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -487,7 +483,23 @@
       <option name="project" value="LOCAL" />
       <updated>1747330484265</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="Update copyright notice and clean up some things.">
+      <option name="closed" value="true" />
+      <created>1747330763572</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1747330763572</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Recommit this the previous commit because IntelliJ UI is stupid.">
+      <option name="closed" value="true" />
+      <created>1747331294752</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1747331294752</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -518,7 +530,9 @@
     <MESSAGE value="Generic push, so the code is backed up." />
     <MESSAGE value="First build that actually works, but there is a weird issue where item disabled and enables create save/save." />
     <MESSAGE value="Fixed the weird /saves/saves bug, but it seems that block place does not work when disabling items instad of namespaces." />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed the weird /saves/saves bug, but it seems that block place does not work when disabling items instad of namespaces." />
+    <MESSAGE value="Update copyright notice and clean up some things." />
+    <MESSAGE value="Recommit this the previous commit because IntelliJ UI is stupid." />
+    <option name="LAST_COMMIT_MESSAGE" value="Recommit this the previous commit because IntelliJ UI is stupid." />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -526,7 +540,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
-          <line>131</line>
+          <line>119</line>
           <properties class="com.kaloyandonev.moddisable.helpers.UseDetector" method="handleUse">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />

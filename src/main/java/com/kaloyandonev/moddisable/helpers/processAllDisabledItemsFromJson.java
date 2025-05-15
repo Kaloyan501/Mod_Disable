@@ -1,7 +1,7 @@
 
 //ModDisable
 //A Minecraft Mod to disable other Mods
-//Copyright (C) 2024 Kaloyan Ivanov Donev
+//Copyright (C) 2024-2025 Kaloyan Ivanov Donev
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -17,7 +17,6 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 package com.kaloyandonev.moddisable.helpers;
 
-import com.kaloyandonev.moddisable.commands.Disable_Mod;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.StaticPathStorage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

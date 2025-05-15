@@ -1,6 +1,6 @@
 //ModDisable
 //A Minecraft Mod to disable other Mods
-//Copyright (C) 2024 Kaloyan Ivanov Donev
+//Copyright (C) 2024-2025 Kaloyan Ivanov Donev
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -17,7 +17,6 @@
 
 package com.kaloyandonev.moddisable.helpers;
 
-import com.kaloyandonev.moddisable.DisableModMain;
 import com.kaloyandonev.moddisable.disablelogic.playerjoinsyncpacket.PlayerJoinSyncPacket;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.Registry;
@@ -28,7 +27,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.core.BlockPos;
@@ -43,20 +41,10 @@ import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.bus.api.EventPriority;
-import net.neoforged.bus.api.Event;
 
-import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.network.PacketDistributor;
-import net.neoforged.neoforge.registries.DeferredRegister;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import net.neoforged.fml.common.Mod;
-import net.neoforged.api.distmarker.Dist;
-import org.checkerframework.checker.signature.qual.Identifier;
-
-
-
-import java.util.concurrent.CompletableFuture;
 
 public class UseDetector {
     private static final Logger logger = LogManager.getLogger();
