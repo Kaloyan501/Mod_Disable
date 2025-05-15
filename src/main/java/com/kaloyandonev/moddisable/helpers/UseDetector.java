@@ -109,7 +109,7 @@ public class UseDetector {
         // Convert the block to its corresponding item.
         Item blockItem = block.asItem();
         // Check if blockItem is not air (some blocks may not have a proper item representation)
-        if (!blockItem.equals(Items.AIR) && JsonHelper.isItemDisabled(blockItem, player)) {
+        if (!blockItem.equals(Items.AIR) || JsonHelper.isItemDisabled(blockItem, player)) {
             event.setCanceled(true);
             player.displayClientMessage(Component.literal("This block is disabled!"), true);
         }
