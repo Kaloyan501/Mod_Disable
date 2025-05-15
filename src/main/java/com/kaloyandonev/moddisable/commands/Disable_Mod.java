@@ -35,6 +35,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.crafting.Recipe;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.common.NeoForge;
@@ -191,24 +192,27 @@ public class Disable_Mod{
             return 0;
         }
 
-        String PlayerFile = new File(getDataDir(), player.getUUID().toString() + ".json").toString();
-
         if (IsDebugEnabled = true) {
             //source.sendSuccess(() -> Component.literal("[ModDisable] [DEBUG] PlayerFile var is: " + PlayerFile), true);
         }
 
         switch (actionTarget) {
             case "enable namespace":
-
-                //RecipeDisabler.removeItemsByNamespace(namespace, player);
-                //RecipeDisabler.enableAllRecipes(source.getServer());
-                //RecipeDisabler.queueRecipeRemovalFromJson(PlayerFile);
+                try {
+                    RecipeDisabler.EnableNamespace(player.getStringUUID(), namespace);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 source.sendSuccess(() -> Component.literal("[ModDisable] Mod namespace enabled!"), false);
                 break;
             case "disable namespace":
                 logger.info("[Mod Disable]Namespace argument: {}", namespace);
-                //RecipeDisabler.disableRecipesByNamespace(namespace, context.getSource().getServer(), context.getSource().getPlayer());
-                RecipeDisabler.RecipeRemoval_NameSpace_FromJson(namespace, player.getStringUUID());
+                try {
+                    RecipeDisabler.DisableNamespace(player.getStringUUID(), namespace);
+                } catch (IOException e){
+                    e.printStackTrace();
+                }
+
                 source.sendSuccess(() -> Component.literal("[ModDisable] Mod namespace disabled!"), false);
                 break;
             default:
@@ -244,9 +248,6 @@ public class Disable_Mod{
             return 0;
         }
 
-
-        String PlayerFile = new File(getDataDir(), player.getUUID().toString() + ".json").toString();
-
         if (IsDebugEnabled = true) {
             //source.sendSuccess(() -> Component.literal("[ModDisable] [DEBUG] PlayerFile var is: " + PlayerFile), true);
         }
@@ -258,12 +259,16 @@ public class Disable_Mod{
                 if (IsDebugEnabled) {
                     //source.sendSuccess(() -> Component.literal("[ModDisable] [DEBUG] RecipeDisabler is about to run!"), false);
                 }
-                //RecipeDisabler.enableAllRecipes(source.getServer());
-                //RecipeDisabler.queueRecipeRemovalFromJson(PlayerFile);
                 Registry<Item> registry = BuiltInRegistries.ITEM;
                 ResourceLocation key = registry.getKey(item);
                 String idStr = key.toString();
-                RecipeDisabler.RecipeRemovalFromJson(idStr, player.getStringUUID());
+
+                try{
+                    RecipeDisabler.EnableItem(player.getStringUUID(), idStr);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
                 break;
             case "disable item":
 
@@ -274,9 +279,9 @@ public class Disable_Mod{
                 ResourceLocation key1 = registry1.getKey(item);
                 String idStr1 = key1.toString();
 
-                try{
-                    RecipeDisabler.RecipeAdditionFromJson(idStr1, player.getStringUUID());
-                }catch (JsonSyntaxException | IllegalStateException e){
+                try {
+                    RecipeDisabler.DisableItem(player.getStringUUID(), idStr1);
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
 
@@ -310,14 +315,18 @@ public class Disable_Mod{
                 source.sendSuccess(() -> Component.literal("[ModDisable] [DEBUG] A debug command was just ran, the debug boolean should be set to false and the debug command registrations should be removed in the production version!"), false);
                 switch (actionTarget){
                     case "debug debug_disable_recipe_stick":
-                        //RecipeDisabler.queueRecipeRemoval("minecraft:stick");
-                        RecipeDisabler.RecipeRemovalFromJson("minecraft:stick", player.getStringUUID());
-
+                        try {
+                            RecipeDisabler.DisableItem("minecraft:stick", player.getStringUUID());
+                        } catch (IOException e){
+                            e.printStackTrace();
+                        }
                         break;
                     case "debug enable_recipe_stick":
-                        //RecipeDisabler.enableRecipe("minecraft:stick", source.getServer());
-
-                        RecipeDisabler.RecipeAdditionFromJson("minecraft:stick", player.getStringUUID());
+                        try {
+                            RecipeDisabler.EnableItem("minecraft:stick", player.getStringUUID());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                         break;
                     default:
                         source.sendFailure(Component.literal("[ModDisable] [DEBUG] Look at line 165."));
