@@ -18,6 +18,8 @@
 package com.kaloyandonev.moddisable.events;
 
 import com.kaloyandonev.moddisable.DisableModMain;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 
@@ -31,6 +33,7 @@ public class ModEvents {
 
     @SubscribeEvent
     public static void onCommandRegister(RegisterCommandsEvent event){
+
         Disable_Mod.registerCommand(event.getDispatcher(), event.getBuildContext());
 
         ConfigCommand.register(event.getDispatcher());

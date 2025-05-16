@@ -26,6 +26,7 @@ import net.minecraft.client.gui.components.toasts.Toast;
 import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.network.chat.Component;
 import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
@@ -40,7 +41,7 @@ public class ClientTickHandler {
     public static boolean hasRendered = false;
     public static boolean migrationConfrimed;
 
-
+    @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public static void onClientTick(ClientTickEvent.Pre event) {
         if (hasRendered == false && Migration_110_Json_Check.checkForDisableModFolder()) {

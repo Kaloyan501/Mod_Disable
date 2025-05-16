@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="13fe1274-636e-4834-94a4-9b833a0b7af4" name="Changes" comment="Recommit this the previous commit because IntelliJ UI is stupid." />
+    <list default="true" id="13fe1274-636e-4834-94a4-9b833a0b7af4" name="Changes" comment="First version that actually works, but only on singleplayer.">
+      <change beforePath="$PROJECT_DIR$/ModDisable.iws" beforeDir="false" afterPath="$PROJECT_DIR$/ModDisable.iws" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/commands/Disable_Mod.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/commands/Disable_Mod.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/events/ModEvents.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/events/ModEvents.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/migrators/pre_1_1_0_migrator/ClientTickHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/migrators/pre_1_1_0_migrator/ClientTickHandler.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -91,6 +96,16 @@
     &quot;assignee&quot;: &quot;Kaloyan501&quot;
   }
 }</component>
+  <component name="GitRewordedCommitMessages">
+    <option name="commitMessagesMapping">
+      <RewordedCommitMessageMapping>
+        <option name="originalMessage" value="Recommit this the previous commit because IntelliJ UI is stupid." />
+        <option name="rewordedMessage" value="Recommit the previous commit because IntelliJ UI is stupid." />
+      </RewordedCommitMessageMapping>
+    </option>
+    <option name="currentCommit" value="1" />
+    <option name="onto" value="1f13d8275e0923332eb9142030a49f9227a0232b" />
+  </component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/Kaloyan501/Mod_Disable.git&quot;,
@@ -126,8 +141,8 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;Gradle.Build Mod_Disable.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Mod_Disable [runClient].executor&quot;: &quot;Debug&quot;,
-    &quot;Gradle.Mod_Disable [runServer].executor&quot;: &quot;Debug&quot;,
+    &quot;Gradle.Mod_Disable [runClient].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Mod_Disable [runServer].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.Mod_Disable_Remote [build].executor&quot;: &quot;Run&quot;,
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
@@ -499,7 +514,23 @@
       <option name="project" value="LOCAL" />
       <updated>1747331294752</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="fixup! Recommit the previous commit because IntelliJ UI is stupid.">
+      <option name="closed" value="true" />
+      <created>1747331327228</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1747331327228</updated>
+    </task>
+    <task id="LOCAL-00022" summary="First version that actually works, but only on singleplayer.">
+      <option name="closed" value="true" />
+      <created>1747335328605</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1747335328605</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -532,7 +563,11 @@
     <MESSAGE value="Fixed the weird /saves/saves bug, but it seems that block place does not work when disabling items instad of namespaces." />
     <MESSAGE value="Update copyright notice and clean up some things." />
     <MESSAGE value="Recommit this the previous commit because IntelliJ UI is stupid." />
-    <option name="LAST_COMMIT_MESSAGE" value="Recommit this the previous commit because IntelliJ UI is stupid." />
+    <MESSAGE value="fixup! Recommit this the previous commit because IntelliJ UI is stupid." />
+    <MESSAGE value="fixup! Recommit the previous commit because IntelliJ UI is stupid." />
+    <MESSAGE value="Recommit the previous commit because IntelliJ UI is stupid." />
+    <MESSAGE value="First version that actually works, but only on singleplayer." />
+    <option name="LAST_COMMIT_MESSAGE" value="First version that actually works, but only on singleplayer." />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -546,6 +581,121 @@
             <option name="WATCH_EXIT" value="false" />
           </properties>
           <option name="timeStamp" value="187" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
+          <line>52</line>
+          <properties class="com.kaloyandonev.moddisable.helpers.UseDetector" method="onRightClickItem">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="190" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
+          <line>63</line>
+          <properties class="com.kaloyandonev.moddisable.helpers.UseDetector" method="onUseItemFinish">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="191" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
+          <line>85</line>
+          <properties class="com.kaloyandonev.moddisable.helpers.UseDetector" method="onBlockInteraction">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="192" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
+          <line>88</line>
+          <option name="timeStamp" value="193" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
+          <line>89</line>
+          <properties>
+            <option name="lambda-ordinal" value="-1" />
+          </properties>
+          <option name="timeStamp" value="194" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
+          <line>92</line>
+          <option name="timeStamp" value="195" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
+          <line>93</line>
+          <option name="timeStamp" value="196" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
+          <line>94</line>
+          <option name="timeStamp" value="197" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
+          <line>95</line>
+          <option name="timeStamp" value="198" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
+          <line>96</line>
+          <option name="timeStamp" value="199" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
+          <line>98</line>
+          <option name="timeStamp" value="200" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
+          <line>101</line>
+          <option name="timeStamp" value="202" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
+          <line>102</line>
+          <option name="timeStamp" value="203" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
+          <line>103</line>
+          <option name="timeStamp" value="204" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
+          <line>105</line>
+          <option name="timeStamp" value="205" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
+          <line>106</line>
+          <option name="timeStamp" value="206" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
+          <line>109</line>
+          <option name="timeStamp" value="207" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
+          <line>111</line>
+          <option name="timeStamp" value="208" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
+          <line>112</line>
+          <option name="timeStamp" value="209" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
+          <line>113</line>
+          <option name="timeStamp" value="210" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
