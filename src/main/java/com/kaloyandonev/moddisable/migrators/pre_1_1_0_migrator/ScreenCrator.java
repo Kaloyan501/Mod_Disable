@@ -18,6 +18,7 @@
 
 package com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.MultiLineLabel;
@@ -25,6 +26,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.client.gui.screens.worldselection.SelectWorldScreen;
 import net.minecraft.client.gui.screens.worldselection.WorldSelectionList;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.neoforged.api.distmarker.Dist;
@@ -61,14 +63,13 @@ public class ScreenCrator extends Screen {
         }).bounds(this.width / 2 - 235 + 235, 100 + i, 230, 20).build());
     }
 
+
     @Override
     public void render(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
-
-
-        this.renderBackground(pGuiGraphics, 20, 20, 1);
-        pGuiGraphics.drawCenteredString(this.font, this.title, this.width / 2, 50, 15744024);
-        this.message.renderCentered(pGuiGraphics, this.width / 2 , 70);
         super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
+        this.message.renderCentered(pGuiGraphics, this.width / 2 , 70);
+        pGuiGraphics.drawCenteredString(this.font, this.title, this.width / 2, 50, 15744024);
+
     }
 
     @OnlyIn(Dist.CLIENT)
