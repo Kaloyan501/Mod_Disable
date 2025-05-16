@@ -42,7 +42,9 @@ import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.bus.api.EventPriority;
 
+import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -82,7 +84,24 @@ public class UseDetector {
         handleUse(player, player.getMainHandItem(), pos, () -> event.setCanceled(true));
     }
 
+    @SubscribeEvent(priority = EventPriority.HIGH)
+    public void onBlockPlace(BlockEvent.EntityPlaceEvent event){
+        if (!(event.getEntity() instanceof ServerPlayer player)) return;
 
+        BlockState placedState = event.getPlacedBlock();
+        Block placedBlock = placedState.getBlock();
+
+        Boolean isDisabled = JsonHelper.isItemDisabled(placedBlock.asItem(),player);
+
+        if (isDisabled == true) {
+            event.setCanceled(true);
+        } else {
+            return;
+        }
+
+        player.displayClientMessage(Component.literal("This item is disabled!"), true);
+
+    }
 
 
 
