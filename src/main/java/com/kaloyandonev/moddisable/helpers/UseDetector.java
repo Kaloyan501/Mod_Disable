@@ -82,38 +82,7 @@ public class UseDetector {
         handleUse(player, player.getMainHandItem(), pos, () -> event.setCanceled(true));
     }
 
-    @SubscribeEvent(priority = EventPriority.HIGH)
-    public void onBlockInteraction(PlayerInteractEvent.RightClickBlock event) {
-        if (event.getLevel().isClientSide()) return; // Ensure server-side execution
 
-        Player player = event.getEntity();
-        if (!(player instanceof ServerPlayer)) return;
-
-        // Use raycasting to get the block the player is actually looking at.
-        BlockHitResult hitResult = (BlockHitResult) player.pick(5.0D, 0.0F, false);
-        BlockPos targetPos;
-        if (hitResult.getType() == HitResult.Type.BLOCK) {
-            targetPos = hitResult.getBlockPos();
-        } else {
-            // Fallback: use the block position from the event
-            targetPos = event.getPos();
-        }
-
-        Level level = event.getLevel();
-        BlockState state = level.getBlockState(targetPos);
-        Block block = state.getBlock();
-
-        logger.info("Player is looking at block: {}", block.getDescriptionId());
-        logger.info("Held item: {}", event.getItemStack().getItem());
-
-        // Convert the block to its corresponding item.
-        Item blockItem = block.asItem();
-        // Check if blockItem is not air (some blocks may not have a proper item representation)
-        if (!blockItem.equals(Items.AIR) || JsonHelper.isItemDisabled(blockItem, player)) {
-            event.setCanceled(true);
-            player.displayClientMessage(Component.literal("This block is disabled!"), true);
-        }
-    }
 
 
 
