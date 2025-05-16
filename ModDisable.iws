@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="13fe1274-636e-4834-94a4-9b833a0b7af4" name="Changes" comment="Remove the raycasting shit I was using before, because its broken.">
+    <list default="true" id="13fe1274-636e-4834-94a4-9b833a0b7af4" name="Changes" comment="Push the Intelli Config.&#10;*Note*&#10;The code is ready for prod, but it works only in SinglePlayer, so multiplayer support still needs work.">
       <change beforePath="$PROJECT_DIR$/ModDisable.iws" beforeDir="false" afterPath="$PROJECT_DIR$/ModDisable.iws" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/commands/Disable_Mod.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/commands/Disable_Mod.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/migrators/pre_1_1_0_migrator/ScreenCrator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/migrators/pre_1_1_0_migrator/ScreenCrator.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -142,7 +143,7 @@
     "Gradle.Build Mod_Disable.executor": "Run",
     "Gradle.Build Mod_Disable_Remote.executor": "Run",
     "Gradle.Mod_Disable [runClient].executor": "Debug",
-    "Gradle.Mod_Disable [runServer].executor": "Run",
+    "Gradle.Mod_Disable [runServer].executor": "Debug",
     "Gradle.Mod_Disable_Remote [build].executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.git.unshallow": "true",
@@ -326,8 +327,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.Mod_Disable [runClient]" />
         <item itemvalue="Gradle.Mod_Disable [runServer]" />
+        <item itemvalue="Gradle.Mod_Disable [runClient]" />
         <item itemvalue="Gradle.Mod_Disable_Remote [build]" />
       </list>
     </recent_temporary>
@@ -539,7 +540,31 @@
       <option name="project" value="LOCAL" />
       <updated>1747409517610</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="Fixed UseDetector to not use raycasting shit.">
+      <option name="closed" value="true" />
+      <created>1747416758032</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1747416758032</updated>
+    </task>
+    <task id="LOCAL-00025" summary="Fix ScreenCreator so the text is not in glasses mode (blurred).">
+      <option name="closed" value="true" />
+      <created>1747416865239</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1747416865239</updated>
+    </task>
+    <task id="LOCAL-00026" summary="Push the Intelli Config.&#10;*Note*&#10;The code is ready for prod, but it works only in SinglePlayer, so multiplayer support still needs work.">
+      <option name="closed" value="true" />
+      <created>1747416929794</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1747416929794</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -554,8 +579,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Fix #8" />
-    <MESSAGE value="Fix #13" />
     <MESSAGE value="Fix preventing the UI of block entities from opening when disabled." />
     <MESSAGE value="Prepare for NeoForge" />
     <MESSAGE value="Import renames and stuff" />
@@ -577,7 +600,11 @@
     <MESSAGE value="Recommit the previous commit because IntelliJ UI is stupid." />
     <MESSAGE value="First version that actually works, but only on singleplayer." />
     <MESSAGE value="Remove the raycasting shit I was using before, because its broken." />
-    <option name="LAST_COMMIT_MESSAGE" value="Remove the raycasting shit I was using before, because its broken." />
+    <MESSAGE value="Fixed UseDetector to not use raycasting shit." />
+    <MESSAGE value="Fix ScreenCreator so the text is not in glasses mode." />
+    <MESSAGE value="Fix ScreenCreator so the text is not in glasses mode (blurred)." />
+    <MESSAGE value="Push the Intelli Config.&#10;*Note*&#10;The code is ready for prod, but it works only in SinglePlayer, so multiplayer support still needs work." />
+    <option name="LAST_COMMIT_MESSAGE" value="Push the Intelli Config.&#10;*Note*&#10;The code is ready for prod, but it works only in SinglePlayer, so multiplayer support still needs work." />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -585,7 +612,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
-          <line>107</line>
+          <line>110</line>
           <properties class="com.kaloyandonev.moddisable.helpers.UseDetector" method="handleUse">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
@@ -603,7 +630,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
-          <line>65</line>
+          <line>66</line>
           <properties class="com.kaloyandonev.moddisable.helpers.UseDetector" method="onUseItemFinish">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
@@ -621,7 +648,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
-          <line>87</line>
+          <line>90</line>
           <properties class="com.kaloyandonev.moddisable.helpers.UseDetector" method="onBlockPlace">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
@@ -695,7 +722,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
-          <line>88</line>
+          <line>91</line>
           <properties>
             <option name="lambda-ordinal" value="-1" />
           </properties>
@@ -703,42 +730,42 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
-          <line>90</line>
+          <line>93</line>
           <option name="timeStamp" value="228" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
-          <line>91</line>
+          <line>94</line>
           <option name="timeStamp" value="229" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
-          <line>93</line>
+          <line>96</line>
           <option name="timeStamp" value="230" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
-          <line>95</line>
+          <line>98</line>
           <option name="timeStamp" value="231" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
-          <line>96</line>
+          <line>99</line>
           <option name="timeStamp" value="232" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
-          <line>97</line>
+          <line>100</line>
           <option name="timeStamp" value="233" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
-          <line>99</line>
+          <line>102</line>
           <option name="timeStamp" value="234" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
-          <line>98</line>
+          <line>101</line>
           <option name="timeStamp" value="235" />
         </line-breakpoint>
       </breakpoints>

@@ -70,7 +70,7 @@ public class Disable_Mod{
         isSinglePlayer.checkisSinglePlayer(event);
     }
 
-    //@OnlyIn(Dist.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     private void ClientCode(final FMLCommonSetupEvent event) {
         if (FMLEnvironment.dist == Dist.CLIENT) {
             logger.warn("ClientCode is about to run!");

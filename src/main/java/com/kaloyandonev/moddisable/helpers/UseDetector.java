@@ -53,35 +53,38 @@ public class UseDetector {
 
     @SubscribeEvent(priority = EventPriority.HIGH)
     public void onRightClickItem(PlayerInteractEvent.RightClickItem event) {
+        if (!(event.getEntity() instanceof ServerPlayer Splayer)) return;
         Entity entity = event.getEntity();
-        if (!(entity instanceof Player player)) {
+        if (!(entity instanceof Player pPlayer)) {
             return; // Ignore non-player entities (like bots, NPCs, etc.)
         }
 
-        BlockPos pos = player.blockPosition();
-        handleUse(player, event.getItemStack(), pos, () -> event.setCanceled(true));
+        BlockPos pos = pPlayer.blockPosition();
+        handleUse(pPlayer, event.getItemStack(), pos, () -> event.setCanceled(true));
     }
 
     @SubscribeEvent(priority = EventPriority.HIGH)
     public void onUseItemFinish(LivingEntityUseItemEvent.Start event) {
+        if (!(event.getEntity() instanceof ServerPlayer Splayer)) return;
         LivingEntity entity = event.getEntity();
-        if (!(entity instanceof Player player)) {
+        if (!(entity instanceof Player pPlayer)) {
             return; // Ignore non-player entities
         }
 
-        BlockPos pos = player.blockPosition();
-        handleUse(player, event.getItem(), pos, () -> event.setCanceled(true));
+        BlockPos pos = pPlayer.blockPosition();
+        handleUse(pPlayer, event.getItem(), pos, () -> event.setCanceled(true));
     }
 
     @SubscribeEvent(priority = EventPriority.HIGH)
     public void onAttackEntity(AttackEntityEvent event) {
+        if (!(event.getEntity() instanceof ServerPlayer Splayer)) return;
         Entity entity = event.getEntity();
-        if (!(entity instanceof Player player)) {
+        if (!(entity instanceof Player pPlayer)) {
             return; // Ignore non-player entities
         }
 
-        BlockPos pos = player.blockPosition();
-        handleUse(player, player.getMainHandItem(), pos, () -> event.setCanceled(true));
+        BlockPos pos = pPlayer.blockPosition();
+        handleUse(pPlayer, pPlayer.getMainHandItem(), pos, () -> event.setCanceled(true));
     }
 
     @SubscribeEvent(priority = EventPriority.HIGH)
