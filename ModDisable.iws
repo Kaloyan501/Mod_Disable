@@ -4,11 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="13fe1274-636e-4834-94a4-9b833a0b7af4" name="Changes" comment="First version that actually works, but only on singleplayer.">
+    <list default="true" id="13fe1274-636e-4834-94a4-9b833a0b7af4" name="Changes" comment="Remove the raycasting shit I was using before, because its broken.">
       <change beforePath="$PROJECT_DIR$/ModDisable.iws" beforeDir="false" afterPath="$PROJECT_DIR$/ModDisable.iws" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/commands/Disable_Mod.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/commands/Disable_Mod.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/events/ModEvents.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/events/ModEvents.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/migrators/pre_1_1_0_migrator/ClientTickHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/migrators/pre_1_1_0_migrator/ClientTickHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/migrators/pre_1_1_0_migrator/ScreenCrator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/migrators/pre_1_1_0_migrator/ScreenCrator.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -138,27 +137,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Gradle.Build Mod_Disable.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Mod_Disable [runClient].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Mod_Disable [runServer].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Mod_Disable_Remote [build].executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;SONARLINT_PRECOMMIT_ANALYSIS&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/koko_programing/Mod_Disable_Remote&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.obiscr.chatgpt.settings.EasyCodeSettings&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Gradle.Build Mod_Disable.executor": "Run",
+    "Gradle.Build Mod_Disable_Remote.executor": "Run",
+    "Gradle.Mod_Disable [runClient].executor": "Debug",
+    "Gradle.Mod_Disable [runServer].executor": "Run",
+    "Gradle.Mod_Disable_Remote [build].executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "SONARLINT_PRECOMMIT_ANALYSIS": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/koko_programing/Mod_Disable_Remote/run/disabled_items",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "com.obiscr.chatgpt.settings.EasyCodeSettings"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\koko_programing\Mod_Disable_Remote\run\disabled_items" />
       <recent name="C:\koko_programing\Mod_Disable_Remote" />
     </key>
   </component>
@@ -530,7 +531,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747335328605</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="Remove the raycasting shit I was using before, because its broken.">
+      <option name="closed" value="true" />
+      <created>1747409517610</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1747409517610</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -567,7 +576,8 @@
     <MESSAGE value="fixup! Recommit the previous commit because IntelliJ UI is stupid." />
     <MESSAGE value="Recommit the previous commit because IntelliJ UI is stupid." />
     <MESSAGE value="First version that actually works, but only on singleplayer." />
-    <option name="LAST_COMMIT_MESSAGE" value="First version that actually works, but only on singleplayer." />
+    <MESSAGE value="Remove the raycasting shit I was using before, because its broken." />
+    <option name="LAST_COMMIT_MESSAGE" value="Remove the raycasting shit I was using before, because its broken." />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -575,7 +585,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
-          <line>119</line>
+          <line>107</line>
           <properties class="com.kaloyandonev.moddisable.helpers.UseDetector" method="handleUse">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
@@ -584,7 +594,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
-          <line>52</line>
+          <line>54</line>
           <properties class="com.kaloyandonev.moddisable.helpers.UseDetector" method="onRightClickItem">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
@@ -593,7 +603,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
-          <line>63</line>
+          <line>65</line>
           <properties class="com.kaloyandonev.moddisable.helpers.UseDetector" method="onUseItemFinish">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
@@ -601,101 +611,135 @@
           <option name="timeStamp" value="191" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
-          <line>85</line>
-          <properties class="com.kaloyandonev.moddisable.helpers.UseDetector" method="onBlockInteraction">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/JsonHelper.java</url>
+          <line>124</line>
+          <properties class="com.kaloyandonev.moddisable.helpers.JsonHelper" method="isItemDisabled">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
           </properties>
-          <option name="timeStamp" value="192" />
+          <option name="timeStamp" value="211" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
+          <line>87</line>
+          <properties class="com.kaloyandonev.moddisable.helpers.UseDetector" method="onBlockPlace">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="226" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/JsonHelper.java</url>
+          <line>125</line>
+          <option name="timeStamp" value="212" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/JsonHelper.java</url>
+          <line>127</line>
+          <option name="timeStamp" value="213" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/JsonHelper.java</url>
+          <line>129</line>
+          <option name="timeStamp" value="214" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/JsonHelper.java</url>
+          <line>130</line>
+          <option name="timeStamp" value="215" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/JsonHelper.java</url>
+          <line>131</line>
+          <option name="timeStamp" value="216" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/JsonHelper.java</url>
+          <line>133</line>
+          <option name="timeStamp" value="217" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/JsonHelper.java</url>
+          <line>135</line>
+          <option name="timeStamp" value="218" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/JsonHelper.java</url>
+          <line>134</line>
+          <option name="timeStamp" value="219" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/JsonHelper.java</url>
+          <line>136</line>
+          <option name="timeStamp" value="221" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/JsonHelper.java</url>
+          <line>137</line>
+          <option name="timeStamp" value="222" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/JsonHelper.java</url>
+          <line>138</line>
+          <option name="timeStamp" value="223" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/JsonHelper.java</url>
+          <line>139</line>
+          <option name="timeStamp" value="224" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/JsonHelper.java</url>
+          <line>140</line>
+          <option name="timeStamp" value="225" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
           <line>88</line>
-          <option name="timeStamp" value="193" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
-          <line>89</line>
           <properties>
             <option name="lambda-ordinal" value="-1" />
           </properties>
-          <option name="timeStamp" value="194" />
+          <option name="timeStamp" value="227" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
-          <line>92</line>
-          <option name="timeStamp" value="195" />
+          <line>90</line>
+          <option name="timeStamp" value="228" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
+          <line>91</line>
+          <option name="timeStamp" value="229" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
           <line>93</line>
-          <option name="timeStamp" value="196" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
-          <line>94</line>
-          <option name="timeStamp" value="197" />
+          <option name="timeStamp" value="230" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
           <line>95</line>
-          <option name="timeStamp" value="198" />
+          <option name="timeStamp" value="231" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
           <line>96</line>
-          <option name="timeStamp" value="199" />
+          <option name="timeStamp" value="232" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
+          <line>97</line>
+          <option name="timeStamp" value="233" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
+          <line>99</line>
+          <option name="timeStamp" value="234" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
           <line>98</line>
-          <option name="timeStamp" value="200" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
-          <line>101</line>
-          <option name="timeStamp" value="202" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
-          <line>102</line>
-          <option name="timeStamp" value="203" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
-          <line>103</line>
-          <option name="timeStamp" value="204" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
-          <line>105</line>
-          <option name="timeStamp" value="205" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
-          <line>106</line>
-          <option name="timeStamp" value="206" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
-          <line>109</line>
-          <option name="timeStamp" value="207" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
-          <line>111</line>
-          <option name="timeStamp" value="208" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
-          <line>112</line>
-          <option name="timeStamp" value="209" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
-          <line>113</line>
-          <option name="timeStamp" value="210" />
+          <option name="timeStamp" value="235" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
