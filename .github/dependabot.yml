@@ -1,12 +1,10 @@
 version: 2
 updates:
   - package-ecosystem: "gradle"
-    directory: "/" # Adjust if your build.gradle is in a subfolder
+    directory: "/" # Change if your gradle files are in a subdirectory
     schedule:
       interval: "weekly"
     allow:
       - dependency-type: "direct"
     ignore:
       - dependency-name: "net.neoforged:*"
-        # NeoForge updates may not be compatible automatically
-        versions: ["*"]
