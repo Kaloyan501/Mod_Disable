@@ -42,6 +42,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 public class RecipeDisabler {
@@ -198,6 +199,30 @@ public class RecipeDisabler {
 
     }
 
+    public static void DisableAll(String playerUUID) throws IOException {
+    Set<String> namespaces = BuiltInRegistries.ITEM.keySet().stream()
+            .map(ResourceLocation::getNamespace)
+            .collect(Collectors.toSet());
+
+    List<String> namespaceList = new ArrayList<>(namespaces);
+
+        for (int i = 0; i < namespaceList.size(); i++) {
+            String namespace = namespaceList.get(i);
+            DisableNamespace(playerUUID, namespace);
+        }
+    }
+
+    public static void EnableAll(String playerUUID) throws IOException {
+        Set<String> namespaces = BuiltInRegistries.ITEM.keySet().stream()
+                .map(ResourceLocation::getNamespace)
+                .collect(Collectors.toSet());
+        List <String> namespaceList = new ArrayList<>(namespaces);
+
+        for (int i =0; i < namespaceList.size(); i++) {
+            String namespace = namespaceList.get(i);
+            EnableNamespace(playerUUID, namespace);
+        }
+    }
     public static void EnableNamespace(String playerUUID, String namespace) throws IOException {
         Path path = FindPlayerFolder(playerUUID);
         Gson gson = new GsonBuilder().setPrettyPrinting().create();

@@ -48,6 +48,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
+import java.util.spi.AbstractResourceBundleProvider;
 
 import static com.kaloyandonev.moddisable.helpers.config.InitialStateDataHandler.executeConfigRequest;
 import static com.kaloyandonev.moddisable.helpers.config.InitialStateDataHandler.executeReinitRequest;
@@ -104,6 +105,9 @@ public class Disable_Mod{
                                                 .executes(context -> executeWithItem(context, "enable", ItemArgument.getItem(context, "item").getItem()))
                                         )
                                 )
+                                .then(Commands.literal("all")
+                                        .executes(context -> execute(context, "enable", "all"))
+                                )
                         )
                         // 'disable' command
                         .then(Commands.literal("disable")
@@ -117,6 +121,9 @@ public class Disable_Mod{
                                         .then(Commands.argument("item", ItemArgument.item(buildContext))
                                                 .executes(context -> executeWithItem(context, "disable", ItemArgument.getItem(context, "item").getItem()))
                                         )
+                                )
+                                .then(Commands.literal("all")
+                                    .executes(context -> execute(context, "disable", "all"))
                                 )
                         )
                         // 'config' command
@@ -144,10 +151,8 @@ public class Disable_Mod{
     }
 
     //Method to handle namespaces
-    private static int execute(CommandContext<CommandSourceStack> context, String action,  String namespace){
+    private static int execute(CommandContext<CommandSourceStack> context, String action, String namespace) {
         CommandSourceStack source = context.getSource();
-        String actionTarget = action + " " + "namespace";
-
         Player player;
 
         try {
@@ -157,31 +162,66 @@ public class Disable_Mod{
             return 0;
         }
 
+        // Handle "disable all" explicitly
+        if (action.equals("disable") && namespace.equals("all")) {
+            try {
+                RecipeDisabler.DisableAll(player.getStringUUID());
+            } catch (IOException e) {
+                logger.error("Disabling all items failed with error:", e);
+                source.sendFailure(Component.literal("Disabling all items failed with error:" + e));
+                return 0;
+            }
+            source.sendSuccess(() -> Component.literal("[ModDisable] All items disabled!"), false);
+            return 1;
+        }
+
+        if (action.equals("enable") && namespace.equals("all")) {
+            try {
+                RecipeDisabler.EnableAll(player.getStringUUID());
+            } catch (IOException e){
+                logger.error("Enabling all items failed with error:", e);
+                source.sendFailure(Component.literal("[ModDisable] Enabling all items failed with error:" + e));
+                return 0;
+            }
+            source.sendSuccess(() -> Component.literal("[ModDisable] All items enabled"), false);
+            return 1;
+        }
+
+        // Continue with normal actionTarget logic
+        String actionTarget = action + " namespace";
+
         switch (actionTarget) {
             case "enable namespace":
                 try {
                     RecipeDisabler.EnableNamespace(player.getStringUUID(), namespace);
                 } catch (IOException e) {
                     logger.error("Enabling namespace failed.", e);
+                    source.sendFailure(Component.literal("[ModDisable] Enabling namespace failed." + e));
+                    return 0;
                 }
                 source.sendSuccess(() -> Component.literal("[ModDisable] Mod namespace enabled!"), false);
                 break;
+
             case "disable namespace":
                 logger.info("[Mod Disable]Namespace argument: {}", namespace);
                 try {
                     RecipeDisabler.DisableNamespace(player.getStringUUID(), namespace);
-                } catch (IOException e){
+                } catch (IOException e) {
                     logger.error("Disabling namespace failed.", e);
+                    source.sendFailure(Component.literal("[ModDisable] Disabling namespace failed." + e));
+                    return 0;
                 }
-
                 source.sendSuccess(() -> Component.literal("[ModDisable] Mod namespace disabled!"), false);
                 break;
+
             default:
                 source.sendFailure(Component.literal("[ModDisable] Invalid action!"));
                 return 0;
         }
+
         return 1;
     }
+
     //Method to handle items
     private static int executeWithItem(CommandContext<CommandSourceStack> context, String action, Item item){
         CommandSourceStack source = context.getSource();
@@ -208,6 +248,8 @@ public class Disable_Mod{
                     RecipeDisabler.EnableItem(player.getStringUUID(), idStr);
                 } catch (IOException e) {
                     logger.error("Enabling item failed with exception.", e);
+                    source.sendFailure(Component.literal("Enabling item failed with exception" + e));
+                    return 0;
                 }
 
                 break;
@@ -222,6 +264,8 @@ public class Disable_Mod{
                     RecipeDisabler.DisableItem(player.getStringUUID(), idStr1);
                 } catch (IOException e) {
                     logger.error("Disabling item failed with exception", e);
+                    source.sendFailure(Component.literal("Disabling item fialed with exception" + e));
+                    return 0;
                 }
 
 
