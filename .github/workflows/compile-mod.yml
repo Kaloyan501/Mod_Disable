@@ -1,5 +1,8 @@
 name: Compile and Release Minecraft Mod
 
+permissions:
+  contents: write
+
 on:
   workflow_dispatch:
     inputs:
