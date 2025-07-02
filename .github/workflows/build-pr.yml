@@ -1,10 +1,13 @@
-# Save as .github/workflows/build-pr.yml
-name: Build Minecraft Mod (PR Check)
+name: Build Check
 
 on:
   pull_request:
     branches:
-      - main    # triggers on PRs targeting main
+      - main
+
+permissions:
+  checks: write     # needed to call the Checks API
+  contents: read    # read repo files
 
 jobs:
   build:
@@ -14,24 +17,51 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up JDK 17
+      - name: Initiate “Build Check”
+        id: init
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const response = await github.rest.checks.create({
+              owner: context.repo.owner,
+              repo:  context.repo.repo,
+              name:  'Build Check',
+              head_sha: context.payload.pull_request.head.sha,
+              status:   'in_progress'
+            });
+            core.setOutput('check_run_id', response.data.id);
+
+      - name: Set up JDK 17
         uses: actions/setup-java@v2
         with:
           java-version: '17'
           distribution: 'adopt'
 
-      - name: Cache Gradle packages
+      - name: Cache Gradle dependencies
         uses: actions/cache@v4
         with:
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/gradle.properties.forge') }}
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
 
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
-      - name: Build with Gradle
+      - name: Run Gradle build
+        id: build
         run: ./gradlew build --info
+
+      - name: Complete “Build Check”
+        uses: actions/github-script@v6
+        with:
+          script: |
+            await github.rest.checks.update({
+              owner:       context.repo.owner,
+              repo:        context.repo.repo,
+              check_run_id: ${{ steps.init.outputs.check_run_id }},
+              status:       'completed',
+              conclusion:   ${{ steps.build.outcome == 'success' && 'success' || 'failure' }}
+            });
