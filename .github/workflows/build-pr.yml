@@ -1,4 +1,5 @@
-name: Build Check
+# .github/workflows/build-check.yml
+name: Build Check
 
 on:
   pull_request:
@@ -6,8 +7,8 @@ on:
       - main
 
 permissions:
-  checks: write     # needed to call the Checks API
-  contents: read    # read repo files
+  checks: write     # needed to create/update the Checks API run
+  contents: read    # read repository files
 
 jobs:
   build:
@@ -15,9 +16,9 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Initiate “Build Check”
+      - name: Initiate Build Check
         id: init
         uses: actions/github-script@v6
         with:
@@ -25,17 +26,17 @@ jobs:
             const response = await github.rest.checks.create({
               owner: context.repo.owner,
               repo:  context.repo.repo,
-              name:  'Build Check',
+              name:  'Build Check',                                       # this must exactly match the workflow name
               head_sha: context.payload.pull_request.head.sha,
               status:   'in_progress'
             });
             core.setOutput('check_run_id', response.data.id);
 
-      - name: Set up JDK 17
+      - name: Set up JDK 17
         uses: actions/setup-java@v2
         with:
-          java-version: '17'
           distribution: 'adopt'
+          java-version: '17'
 
       - name: Cache Gradle dependencies
         uses: actions/cache@v4
@@ -54,13 +55,13 @@ jobs:
         id: build
         run: ./gradlew build --info
 
-      - name: Complete “Build Check”
+      - name: Complete Build Check
         uses: actions/github-script@v6
         with:
           script: |
             await github.rest.checks.update({
-              owner:       context.repo.owner,
-              repo:        context.repo.repo,
+              owner:        context.repo.owner,
+              repo:         context.repo.repo,
               check_run_id: ${{ steps.init.outputs.check_run_id }},
               status:       'completed',
               conclusion:   ${{ steps.build.outcome == 'success' && 'success' || 'failure' }}
