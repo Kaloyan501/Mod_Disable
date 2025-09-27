@@ -16,8 +16,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 package com.kaloyandonev.moddisable;
 
-import com.kaloyandonev.moddisable.helpers.ServerCheckHelper;
-import com.kaloyandonev.moddisable.helpers.UseDetector;
+import com.kaloyandonev.moddisable.helpers.*;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.ClientWorldFolderFinder;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.MigrateTask;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.StaticPathStorage;
@@ -42,10 +41,13 @@ import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 
-import com.kaloyandonev.moddisable.helpers.processAllDisabledItemsFromJson;
 import net.neoforged.neoforge.event.server.ServerStartedEvent;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static net.neoforged.neoforge.internal.versions.neoforge.NeoForgeVersion.MOD_ID;
 
@@ -108,6 +110,20 @@ public class Main
             LOGGER.debug("[Mod Disable] MigrateTask is about to run!");
             processAllDisabledItemsFromJson.processAllDisabledItemsFromJson();
 
+            boolean CheckSumInvalid = JsonHelper.defaultDisabledListChecksumManger();
+            try {
+                Path WorldFolderPath = PathHelper.getFullWorldPath();
+                Path Mod_Disable_DataPath = WorldFolderPath.resolve("Mod_Disable_Data");
+
+                List<String> fileNames = Files.list(Mod_Disable_DataPath).map(p -> p.getFileName().toString()).collect(Collectors.toList());
+                String[] fileNamesArray = fileNames.toArray(new String[0]);
+
+                for (String fileName : fileNamesArray) {
+                    PlayerItemHashmapper.PlayerItemHashmapper(Mod_Disable_DataPath.resolve(fileName).toFile());
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         @SubscribeEvent

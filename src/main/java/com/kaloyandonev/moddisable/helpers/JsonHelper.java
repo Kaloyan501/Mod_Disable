@@ -155,7 +155,7 @@ public class JsonHelper {
         return null;
     }
 
-    public boolean defaultDisabledListChecksumManger(){
+    public static boolean defaultDisabledListChecksumManger(){
         Path configDir = FMLPaths.CONFIGDIR.get();
         Path configPath = configDir.resolve("ModDisable/DefaultDisabledItemsList.json");
         Path configChecksumPath = configDir.resolve("ModDisable/Checksum.txt");
