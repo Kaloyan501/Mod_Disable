@@ -42,6 +42,7 @@
             <option value="$PROJECT_DIR$" />
           </set>
         </option>
+        <option name="resolveExternalAnnotations" value="true" />
       </GradleProjectSettings>
     </option>
   </component>
@@ -54,6 +55,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ModDisable.ipr/.idea/ModDisable.ipr.iml" filepath="$PROJECT_DIR$/ModDisable.ipr/.idea/ModDisable.ipr.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Mod_Disable.iml" filepath="$PROJECT_DIR$/Mod_Disable.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Mod_Disable.main.iml" filepath="$PROJECT_DIR$/Mod_Disable.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Mod_Disable.test.iml" filepath="$PROJECT_DIR$/Mod_Disable.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/Mod_Disable_Remote.iml" filepath="$PROJECT_DIR$/Mod_Disable_Remote.iml" />
       <module fileurl="file://$PROJECT_DIR$/Mod_Disable_Remote.main.iml" filepath="$PROJECT_DIR$/Mod_Disable_Remote.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/Mod_Disable_Remote.test.iml" filepath="$PROJECT_DIR$/Mod_Disable_Remote.test.iml" />
@@ -61,6 +65,38 @@
   </component>
   <component name="ProjectRootManager" version="2" project-jdk-name="21" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
+  </component>
+  <component name="RemoteRepositoriesConfiguration">
+    <remote-repository>
+      <option name="id" value="central" />
+      <option name="name" value="Maven Central repository" />
+      <option name="url" value="https://repo1.maven.org/maven2" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="jboss.community" />
+      <option name="name" value="JBoss Community repository" />
+      <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="Mojang Meta" />
+      <option name="name" value="Mojang Meta" />
+      <option name="url" value="https://maven.neoforged.net/mojang-meta/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="Mojang Minecraft Libraries" />
+      <option name="name" value="Mojang Minecraft Libraries" />
+      <option name="url" value="https://libraries.minecraft.net/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="NeoForged Releases" />
+      <option name="name" value="NeoForged Releases" />
+      <option name="url" value="https://maven.neoforged.net/releases/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="MavenLocal" />
+      <option name="name" value="MavenLocal" />
+      <option name="url" value="file:$MAVEN_REPOSITORY$" />
+    </remote-repository>
   </component>
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
@@ -358,6 +394,9 @@
     </library>
     <library name="Gradle: io.netty:netty-buffer:4.1.97.Final" type="java-imported" external-system-id="GRADLE">
       <properties groupId="io.netty" artifactId="netty-buffer" version="4.1.97.Final" baseVersion="4.1.97.Final" />
+      <ANNOTATIONS>
+        <root url="jar://$APPLICATION_PLUGINS_DIR$/Minecraft Development/lib/resources/externalAnnotations.jar!/" />
+      </ANNOTATIONS>
       <CLASSES>
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-buffer/4.1.97.Final/f8f3d8644afa5e6e1a40a3a6aeb9d9aa970ecb4f/netty-buffer-4.1.97.Final.jar!/" />
       </CLASSES>
@@ -378,6 +417,9 @@
     </library>
     <library name="Gradle: io.netty:netty-common:4.1.97.Final" type="java-imported" external-system-id="GRADLE">
       <properties groupId="io.netty" artifactId="netty-common" version="4.1.97.Final" baseVersion="4.1.97.Final" />
+      <ANNOTATIONS>
+        <root url="jar://$APPLICATION_PLUGINS_DIR$/Minecraft Development/lib/resources/externalAnnotations.jar!/" />
+      </ANNOTATIONS>
       <CLASSES>
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-common/4.1.97.Final/7cceacaf11df8dc63f23d0fb58e9d4640fc88404/netty-common-4.1.97.Final.jar!/" />
       </CLASSES>
@@ -398,6 +440,9 @@
     </library>
     <library name="Gradle: io.netty:netty-resolver:4.1.97.Final" type="java-imported" external-system-id="GRADLE">
       <properties groupId="io.netty" artifactId="netty-resolver" version="4.1.97.Final" baseVersion="4.1.97.Final" />
+      <ANNOTATIONS>
+        <root url="jar://$APPLICATION_PLUGINS_DIR$/Minecraft Development/lib/resources/externalAnnotations.jar!/" />
+      </ANNOTATIONS>
       <CLASSES>
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-resolver/4.1.97.Final/cec8348108dc76c47cf87c669d514be52c922144/netty-resolver-4.1.97.Final.jar!/" />
       </CLASSES>
@@ -416,6 +461,22 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-transport-classes-epoll/4.1.97.Final/c4c9f444bc376a359b3159d45947ffc510d77d38/netty-transport-classes-epoll-4.1.97.Final-sources.jar!/" />
       </SOURCES>
     </library>
+    <library name="Gradle: io.netty:netty-transport-native-epoll:linux-aarch_64:4.1.97.Final" type="java-imported" external-system-id="GRADLE">
+      <properties groupId="io.netty" artifactId="netty-transport-native-epoll" version="4.1.97.Final" baseVersion="4.1.97.Final" />
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-transport-native-epoll/4.1.97.Final/5514744c588190ffda076b35a9b8c9f24946a960/netty-transport-native-epoll-4.1.97.Final-linux-aarch_64.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES />
+    </library>
+    <library name="Gradle: io.netty:netty-transport-native-epoll:linux-x86_64:4.1.97.Final" type="java-imported" external-system-id="GRADLE">
+      <properties groupId="io.netty" artifactId="netty-transport-native-epoll" version="4.1.97.Final" baseVersion="4.1.97.Final" />
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-transport-native-epoll/4.1.97.Final/54188f271e388e7f313aea995e82f58ce2cdb809/netty-transport-native-epoll-4.1.97.Final-linux-x86_64.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES />
+    </library>
     <library name="Gradle: io.netty:netty-transport-native-unix-common:4.1.97.Final" type="java-imported" external-system-id="GRADLE">
       <properties groupId="io.netty" artifactId="netty-transport-native-unix-common" version="4.1.97.Final" baseVersion="4.1.97.Final" />
       <CLASSES>
@@ -428,6 +489,9 @@
     </library>
     <library name="Gradle: io.netty:netty-transport:4.1.97.Final" type="java-imported" external-system-id="GRADLE">
       <properties groupId="io.netty" artifactId="netty-transport" version="4.1.97.Final" baseVersion="4.1.97.Final" />
+      <ANNOTATIONS>
+        <root url="jar://$APPLICATION_PLUGINS_DIR$/Minecraft Development/lib/resources/externalAnnotations.jar!/" />
+      </ANNOTATIONS>
       <CLASSES>
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-transport/4.1.97.Final/f37380d23c9bb079bc702910833b2fd532c9abd0/netty-transport-4.1.97.Final.jar!/" />
       </CLASSES>
@@ -826,30 +890,10 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-freetype/3.3.3/d9fba96328a80677edbab28a843f33b847cf1e57/lwjgl-freetype-3.3.3-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.lwjgl:lwjgl-freetype:natives-windows-arm64:3.3.3" type="java-imported" external-system-id="GRADLE">
+    <library name="Gradle: org.lwjgl:lwjgl-freetype:natives-linux:3.3.3" type="java-imported" external-system-id="GRADLE">
       <properties groupId="org.lwjgl" artifactId="lwjgl-freetype" version="3.3.3" baseVersion="3.3.3" />
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-freetype/3.3.3/82028265a0a2ff33523ca75137ada7dc176e5210/lwjgl-freetype-3.3.3-natives-windows-arm64.jar!/" />
-      </CLASSES>
-      <JAVADOC />
-      <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-freetype/3.3.3/d9fba96328a80677edbab28a843f33b847cf1e57/lwjgl-freetype-3.3.3-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Gradle: org.lwjgl:lwjgl-freetype:natives-windows-x86:3.3.3" type="java-imported" external-system-id="GRADLE">
-      <properties groupId="org.lwjgl" artifactId="lwjgl-freetype" version="3.3.3" baseVersion="3.3.3" />
-      <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-freetype/3.3.3/15a8c1de7f51d07a92eae7ce1222557073a0c0c3/lwjgl-freetype-3.3.3-natives-windows-x86.jar!/" />
-      </CLASSES>
-      <JAVADOC />
-      <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-freetype/3.3.3/d9fba96328a80677edbab28a843f33b847cf1e57/lwjgl-freetype-3.3.3-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Gradle: org.lwjgl:lwjgl-freetype:natives-windows:3.3.3" type="java-imported" external-system-id="GRADLE">
-      <properties groupId="org.lwjgl" artifactId="lwjgl-freetype" version="3.3.3" baseVersion="3.3.3" />
-      <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-freetype/3.3.3/81091b006dbb43fab04c8c638e9ac87c51b4096d/lwjgl-freetype-3.3.3-natives-windows.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-freetype/3.3.3/149070a5480900347071b7074779531f25a6e3dc/lwjgl-freetype-3.3.3-natives-linux.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
@@ -866,30 +910,10 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-glfw/3.3.3/fa2c760452674d3eaf336123539b0dd9a83041a4/lwjgl-glfw-3.3.3-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.lwjgl:lwjgl-glfw:natives-windows-arm64:3.3.3" type="java-imported" external-system-id="GRADLE">
+    <library name="Gradle: org.lwjgl:lwjgl-glfw:natives-linux:3.3.3" type="java-imported" external-system-id="GRADLE">
       <properties groupId="org.lwjgl" artifactId="lwjgl-glfw" version="3.3.3" baseVersion="3.3.3" />
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-glfw/3.3.3/f27018dc74f6289574502b46cce55d52817554e2/lwjgl-glfw-3.3.3-natives-windows-arm64.jar!/" />
-      </CLASSES>
-      <JAVADOC />
-      <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-glfw/3.3.3/fa2c760452674d3eaf336123539b0dd9a83041a4/lwjgl-glfw-3.3.3-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Gradle: org.lwjgl:lwjgl-glfw:natives-windows-x86:3.3.3" type="java-imported" external-system-id="GRADLE">
-      <properties groupId="org.lwjgl" artifactId="lwjgl-glfw" version="3.3.3" baseVersion="3.3.3" />
-      <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-glfw/3.3.3/32334f3fd5270a59bad9939a93115acb6de36dcf/lwjgl-glfw-3.3.3-natives-windows-x86.jar!/" />
-      </CLASSES>
-      <JAVADOC />
-      <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-glfw/3.3.3/fa2c760452674d3eaf336123539b0dd9a83041a4/lwjgl-glfw-3.3.3-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Gradle: org.lwjgl:lwjgl-glfw:natives-windows:3.3.3" type="java-imported" external-system-id="GRADLE">
-      <properties groupId="org.lwjgl" artifactId="lwjgl-glfw" version="3.3.3" baseVersion="3.3.3" />
-      <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-glfw/3.3.3/e449e28b4891fc423c54c85fbc5bb0b9efece67a/lwjgl-glfw-3.3.3-natives-windows.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-glfw/3.3.3/a03684c5e4b1b1dbbe0d29dbbdc27b985b6840f2/lwjgl-glfw-3.3.3-natives-linux.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
@@ -906,30 +930,10 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-jemalloc/3.3.3/6a4ea7a9095e1684a9c6adb2c49d28daae2b6e45/lwjgl-jemalloc-3.3.3-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.lwjgl:lwjgl-jemalloc:natives-windows-arm64:3.3.3" type="java-imported" external-system-id="GRADLE">
+    <library name="Gradle: org.lwjgl:lwjgl-jemalloc:natives-linux:3.3.3" type="java-imported" external-system-id="GRADLE">
       <properties groupId="org.lwjgl" artifactId="lwjgl-jemalloc" version="3.3.3" baseVersion="3.3.3" />
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-jemalloc/3.3.3/ba1f3fed0ee4be0217eaa41c5bbfb4b9b1383c33/lwjgl-jemalloc-3.3.3-natives-windows-arm64.jar!/" />
-      </CLASSES>
-      <JAVADOC />
-      <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-jemalloc/3.3.3/6a4ea7a9095e1684a9c6adb2c49d28daae2b6e45/lwjgl-jemalloc-3.3.3-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Gradle: org.lwjgl:lwjgl-jemalloc:natives-windows-x86:3.3.3" type="java-imported" external-system-id="GRADLE">
-      <properties groupId="org.lwjgl" artifactId="lwjgl-jemalloc" version="3.3.3" baseVersion="3.3.3" />
-      <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-jemalloc/3.3.3/f6063b6e0f23be483c5c88d84ce51b39dc69126c/lwjgl-jemalloc-3.3.3-natives-windows-x86.jar!/" />
-      </CLASSES>
-      <JAVADOC />
-      <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-jemalloc/3.3.3/6a4ea7a9095e1684a9c6adb2c49d28daae2b6e45/lwjgl-jemalloc-3.3.3-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Gradle: org.lwjgl:lwjgl-jemalloc:natives-windows:3.3.3" type="java-imported" external-system-id="GRADLE">
-      <properties groupId="org.lwjgl" artifactId="lwjgl-jemalloc" version="3.3.3" baseVersion="3.3.3" />
-      <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-jemalloc/3.3.3/426222fc027602a5f21b9c0fe79cde6a4c7a011f/lwjgl-jemalloc-3.3.3-natives-windows.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-jemalloc/3.3.3/4f86728bf449b1dd61251c4e0ac01df1389cb51e/lwjgl-jemalloc-3.3.3-natives-linux.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
@@ -946,30 +950,10 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-openal/3.3.3/60a4ce24d71b3376ce53b50cfe3eaaf3277dd727/lwjgl-openal-3.3.3-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.lwjgl:lwjgl-openal:natives-windows-arm64:3.3.3" type="java-imported" external-system-id="GRADLE">
+    <library name="Gradle: org.lwjgl:lwjgl-openal:natives-linux:3.3.3" type="java-imported" external-system-id="GRADLE">
       <properties groupId="org.lwjgl" artifactId="lwjgl-openal" version="3.3.3" baseVersion="3.3.3" />
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-openal/3.3.3/8e0615235116b9e4160dfe87bec90f5f6378bf72/lwjgl-openal-3.3.3-natives-windows-arm64.jar!/" />
-      </CLASSES>
-      <JAVADOC />
-      <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-openal/3.3.3/60a4ce24d71b3376ce53b50cfe3eaaf3277dd727/lwjgl-openal-3.3.3-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Gradle: org.lwjgl:lwjgl-openal:natives-windows-x86:3.3.3" type="java-imported" external-system-id="GRADLE">
-      <properties groupId="org.lwjgl" artifactId="lwjgl-openal" version="3.3.3" baseVersion="3.3.3" />
-      <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-openal/3.3.3/87b8d5050e3adb46bb58fe1cb2669a4a48fce10d/lwjgl-openal-3.3.3-natives-windows-x86.jar!/" />
-      </CLASSES>
-      <JAVADOC />
-      <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-openal/3.3.3/60a4ce24d71b3376ce53b50cfe3eaaf3277dd727/lwjgl-openal-3.3.3-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Gradle: org.lwjgl:lwjgl-openal:natives-windows:3.3.3" type="java-imported" external-system-id="GRADLE">
-      <properties groupId="org.lwjgl" artifactId="lwjgl-openal" version="3.3.3" baseVersion="3.3.3" />
-      <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-openal/3.3.3/cf83862ae95d98496b26915024c7e666d8ab1c8f/lwjgl-openal-3.3.3-natives-windows.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-openal/3.3.3/3037360cc4595079bea240af250b6d1a527e0905/lwjgl-openal-3.3.3-natives-linux.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
@@ -986,30 +970,10 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-opengl/3.3.3/3353d0b2cac91b84088b01711d33cc403893450b/lwjgl-opengl-3.3.3-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.lwjgl:lwjgl-opengl:natives-windows-arm64:3.3.3" type="java-imported" external-system-id="GRADLE">
+    <library name="Gradle: org.lwjgl:lwjgl-opengl:natives-linux:3.3.3" type="java-imported" external-system-id="GRADLE">
       <properties groupId="org.lwjgl" artifactId="lwjgl-opengl" version="3.3.3" baseVersion="3.3.3" />
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-opengl/3.3.3/65e956d3735a1abdc82eff4baec1b61174697d4b/lwjgl-opengl-3.3.3-natives-windows-arm64.jar!/" />
-      </CLASSES>
-      <JAVADOC />
-      <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-opengl/3.3.3/3353d0b2cac91b84088b01711d33cc403893450b/lwjgl-opengl-3.3.3-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Gradle: org.lwjgl:lwjgl-opengl:natives-windows-x86:3.3.3" type="java-imported" external-system-id="GRADLE">
-      <properties groupId="org.lwjgl" artifactId="lwjgl-opengl" version="3.3.3" baseVersion="3.3.3" />
-      <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-opengl/3.3.3/d32d833dcaa2f355a886eaf21f0408b5f03241d/lwjgl-opengl-3.3.3-natives-windows-x86.jar!/" />
-      </CLASSES>
-      <JAVADOC />
-      <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-opengl/3.3.3/3353d0b2cac91b84088b01711d33cc403893450b/lwjgl-opengl-3.3.3-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Gradle: org.lwjgl:lwjgl-opengl:natives-windows:3.3.3" type="java-imported" external-system-id="GRADLE">
-      <properties groupId="org.lwjgl" artifactId="lwjgl-opengl" version="3.3.3" baseVersion="3.3.3" />
-      <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-opengl/3.3.3/e6c1eec8be8a71951b830a4d69efc01c6531900c/lwjgl-opengl-3.3.3-natives-windows.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-opengl/3.3.3/62c70a4b00ca5391882b0f4b787c1588d24f1c86/lwjgl-opengl-3.3.3-natives-linux.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
@@ -1026,30 +990,10 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-stb/3.3.3/37c2b604ec4a5ee356dd734dc8167a193e8874ed/lwjgl-stb-3.3.3-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.lwjgl:lwjgl-stb:natives-windows-arm64:3.3.3" type="java-imported" external-system-id="GRADLE">
+    <library name="Gradle: org.lwjgl:lwjgl-stb:natives-linux:3.3.3" type="java-imported" external-system-id="GRADLE">
       <properties groupId="org.lwjgl" artifactId="lwjgl-stb" version="3.3.3" baseVersion="3.3.3" />
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-stb/3.3.3/a584ab44de569708871f0a79561f4d8c37487f2c/lwjgl-stb-3.3.3-natives-windows-arm64.jar!/" />
-      </CLASSES>
-      <JAVADOC />
-      <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-stb/3.3.3/37c2b604ec4a5ee356dd734dc8167a193e8874ed/lwjgl-stb-3.3.3-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Gradle: org.lwjgl:lwjgl-stb:natives-windows-x86:3.3.3" type="java-imported" external-system-id="GRADLE">
-      <properties groupId="org.lwjgl" artifactId="lwjgl-stb" version="3.3.3" baseVersion="3.3.3" />
-      <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-stb/3.3.3/b5c874687b9aac1a936501d4ed2c49567fd1b575/lwjgl-stb-3.3.3-natives-windows-x86.jar!/" />
-      </CLASSES>
-      <JAVADOC />
-      <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-stb/3.3.3/37c2b604ec4a5ee356dd734dc8167a193e8874ed/lwjgl-stb-3.3.3-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Gradle: org.lwjgl:lwjgl-stb:natives-windows:3.3.3" type="java-imported" external-system-id="GRADLE">
-      <properties groupId="org.lwjgl" artifactId="lwjgl-stb" version="3.3.3" baseVersion="3.3.3" />
-      <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-stb/3.3.3/1d9facdf6541de114b0f963be33505b7679c78cb/lwjgl-stb-3.3.3-natives-windows.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-stb/3.3.3/fd1271ccd9d85eff2fa31f3fd543e02ccfaf5041/lwjgl-stb-3.3.3-natives-linux.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
@@ -1066,30 +1010,10 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-tinyfd/3.3.3/dcda55223f2f940654d222bf4371baa969c60bb9/lwjgl-tinyfd-3.3.3-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.lwjgl:lwjgl-tinyfd:natives-windows-arm64:3.3.3" type="java-imported" external-system-id="GRADLE">
+    <library name="Gradle: org.lwjgl:lwjgl-tinyfd:natives-linux:3.3.3" type="java-imported" external-system-id="GRADLE">
       <properties groupId="org.lwjgl" artifactId="lwjgl-tinyfd" version="3.3.3" baseVersion="3.3.3" />
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-tinyfd/3.3.3/a88c494f3006eb91a7433b12a3a55a9a6c20788b/lwjgl-tinyfd-3.3.3-natives-windows-arm64.jar!/" />
-      </CLASSES>
-      <JAVADOC />
-      <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-tinyfd/3.3.3/dcda55223f2f940654d222bf4371baa969c60bb9/lwjgl-tinyfd-3.3.3-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Gradle: org.lwjgl:lwjgl-tinyfd:natives-windows-x86:3.3.3" type="java-imported" external-system-id="GRADLE">
-      <properties groupId="org.lwjgl" artifactId="lwjgl-tinyfd" version="3.3.3" baseVersion="3.3.3" />
-      <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-tinyfd/3.3.3/c336c84ee88cccb495c6ffa112395509e7378e8a/lwjgl-tinyfd-3.3.3-natives-windows-x86.jar!/" />
-      </CLASSES>
-      <JAVADOC />
-      <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-tinyfd/3.3.3/dcda55223f2f940654d222bf4371baa969c60bb9/lwjgl-tinyfd-3.3.3-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Gradle: org.lwjgl:lwjgl-tinyfd:natives-windows:3.3.3" type="java-imported" external-system-id="GRADLE">
-      <properties groupId="org.lwjgl" artifactId="lwjgl-tinyfd" version="3.3.3" baseVersion="3.3.3" />
-      <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-tinyfd/3.3.3/a6697981b0449a5087c1d546fc08b4f73e8f98c9/lwjgl-tinyfd-3.3.3-natives-windows.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-tinyfd/3.3.3/d8d58daa0c3e5fd906fee96f5fddbcbc07cc308b/lwjgl-tinyfd-3.3.3-natives-linux.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
@@ -1106,30 +1030,10 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl/3.3.3/e5949c7bbf4f839afe6d1a631e9b75f63c559e0/lwjgl-3.3.3-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.lwjgl:lwjgl:natives-windows-arm64:3.3.3" type="java-imported" external-system-id="GRADLE">
+    <library name="Gradle: org.lwjgl:lwjgl:natives-linux:3.3.3" type="java-imported" external-system-id="GRADLE">
       <properties groupId="org.lwjgl" artifactId="lwjgl" version="3.3.3" baseVersion="3.3.3" />
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl/3.3.3/e9aca8c5479b520a2a7f0d542a118140e812c5e8/lwjgl-3.3.3-natives-windows-arm64.jar!/" />
-      </CLASSES>
-      <JAVADOC />
-      <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl/3.3.3/e5949c7bbf4f839afe6d1a631e9b75f63c559e0/lwjgl-3.3.3-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Gradle: org.lwjgl:lwjgl:natives-windows-x86:3.3.3" type="java-imported" external-system-id="GRADLE">
-      <properties groupId="org.lwjgl" artifactId="lwjgl" version="3.3.3" baseVersion="3.3.3" />
-      <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl/3.3.3/9e670718e050aeaeea0c2d5b907cffb142f2e58f/lwjgl-3.3.3-natives-windows-x86.jar!/" />
-      </CLASSES>
-      <JAVADOC />
-      <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl/3.3.3/e5949c7bbf4f839afe6d1a631e9b75f63c559e0/lwjgl-3.3.3-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Gradle: org.lwjgl:lwjgl:natives-windows:3.3.3" type="java-imported" external-system-id="GRADLE">
-      <properties groupId="org.lwjgl" artifactId="lwjgl" version="3.3.3" baseVersion="3.3.3" />
-      <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl/3.3.3/a5ed18a2b82fc91b81f40d717cb1f64c9dcb0540/lwjgl-3.3.3-natives-windows.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl/3.3.3/1713758e3660ba66e1e954396fd18126038b33c0/lwjgl-3.3.3-natives-linux.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>

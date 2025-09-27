@@ -50,8 +50,8 @@ import java.nio.file.Path;
 import static net.neoforged.neoforge.internal.versions.neoforge.NeoForgeVersion.MOD_ID;
 
 // The value here should match an entry in the META-INF/mods.toml file
-@Mod(DisableModMain.MODID)
-public class DisableModMain
+@Mod(Main.MODID)
+public class Main
 {
     // Define mod id in a common place for everything to reference
     public static final String MODID = "moddisable";
@@ -61,7 +61,7 @@ public class DisableModMain
 
     private static final DeferredRegister<AttachmentType<?>> ATTACHMENT_TYPES = DeferredRegister.create(NeoForgeRegistries.ATTACHMENT_TYPES, MOD_ID);
 
-        public DisableModMain(IEventBus modBus, ModContainer modContainer)
+        public Main(IEventBus modBus, ModContainer modContainer)
         {
             // Register ourselves for server and other game events we are interested in
             //NeoForge.EVENT_BUS.register(this);

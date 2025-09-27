@@ -25,6 +25,7 @@ import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.StaticPathStorag
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.neoforged.fml.loading.FMLPaths;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -32,6 +33,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class JsonHelper {
 
@@ -148,5 +153,33 @@ public class JsonHelper {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public boolean defaultDisabledListChecksumManger(){
+        Path configDir = FMLPaths.CONFIGDIR.get();
+        Path configPath = configDir.resolve("ModDisable/DefaultDisabledItemsList.json");
+        Path configChecksumPath = configDir.resolve("ModDisable/Checksum.txt");
+
+        File configFile = configPath.toFile();
+        File configChecksumFile = configChecksumPath.toFile();
+
+        try {
+            MessageDigest mdigest = MessageDigest.getInstance("MD5");
+            String checksum = FileSecurity.checksum(mdigest, configFile);
+            if (!configChecksumFile.exists()) {
+                boolean FileCreateStatus = configChecksumFile.createNewFile();
+            }
+            String checksumFromFile = Files.readString(configChecksumPath);
+            if (checksum == checksumFromFile) {
+                return false;
+            } else {
+                Files.writeString(configChecksumPath, checksum);
+                return true;
+            }
+
+        } catch (NoSuchAlgorithmException | IOException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

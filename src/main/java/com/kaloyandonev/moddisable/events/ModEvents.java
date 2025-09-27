@@ -17,24 +17,21 @@
 
 package com.kaloyandonev.moddisable.events;
 
-import com.kaloyandonev.moddisable.DisableModMain;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
+import com.kaloyandonev.moddisable.Main;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.Mod;
-import com.kaloyandonev.moddisable.commands.Disable_Mod;
+import com.kaloyandonev.moddisable.commands.CommandManager;
 import net.neoforged.neoforge.server.command.ConfigCommand;
 
-@EventBusSubscriber(modid = DisableModMain.MODID)
+@EventBusSubscriber(modid = Main.MODID)
 public class ModEvents {
 
     @SubscribeEvent
     public static void onCommandRegister(RegisterCommandsEvent event){
 
-        Disable_Mod.registerCommand(event.getDispatcher(), event.getBuildContext());
+        CommandManager.registerCommand(event.getDispatcher(), event.getBuildContext());
 
         ConfigCommand.register(event.getDispatcher());
     }

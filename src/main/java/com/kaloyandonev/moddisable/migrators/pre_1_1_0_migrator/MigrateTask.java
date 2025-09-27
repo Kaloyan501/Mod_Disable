@@ -18,27 +18,23 @@
 
 package com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator;
 
-import com.kaloyandonev.moddisable.commands.Disable_Mod;
 import com.kaloyandonev.moddisable.helpers.CopyFolderContents;
 import com.kaloyandonev.moddisable.helpers.RecursiveFolderDeleter;
-import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.*;
 import net.minecraft.client.Minecraft;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.checkerframework.checker.units.qual.C;
 import com.kaloyandonev.moddisable.helpers.isSinglePlayer;
 import com.kaloyandonev.moddisable.helpers.processAllDisabledItemsFromJson;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 @OnlyIn(Dist.CLIENT)
 public class MigrateTask {
-    //private Disable_Mod disable_mod = new Disable_Mod();
+    //private CommandManager disable_mod = new CommandManager();
     private isSinglePlayer isSinglePlayer = new isSinglePlayer();
 
     private static final Logger logger = LogManager.getLogger();

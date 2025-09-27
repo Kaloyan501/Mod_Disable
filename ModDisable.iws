@@ -5,15 +5,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="13fe1274-636e-4834-94a4-9b833a0b7af4" name="Changes" comment="Bump version number to 1.3.0">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/gametest/GameTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/FileSecurity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/HeldItemManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/PlayerItemHashmapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ModDisable.ipr" beforeDir="false" afterPath="$PROJECT_DIR$/ModDisable.ipr" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ModDisable.iws" beforeDir="false" afterPath="$PROJECT_DIR$/ModDisable.iws" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Mod_Disable.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Mod_Disable.main.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Mod_Disable.test.iml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/commands/Disable_Mod.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/commands/Disable_Mod.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/RecipeDisabler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/RecipeDisabler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/Config.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/DisableModMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/commands/Disable_Mod.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/commands/CommandManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/disablelogic/playerjoinsyncpacket/PlayerJoinSyncPacket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/disablelogic/playerjoinsyncpacket/PlayerJoinSyncPacket.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/events/ModEvents.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/events/ModEvents.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/JsonHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/JsonHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/RecipeDisabler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/RecipeManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/RecipeDisabler.java.ignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/config/InitialStateDataHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/config/InitialStateDataHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/processAllDisabledItemsFromJson.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/processAllDisabledItemsFromJson.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/migrators/pre_1_1_0_migrator/ClientTickHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/migrators/pre_1_1_0_migrator/ClientTickHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/migrators/pre_1_1_0_migrator/MigrateTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/migrators/pre_1_1_0_migrator/MigrateTask.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,18 +87,7 @@
             <expand>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="Mod_Disable_Remote" type="f1a62948:ProjectNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="Mod_Disable_Remote" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="Mod_Disable_Remote" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="build" type="c8890929:TasksNode$1" />
+                <item name="Mod_Disable" type="f1a62948:ProjectNode" />
               </path>
             </expand>
             <select />
@@ -125,7 +125,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/Kaloyan501/Mod_Disable.git&quot;,
-    &quot;accountId&quot;: &quot;812f1dde-bc08-4bf8-97fd-4213972d6d41&quot;
+    &quot;accountId&quot;: &quot;5a6caf09-40da-4d75-804c-7ad00277d0d6&quot;
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
@@ -154,34 +154,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Gradle.Build Mod_Disable.executor": "Run",
-    "Gradle.Build Mod_Disable_Remote.executor": "Run",
-    "Gradle.Mod_Disable [runClient].executor": "Debug",
-    "Gradle.Mod_Disable [runServer].executor": "Debug",
-    "Gradle.Mod_Disable_Remote [build].executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "SONARLINT_PRECOMMIT_ANALYSIS": "true",
-    "git-widget-placeholder": "main",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/koko_programing/Mod_Disable_Remote/run/disabled_items",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "com.obiscr.chatgpt.settings.EasyCodeSettings"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Gradle.Build Mod_Disable.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Build Mod_Disable_Remote.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Mod_Disable [:net.neoforged.devlaunch.Main.main()].executor&quot;: &quot;Debug&quot;,
+    &quot;Gradle.Mod_Disable [runClient].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Mod_Disable [runServer].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Mod_Disable_Remote [build].executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;SONARLINT_PRECOMMIT_ANALYSIS&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/koko_programing/Mod_Disable_Remote/run/disabled_items&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.obiscr.chatgpt.settings.EasyCodeSettings&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\koko_programing\Mod_Disable_Remote\run\disabled_items" />
       <recent name="C:\koko_programing\Mod_Disable_Remote" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.Mod_Disable [runServer]">
+  <component name="RunManager" selected="Application.Client">
     <configuration default="true" type="Applet" factoryName="Applet">
       <module name="" />
       <option name="MAIN_CLASS_NAME" />
@@ -204,9 +205,9 @@
     </configuration>
     <configuration name="Client" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="net.neoforged.devlaunch.Main" />
-      <module name="Mod_Disable_Remote.main" />
-      <option name="PROGRAM_PARAMETERS" value="@C:\\koko_programing\\Mod_Disable_Remote\\build\\moddev\\clientRunProgramArgs.txt" />
-      <option name="VM_PARAMETERS" value="@C:\\koko_programing\\Mod_Disable_Remote\\build\\moddev\\clientRunVmArgs.txt -Dfml.modFolders=moddisable%%C:\\koko_programing\\Mod_Disable_Remote\\build\\classes\\java\\main;moddisable%%C:\\koko_programing\\Mod_Disable_Remote\\build\\resources\\main" />
+      <module name="Mod_Disable.main" />
+      <option name="PROGRAM_PARAMETERS" value="@$PROJECT_DIR$/build/moddev/clientRunProgramArgs.txt" />
+      <option name="VM_PARAMETERS" value="@$PROJECT_DIR$/build/moddev/clientRunVmArgs.txt -Dfml.modFolders=moddisable%%$PROJECT_DIR$/build/classes/java/main:moddisable%%$PROJECT_DIR$/build/resources/main" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/run" />
       <method v="2">
         <option name="BuildArtifacts" enabled="false" />
@@ -215,9 +216,9 @@
     </configuration>
     <configuration name="Data" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="net.neoforged.devlaunch.Main" />
-      <module name="Mod_Disable_Remote.main" />
-      <option name="PROGRAM_PARAMETERS" value="@C:\\koko_programing\\Mod_Disable_Remote\\build\\moddev\\dataRunProgramArgs.txt" />
-      <option name="VM_PARAMETERS" value="@C:\\koko_programing\\Mod_Disable_Remote\\build\\moddev\\dataRunVmArgs.txt -Dfml.modFolders=moddisable%%C:\\koko_programing\\Mod_Disable_Remote\\build\\classes\\java\\main;moddisable%%C:\\koko_programing\\Mod_Disable_Remote\\build\\resources\\main" />
+      <module name="Mod_Disable.main" />
+      <option name="PROGRAM_PARAMETERS" value="@$PROJECT_DIR$/build/moddev/dataRunProgramArgs.txt" />
+      <option name="VM_PARAMETERS" value="@$PROJECT_DIR$/build/moddev/dataRunVmArgs.txt -Dfml.modFolders=moddisable%%$PROJECT_DIR$/build/classes/java/main:moddisable%%$PROJECT_DIR$/build/resources/main" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/run" />
       <method v="2">
         <option name="BuildArtifacts" enabled="false" />
@@ -226,9 +227,9 @@
     </configuration>
     <configuration name="GameTestServer" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="net.neoforged.devlaunch.Main" />
-      <module name="Mod_Disable_Remote.main" />
-      <option name="PROGRAM_PARAMETERS" value="@C:\\koko_programing\\Mod_Disable_Remote\\build\\moddev\\gameTestServerRunProgramArgs.txt" />
-      <option name="VM_PARAMETERS" value="@C:\\koko_programing\\Mod_Disable_Remote\\build\\moddev\\gameTestServerRunVmArgs.txt -Dfml.modFolders=moddisable%%C:\\koko_programing\\Mod_Disable_Remote\\build\\classes\\java\\main;moddisable%%C:\\koko_programing\\Mod_Disable_Remote\\build\\resources\\main" />
+      <module name="Mod_Disable.main" />
+      <option name="PROGRAM_PARAMETERS" value="@$PROJECT_DIR$/build/moddev/gameTestServerRunProgramArgs.txt" />
+      <option name="VM_PARAMETERS" value="@$PROJECT_DIR$/build/moddev/gameTestServerRunVmArgs.txt -Dfml.modFolders=moddisable%%$PROJECT_DIR$/build/classes/java/main:moddisable%%$PROJECT_DIR$/build/resources/main" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/run" />
       <method v="2">
         <option name="BuildArtifacts" enabled="false" />
@@ -237,9 +238,9 @@
     </configuration>
     <configuration name="Server" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="net.neoforged.devlaunch.Main" />
-      <module name="Mod_Disable_Remote.main" />
-      <option name="PROGRAM_PARAMETERS" value="@C:\\koko_programing\\Mod_Disable_Remote\\build\\moddev\\serverRunProgramArgs.txt" />
-      <option name="VM_PARAMETERS" value="@C:\\koko_programing\\Mod_Disable_Remote\\build\\moddev\\serverRunVmArgs.txt -Dfml.modFolders=moddisable%%C:\\koko_programing\\Mod_Disable_Remote\\build\\classes\\java\\main;moddisable%%C:\\koko_programing\\Mod_Disable_Remote\\build\\resources\\main" />
+      <module name="Mod_Disable.main" />
+      <option name="PROGRAM_PARAMETERS" value="@$PROJECT_DIR$/build/moddev/serverRunProgramArgs.txt" />
+      <option name="VM_PARAMETERS" value="@$PROJECT_DIR$/build/moddev/serverRunVmArgs.txt -Dfml.modFolders=moddisable%%$PROJECT_DIR$/build/classes/java/main:moddisable%%$PROJECT_DIR$/build/resources/main" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/run" />
       <method v="2">
         <option name="BuildArtifacts" enabled="false" />
@@ -258,7 +259,7 @@
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
+        <option name="scriptParameters" value="" />
         <option name="taskDescriptions">
           <list />
         </option>
@@ -267,7 +268,7 @@
             <option value="runClient" />
           </list>
         </option>
-        <option name="vmOptions" />
+        <option name="vmOptions" value="-Xmx4096m -Xms4096m" />
       </ExternalSystemSettings>
       <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
@@ -342,11 +343,20 @@
         <option name="BuildArtifacts" enabled="false" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Application.Client" />
+      <item itemvalue="Application.Data" />
+      <item itemvalue="Application.GameTestServer" />
+      <item itemvalue="Application.Server" />
+      <item itemvalue="Gradle.Mod_Disable [runClient]" />
+      <item itemvalue="Gradle.Mod_Disable [runServer]" />
+      <item itemvalue="Gradle.Mod_Disable_Remote [build]" />
+    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.Mod_Disable [runServer]" />
-        <item itemvalue="Gradle.Mod_Disable [runClient]" />
         <item itemvalue="Gradle.Mod_Disable_Remote [build]" />
+        <item itemvalue="Gradle.Mod_Disable [runClient]" />
+        <item itemvalue="Gradle.Mod_Disable [runServer]" />
       </list>
     </recent_temporary>
   </component>
@@ -652,20 +662,194 @@
           </properties>
           <option name="timeStamp" value="191" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
-          <line>100</line>
-          <option name="timeStamp" value="233" />
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/commands/CommandManager.java</url>
+          <line>169</line>
+          <properties class="com.kaloyandonev.moddisable.commands.CommandManager" method="execute">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="239" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/HeldItemManager.java</url>
+          <line>19</line>
+          <properties class="com.kaloyandonev.moddisable.helpers.HeldItemManager" method="DisableHeldItem">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="265" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/HeldItemManager.java</url>
+          <line>39</line>
+          <properties class="com.kaloyandonev.moddisable.helpers.HeldItemManager" method="DisableHeldNamespace">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="274" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/HeldItemManager.java</url>
+          <line>28</line>
+          <properties class="com.kaloyandonev.moddisable.helpers.HeldItemManager" method="EnableHeldNamespace">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="275" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/commands/CommandManager.java</url>
+          <line>119</line>
+          <option name="timeStamp" value="236" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/commands/CommandManager.java</url>
+          <line>120</line>
+          <properties>
+            <option name="lambda-ordinal" value="0" />
+          </properties>
+          <option name="timeStamp" value="238" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/commands/CommandManager.java</url>
+          <line>206</line>
+          <option name="timeStamp" value="253" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/commands/CommandManager.java</url>
+          <line>228</line>
+          <option name="timeStamp" value="255" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/commands/CommandManager.java</url>
+          <line>230</line>
+          <option name="timeStamp" value="256" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/commands/CommandManager.java</url>
+          <line>229</line>
+          <option name="timeStamp" value="257" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/HeldItemManager.java</url>
+          <line>26</line>
+          <option name="timeStamp" value="258" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/HeldItemManager.java</url>
+          <line>25</line>
+          <option name="timeStamp" value="259" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/HeldItemManager.java</url>
+          <line>24</line>
+          <option name="timeStamp" value="260" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/HeldItemManager.java</url>
+          <line>23</line>
+          <option name="timeStamp" value="261" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/HeldItemManager.java</url>
+          <line>22</line>
+          <option name="timeStamp" value="262" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/HeldItemManager.java</url>
+          <line>21</line>
+          <option name="timeStamp" value="263" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/HeldItemManager.java</url>
+          <line>20</line>
+          <option name="timeStamp" value="264" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/HeldItemManager.java</url>
+          <line>49</line>
+          <option name="timeStamp" value="266" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/HeldItemManager.java</url>
+          <line>47</line>
+          <option name="timeStamp" value="267" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/HeldItemManager.java</url>
+          <line>48</line>
+          <option name="timeStamp" value="268" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/HeldItemManager.java</url>
+          <line>45</line>
+          <option name="timeStamp" value="269" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/HeldItemManager.java</url>
+          <line>46</line>
+          <option name="timeStamp" value="270" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/HeldItemManager.java</url>
+          <line>44</line>
+          <option name="timeStamp" value="271" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/HeldItemManager.java</url>
+          <line>41</line>
+          <option name="timeStamp" value="272" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/HeldItemManager.java</url>
+          <line>40</line>
+          <option name="timeStamp" value="273" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/HeldItemManager.java</url>
+          <line>30</line>
+          <option name="timeStamp" value="276" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/HeldItemManager.java</url>
+          <line>29</line>
+          <option name="timeStamp" value="277" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/HeldItemManager.java</url>
+          <line>31</line>
+          <option name="timeStamp" value="278" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/HeldItemManager.java</url>
+          <line>32</line>
+          <option name="timeStamp" value="279" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/HeldItemManager.java</url>
+          <line>34</line>
+          <option name="timeStamp" value="280" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/HeldItemManager.java</url>
+          <line>33</line>
+          <option name="timeStamp" value="281" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/HeldItemManager.java</url>
+          <line>35</line>
+          <option name="timeStamp" value="282" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/HeldItemManager.java</url>
+          <line>36</line>
+          <option name="timeStamp" value="283" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
-          <line>102</line>
-          <option name="timeStamp" value="234" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
-          <line>101</line>
-          <option name="timeStamp" value="235" />
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/commands/CommandManager.java</url>
+          <line>93</line>
+          <option name="timeStamp" value="285" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

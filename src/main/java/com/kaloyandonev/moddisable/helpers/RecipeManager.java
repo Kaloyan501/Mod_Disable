@@ -17,21 +17,11 @@
 package com.kaloyandonev.moddisable.helpers;
 
 import com.google.gson.*;
-import net.minecraft.core.Registry;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.references.Blocks;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.RegistryLayer;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.level.storage.LevelResource;
-import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
-import org.intellij.lang.annotations.Identifier;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -45,7 +35,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 
-public class RecipeDisabler {
+public class RecipeManager {
 
     private static Path FindPlayerFolder(String playerUUID) {
         MinecraftServer server = ServerLifecycleHooks.getCurrentServer();

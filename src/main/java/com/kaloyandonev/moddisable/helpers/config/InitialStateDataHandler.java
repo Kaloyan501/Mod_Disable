@@ -90,8 +90,8 @@ public class InitialStateDataHandler {
                     try {
                         copyFile(DefaultDisabledItemsList, PlayerDisabledItemsFile);
                         source.sendSuccess(() -> Component.literal("[Mod Disable] Default disabled items list copied to your player disabled items list location."), false);
-                        //RecipeDisabler.enableAllRecipes(source.getServer());
-                        //RecipeDisabler.queueRecipeRemovalFromJson(PlayerDisabledItemsFile.toString());
+                        //RecipeManager.enableAllRecipes(source.getServer());
+                        //RecipeManager.queueRecipeRemovalFromJson(PlayerDisabledItemsFile.toString());
                         source.sendSuccess(() -> Component.literal("[Mod Disable] Reload of disabled recipes started for your player."), false);
                         return 0;
                     } catch (IOException e) {

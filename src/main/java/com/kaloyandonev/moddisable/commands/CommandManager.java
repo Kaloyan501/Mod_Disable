@@ -17,6 +17,8 @@
 
 package com.kaloyandonev.moddisable.commands;
 
+import com.kaloyandonev.moddisable.helpers.HeldItemManager;
+import com.kaloyandonev.moddisable.helpers.RecipeManager;
 import com.kaloyandonev.moddisable.helpers.isSinglePlayer;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.*;
 import com.mojang.brigadier.CommandDispatcher;
@@ -40,7 +42,6 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
-import com.kaloyandonev.moddisable.helpers.RecipeDisabler;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.neoforged.fml.loading.FMLEnvironment;
@@ -48,18 +49,18 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
-import java.util.spi.AbstractResourceBundleProvider;
+import java.util.Objects;
 
 import static com.kaloyandonev.moddisable.helpers.config.InitialStateDataHandler.executeConfigRequest;
 import static com.kaloyandonev.moddisable.helpers.config.InitialStateDataHandler.executeReinitRequest;
 
 
-public class Disable_Mod{
+public class CommandManager {
 
-    private static final Logger logger = LogManager.getLogger(Disable_Mod.class);
+    private static final Logger logger = LogManager.getLogger(CommandManager.class);
     private final isSinglePlayer isSinglePlayer = new isSinglePlayer();
 
-    public Disable_Mod(IEventBus modEventBus){
+    public CommandManager(IEventBus modEventBus) {
 
         modEventBus.addListener(this::ClientCode);
         modEventBus.addListener(this::onLoadComplete);
@@ -67,7 +68,7 @@ public class Disable_Mod{
         NeoForge.EVENT_BUS.register(this);
     }
 
-    public void onLoadComplete(FMLLoadCompleteEvent event){
+    public void onLoadComplete(FMLLoadCompleteEvent event) {
         isSinglePlayer.checkisSinglePlayer(event);
     }
 
@@ -96,13 +97,19 @@ public class Disable_Mod{
                         .then(Commands.literal("enable")
                                 .requires(source -> source.hasPermission(2))
                                 .then(Commands.literal("namespace")
+                                        .then(Commands.literal("hand")
+                                                .executes(context -> execute(context, "enable", "hand"))
+                                        )
                                         .then(Commands.argument("namespace", StringArgumentType.string())
                                                 .executes(context -> execute(context, "enable", StringArgumentType.getString(context, "namespace")))
                                         )
                                 )
                                 .then(Commands.literal("item")
+                                        .then(Commands.literal("hand")
+                                                .executes(context -> executeWithItem(context, "enable", null, true))
+                                        )
                                         .then(Commands.argument("item", ItemArgument.item(buildContext))
-                                                .executes(context -> executeWithItem(context, "enable", ItemArgument.getItem(context, "item").getItem()))
+                                                .executes(context -> executeWithItem(context, "enable", ItemArgument.getItem(context, "item").getItem(), false))
                                         )
                                 )
                                 .then(Commands.literal("all")
@@ -113,17 +120,23 @@ public class Disable_Mod{
                         .then(Commands.literal("disable")
                                 .requires(source -> source.hasPermission(2))
                                 .then(Commands.literal("namespace")
+                                        .then(Commands.literal("hand")
+                                                .executes(context -> execute(context, "disable", "hand"))
+                                        )
                                         .then(Commands.argument("namespace", StringArgumentType.string())
                                                 .executes(context -> execute(context, "disable", StringArgumentType.getString(context, "namespace")))
                                         )
                                 )
                                 .then(Commands.literal("item")
+                                        .then(Commands.literal("hand")
+                                                .executes(context -> executeWithItem(context, "disable", null, true))
+                                        )
                                         .then(Commands.argument("item", ItemArgument.item(buildContext))
-                                                .executes(context -> executeWithItem(context, "disable", ItemArgument.getItem(context, "item").getItem()))
+                                                .executes(context -> executeWithItem(context, "disable", ItemArgument.getItem(context, "item").getItem(), false))
                                         )
                                 )
                                 .then(Commands.literal("all")
-                                    .executes(context -> execute(context, "disable", "all"))
+                                        .executes(context -> execute(context, "disable", "all"))
                                 )
                         )
                         // 'config' command
@@ -147,8 +160,11 @@ public class Disable_Mod{
                                         )
                                 )
                         )
+                        .then(Commands.literal("help")
+                                .executes(context -> executeHelp(context)))
         );
     }
+
 
     //Method to handle namespaces
     private static int execute(CommandContext<CommandSourceStack> context, String action, String namespace) {
@@ -165,7 +181,7 @@ public class Disable_Mod{
         // Handle "disable all" explicitly
         if (action.equals("disable") && namespace.equals("all")) {
             try {
-                RecipeDisabler.DisableAll(player.getStringUUID());
+                RecipeManager.DisableAll(player.getStringUUID());
             } catch (IOException e) {
                 logger.error("Disabling all items failed with error:", e);
                 source.sendFailure(Component.literal("Disabling all items failed with error:" + e));
@@ -177,8 +193,8 @@ public class Disable_Mod{
 
         if (action.equals("enable") && namespace.equals("all")) {
             try {
-                RecipeDisabler.EnableAll(player.getStringUUID());
-            } catch (IOException e){
+                RecipeManager.EnableAll(player.getStringUUID());
+            } catch (IOException e) {
                 logger.error("Enabling all items failed with error:", e);
                 source.sendFailure(Component.literal("[ModDisable] Enabling all items failed with error:" + e));
                 return 0;
@@ -193,42 +209,53 @@ public class Disable_Mod{
         switch (actionTarget) {
             case "enable namespace":
                 try {
-                    RecipeDisabler.EnableNamespace(player.getStringUUID(), namespace);
+                    if (Objects.equals(namespace, "hand")) {
+                        HeldItemManager.EnableHeldNamespace(player, source);
+                    } else {
+                        RecipeManager.EnableNamespace(player.getStringUUID(), namespace);
+                    }
+                    source.sendSuccess(() -> Component.literal("[ModDisable] Mod namespace enabled!"), false);
+                    return 0;
+
                 } catch (IOException e) {
                     logger.error("Enabling namespace failed.", e);
                     source.sendFailure(Component.literal("[ModDisable] Enabling namespace failed." + e));
                     return 0;
                 }
-                source.sendSuccess(() -> Component.literal("[ModDisable] Mod namespace enabled!"), false);
-                break;
+                //break;
 
             case "disable namespace":
                 logger.info("[Mod Disable]Namespace argument: {}", namespace);
                 try {
-                    RecipeDisabler.DisableNamespace(player.getStringUUID(), namespace);
+                    if (Objects.equals(namespace, "hand")) {
+                        HeldItemManager.DisableHeldNamespace(player, source);
+                    } else {
+                        RecipeManager.DisableNamespace(player.getStringUUID(), namespace);
+                    }
+                    source.sendSuccess(() -> Component.literal("[ModDisable] Mod namespace disabled!"), false);
+                    return 0;
+
                 } catch (IOException e) {
                     logger.error("Disabling namespace failed.", e);
                     source.sendFailure(Component.literal("[ModDisable] Disabling namespace failed." + e));
                     return 0;
                 }
-                source.sendSuccess(() -> Component.literal("[ModDisable] Mod namespace disabled!"), false);
-                break;
+
+                //break;
 
             default:
                 source.sendFailure(Component.literal("[ModDisable] Invalid action!"));
                 return 0;
         }
 
-        return 1;
+        //return 1;
     }
 
     //Method to handle items
-    private static int executeWithItem(CommandContext<CommandSourceStack> context, String action, Item item){
-        CommandSourceStack source = context.getSource();
-        ItemStack itemStack = new ItemStack(item);
-        String itemName = itemStack.getDisplayName().getString();
-        Player player;
+    private static int executeWithItem(CommandContext<CommandSourceStack> context, String action, Item item, boolean handFlag) {
 
+        CommandSourceStack source = context.getSource();
+        Player player;
         try {
             player = source.getPlayerOrException();
         } catch (CommandSyntaxException e) {
@@ -236,44 +263,74 @@ public class Disable_Mod{
             return 0;
         }
 
-
-        switch (action + " " + "item") {
-            case "enable item":
-                source.sendSuccess(() -> Component.literal("[ModDisable] Mod item " + itemName + " enabled!"), false);
-                Registry<Item> registry = BuiltInRegistries.ITEM;
-                ResourceLocation key = registry.getKey(item);
-                String idStr = key.toString();
-
-                try{
-                    RecipeDisabler.EnableItem(player.getStringUUID(), idStr);
-                } catch (IOException e) {
-                    logger.error("Enabling item failed with exception.", e);
-                    source.sendFailure(Component.literal("Enabling item failed with exception" + e));
+        if ((item == null && handFlag)) {
+            switch (action + " " + "hand") {
+                case "enable hand":
+                    HeldItemManager.EnableHeldItem(player, source);
+                    source.sendSuccess(() -> Component.literal("[ModDisable] Enabled held item successfully!"), false);
                     return 0;
-                }
-
-                break;
-            case "disable item":
-
-                source.sendSuccess(() -> Component.literal("[ModDisable] Mod item " + itemName + " disabled!"), false);
-                Registry<Item> registry1 = BuiltInRegistries.ITEM;
-                ResourceLocation key1 = registry1.getKey(item);
-                String idStr1 = key1.toString();
-
-                try {
-                    RecipeDisabler.DisableItem(player.getStringUUID(), idStr1);
-                } catch (IOException e) {
-                    logger.error("Disabling item failed with exception", e);
-                    source.sendFailure(Component.literal("Disabling item fialed with exception" + e));
+                case "disable hand":
+                    HeldItemManager.DisableHeldItem(player, source);
+                    source.sendSuccess(() -> Component.literal("[ModDisable] Disabled held item successfully!"), false);
                     return 0;
-                }
+            }
+        } else {
+            ItemStack itemStack = new ItemStack(item);
+            String itemName = itemStack.getDisplayName().getString();
+            switch (action + " " + "item") {
+                case "enable item":
+                    Registry<Item> registry = BuiltInRegistries.ITEM;
+                    ResourceLocation key = registry.getKey(item);
+                    String idStr = key.toString();
+
+                    try {
+                        RecipeManager.EnableItem(player.getStringUUID(), idStr);
+                        source.sendSuccess(() -> Component.literal("[ModDisable] Mod item " + itemName + " enabled!"), false);
+                        return 0;
+                    } catch (IOException e) {
+                        logger.error("Enabling item failed with exception.", e);
+                        source.sendFailure(Component.literal("Enabling item failed with exception" + e));
+                        return 0;
+                    }
 
 
-                break;
-            default:
-                source.sendFailure(Component.literal("[ModDisable] Invalid action!"));
-                return 0;
+                    //break;
+                case "disable item":
+                    Registry<Item> registry1 = BuiltInRegistries.ITEM;
+                    ResourceLocation key1 = registry1.getKey(item);
+                    String idStr1 = key1.toString();
+
+                    try {
+                        RecipeManager.DisableItem(player.getStringUUID(), idStr1);
+                        source.sendSuccess(() -> Component.literal("[ModDisable] Mod item " + itemName + " disabled!"), false);
+                        return 0;
+                    } catch (IOException e) {
+                        logger.error("Disabling item failed with exception", e);
+                        source.sendFailure(Component.literal("Disabling item failed with exception" + e));
+                        return 0;
+                    }
+                    //break;
+                default:
+                    source.sendFailure(Component.literal("[ModDisable] Invalid action!"));
+                    return 0;
+            }
         }
         return 1;
+    }
+
+    private static int executeHelp(CommandContext<CommandSourceStack> context) {
+        CommandSourceStack source = context.getSource();
+
+        source.sendSuccess(() -> Component.literal("[ModDisable] Help\n" +
+                "/disable_mod - Main command to interface with this mod\n" +
+                "/disable_mod enable/disable item <item name goes here> - Enables/disables a specific item\n" +
+                "/disable_mod enable/disable item hand - Disables the item in hand\n" +
+                "/disable_mod enable/disable namespace <namespace goes here> - Disables all items within a namespace (for example, all items starting with minecraft: )\n" +
+                "/disable_mod enable/disable namespace hand - Disables all items within the namespace of the currently held item\n" +
+                "/disable_mod config DefaultDisabledItemsListFromPlayerUUID - generates a default disabled items list for a modpack, allowing large servers to not lag while searching for namespaces for new players. First, disable all namespaces you want to be disabled for new players for your player, then provide your UUID to this command.\n" +
+                "/disable_mod init - Copies the default disabled items list to the player that initiated the command's UUID. Use this instead of manually disabling every mod namespace.\n" +
+                "/disable_mod reinit - Reinits a corrupted disabled items list by doing the same as init. Note: This will delete the selected player's mod unlock progress!\n" +
+                "/disable_mod disable/enable all - disables/enables all items currently registered in the item registry."), false);
+        return 0;
     }
 }

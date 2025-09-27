@@ -18,22 +18,17 @@
 
 package com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator;
 
-import com.kaloyandonev.moddisable.DisableModMain;
-import com.kaloyandonev.moddisable.commands.Disable_Mod;
-import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.ScreenCrator;
+import com.kaloyandonev.moddisable.Main;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.components.toasts.Toast;
 import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.network.chat.Component;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 
-@EventBusSubscriber(modid = DisableModMain.MODID, bus = EventBusSubscriber.Bus.GAME, value = Dist.CLIENT)
+@EventBusSubscriber(modid = Main.MODID, bus = EventBusSubscriber.Bus.GAME, value = Dist.CLIENT)
 public class ClientTickHandler {
 
     public static boolean hasRun = false;
