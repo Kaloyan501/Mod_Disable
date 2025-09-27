@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="13fe1274-636e-4834-94a4-9b833a0b7af4" name="Changes" comment="Cleanup, some class rename, implementing disabling of the item the player is holding and starting to implement removing items from the player's disabled items list if they are not in the default item list.">
+    <list default="true" id="13fe1274-636e-4834-94a4-9b833a0b7af4" name="Changes" comment=" Implement removing items from the player's disabled items list if they are not in the default item list. (Untested, hopefully it works)">
       <change beforePath="$PROJECT_DIR$/ModDisable.iws" beforeDir="false" afterPath="$PROJECT_DIR$/ModDisable.iws" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/JsonHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/JsonHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/PathHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/PathHelper.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -165,7 +165,7 @@
       <recent name="C:\koko_programing\Mod_Disable_Remote" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Client">
+  <component name="RunManager" selected="Application.Server">
     <configuration default="true" type="Applet" factoryName="Applet">
       <module name="" />
       <option name="MAIN_CLASS_NAME" />
@@ -598,7 +598,15 @@
       <option name="project" value="LOCAL" />
       <updated>1759002609762</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary=" Implement removing items from the player's disabled items list if they are not in the default item list. (Untested, hopefully it works)">
+      <option name="closed" value="true" />
+      <created>1759005647023</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1759005647023</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -613,7 +621,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Refactor code for NeoForge 1.21.1." />
     <MESSAGE value="Start rewriting disabled items list storage to not use packets and make a round trip every time an item is used." />
     <MESSAGE value="Rewrite the whole networking setup." />
     <MESSAGE value="Remove nonexistant import from UseDetector" />
@@ -638,209 +645,149 @@
     <MESSAGE value="Fix multiplayer crash issues by making sure all events only run on the server side. Ready for prod." />
     <MESSAGE value="Bump version number to 1.3.0" />
     <MESSAGE value="Cleanup, some class rename, implementing disabling of the item the player is holding and starting to implement removing items from the player's disabled items list if they are not in the default item list." />
-    <option name="LAST_COMMIT_MESSAGE" value="Cleanup, some class rename, implementing disabling of the item the player is holding and starting to implement removing items from the player's disabled items list if they are not in the default item list." />
+    <MESSAGE value=" Implement removing items from the player's disabled items list if they are not in the default item list. (Untested, hopefully it works)" />
+    <option name="LAST_COMMIT_MESSAGE" value=" Implement removing items from the player's disabled items list if they are not in the default item list. (Untested, hopefully it works)" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/UseDetector.java</url>
-          <line>66</line>
-          <properties class="com.kaloyandonev.moddisable.helpers.UseDetector" method="onUseItemFinish">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="191" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/commands/CommandManager.java</url>
-          <line>169</line>
-          <properties class="com.kaloyandonev.moddisable.commands.CommandManager" method="execute">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="239" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/HeldItemManager.java</url>
-          <line>19</line>
-          <properties class="com.kaloyandonev.moddisable.helpers.HeldItemManager" method="DisableHeldItem">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="265" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/HeldItemManager.java</url>
-          <line>39</line>
-          <properties class="com.kaloyandonev.moddisable.helpers.HeldItemManager" method="DisableHeldNamespace">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="274" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/HeldItemManager.java</url>
-          <line>28</line>
-          <properties class="com.kaloyandonev.moddisable.helpers.HeldItemManager" method="EnableHeldNamespace">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="275" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/commands/CommandManager.java</url>
-          <line>119</line>
-          <option name="timeStamp" value="236" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/commands/CommandManager.java</url>
-          <line>120</line>
-          <properties>
-            <option name="lambda-ordinal" value="0" />
-          </properties>
-          <option name="timeStamp" value="238" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/commands/CommandManager.java</url>
-          <line>206</line>
-          <option name="timeStamp" value="253" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/commands/CommandManager.java</url>
-          <line>228</line>
-          <option name="timeStamp" value="255" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/commands/CommandManager.java</url>
-          <line>230</line>
-          <option name="timeStamp" value="256" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/commands/CommandManager.java</url>
-          <line>229</line>
-          <option name="timeStamp" value="257" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/HeldItemManager.java</url>
-          <line>26</line>
-          <option name="timeStamp" value="258" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/HeldItemManager.java</url>
-          <line>25</line>
-          <option name="timeStamp" value="259" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/HeldItemManager.java</url>
-          <line>24</line>
-          <option name="timeStamp" value="260" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/HeldItemManager.java</url>
-          <line>23</line>
-          <option name="timeStamp" value="261" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/HeldItemManager.java</url>
-          <line>22</line>
-          <option name="timeStamp" value="262" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/HeldItemManager.java</url>
-          <line>21</line>
-          <option name="timeStamp" value="263" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/HeldItemManager.java</url>
-          <line>20</line>
-          <option name="timeStamp" value="264" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/HeldItemManager.java</url>
-          <line>49</line>
-          <option name="timeStamp" value="266" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/HeldItemManager.java</url>
-          <line>47</line>
-          <option name="timeStamp" value="267" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/HeldItemManager.java</url>
-          <line>48</line>
-          <option name="timeStamp" value="268" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/HeldItemManager.java</url>
-          <line>45</line>
-          <option name="timeStamp" value="269" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/HeldItemManager.java</url>
-          <line>46</line>
-          <option name="timeStamp" value="270" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/HeldItemManager.java</url>
-          <line>44</line>
-          <option name="timeStamp" value="271" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/HeldItemManager.java</url>
-          <line>41</line>
-          <option name="timeStamp" value="272" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/HeldItemManager.java</url>
-          <line>40</line>
-          <option name="timeStamp" value="273" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/HeldItemManager.java</url>
-          <line>30</line>
-          <option name="timeStamp" value="276" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/HeldItemManager.java</url>
-          <line>29</line>
-          <option name="timeStamp" value="277" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/HeldItemManager.java</url>
-          <line>31</line>
-          <option name="timeStamp" value="278" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/HeldItemManager.java</url>
-          <line>32</line>
-          <option name="timeStamp" value="279" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/HeldItemManager.java</url>
-          <line>34</line>
-          <option name="timeStamp" value="280" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/HeldItemManager.java</url>
-          <line>33</line>
-          <option name="timeStamp" value="281" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/HeldItemManager.java</url>
-          <line>35</line>
-          <option name="timeStamp" value="282" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/HeldItemManager.java</url>
-          <line>36</line>
-          <option name="timeStamp" value="283" />
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/Main.java</url>
+          <line>113</line>
+          <option name="timeStamp" value="292" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/commands/CommandManager.java</url>
-          <line>93</line>
-          <option name="timeStamp" value="285" />
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/Main.java</url>
+          <line>114</line>
+          <option name="timeStamp" value="293" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/Main.java</url>
+          <line>115</line>
+          <option name="timeStamp" value="294" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/Main.java</url>
+          <line>116</line>
+          <option name="timeStamp" value="295" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/Main.java</url>
+          <line>117</line>
+          <option name="timeStamp" value="296" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/Main.java</url>
+          <line>119</line>
+          <properties>
+            <option name="lambda-ordinal" value="-1" />
+          </properties>
+          <option name="timeStamp" value="297" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/Main.java</url>
+          <line>120</line>
+          <option name="timeStamp" value="298" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/Main.java</url>
+          <line>122</line>
+          <option name="timeStamp" value="299" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/Main.java</url>
+          <line>123</line>
+          <option name="timeStamp" value="300" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/Main.java</url>
+          <line>124</line>
+          <option name="timeStamp" value="301" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/Main.java</url>
+          <line>126</line>
+          <option name="timeStamp" value="302" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/Main.java</url>
+          <line>125</line>
+          <option name="timeStamp" value="303" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/PathHelper.java</url>
+          <line>39</line>
+          <option name="timeStamp" value="304" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/PathHelper.java</url>
+          <line>38</line>
+          <option name="timeStamp" value="305" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/PathHelper.java</url>
+          <line>41</line>
+          <option name="timeStamp" value="307" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/PathHelper.java</url>
+          <line>43</line>
+          <option name="timeStamp" value="308" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/PathHelper.java</url>
+          <line>44</line>
+          <option name="timeStamp" value="309" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/PathHelper.java</url>
+          <line>46</line>
+          <option name="timeStamp" value="310" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/PathHelper.java</url>
+          <line>48</line>
+          <option name="timeStamp" value="311" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/PathHelper.java</url>
+          <line>47</line>
+          <option name="timeStamp" value="312" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/PathHelper.java</url>
+          <line>49</line>
+          <option name="timeStamp" value="313" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/PathHelper.java</url>
+          <line>50</line>
+          <option name="timeStamp" value="314" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/PathHelper.java</url>
+          <line>51</line>
+          <option name="timeStamp" value="315" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/PathHelper.java</url>
+          <line>52</line>
+          <option name="timeStamp" value="316" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/PathHelper.java</url>
+          <line>53</line>
+          <option name="timeStamp" value="317" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kaloyandonev/moddisable/helpers/PathHelper.java</url>
+          <line>37</line>
+          <properties class="com.kaloyandonev.moddisable.helpers.PathHelper" method="getFullWorldPath">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="306" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

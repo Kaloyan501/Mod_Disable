@@ -20,6 +20,7 @@ import com.kaloyandonev.moddisable.helpers.*;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.ClientWorldFolderFinder;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.MigrateTask;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.StaticPathStorage;
+import com.mojang.datafixers.types.templates.Check;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
@@ -111,18 +112,20 @@ public class Main
             processAllDisabledItemsFromJson.processAllDisabledItemsFromJson();
 
             boolean CheckSumInvalid = JsonHelper.defaultDisabledListChecksumManger();
-            try {
-                Path WorldFolderPath = PathHelper.getFullWorldPath();
-                Path Mod_Disable_DataPath = WorldFolderPath.resolve("Mod_Disable_Data");
+            if (CheckSumInvalid = true){
+                try {
+                    Path WorldFolderPath = PathHelper.getFullWorldPath();
+                    Path Mod_Disable_DataPath = WorldFolderPath.resolve("Mod_Disable_Data");
 
-                List<String> fileNames = Files.list(Mod_Disable_DataPath).map(p -> p.getFileName().toString()).collect(Collectors.toList());
-                String[] fileNamesArray = fileNames.toArray(new String[0]);
+                    List<String> fileNames = Files.list(Mod_Disable_DataPath).map(p -> p.getFileName().toString()).collect(Collectors.toList());
+                    String[] fileNamesArray = fileNames.toArray(new String[0]);
 
-                for (String fileName : fileNamesArray) {
-                    PlayerItemHashmapper.PlayerItemHashmapper(Mod_Disable_DataPath.resolve(fileName).toFile());
+                    for (String fileName : fileNamesArray) {
+                        PlayerItemHashmapper.PlayerItemHashmapper(Mod_Disable_DataPath.resolve(fileName).toFile());
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
             }
         }
 

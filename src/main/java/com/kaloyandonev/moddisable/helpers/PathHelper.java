@@ -46,7 +46,7 @@ public class PathHelper {
             // Integrated servers: prepend .minecraft/saves
             Path mcHome = server.getServerDirectory();
             return mcHome
-                    .resolve("saves")
+                    //.resolve("saves")
                     .resolve(worldRelative)
                     .toAbsolutePath()
                     .normalize();
