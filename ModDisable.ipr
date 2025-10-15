@@ -97,6 +97,16 @@
       <option name="name" value="MavenLocal" />
       <option name="url" value="file:$MAVEN_REPOSITORY$" />
     </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven" />
+      <option name="name" value="maven" />
+      <option name="url" value="https://maven.latvian.dev/releases" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven2" />
+      <option name="name" value="maven2" />
+      <option name="url" value="https://jitpack.io" />
+    </remote-repository>
   </component>
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
@@ -118,28 +128,28 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/ca.weblite/java-objc-bridge/1.1/d2bf7869433d8d152fade87ac898f84b1b876837/java-objc-bridge-1.1-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: com.electronwill.night-config:core:3.8.0" type="java-imported" external-system-id="GRADLE">
-      <properties groupId="com.electronwill.night-config" artifactId="core" version="3.8.0" baseVersion="3.8.0" />
+    <library name="Gradle: com.electronwill.night-config:core:3.8.3" type="java-imported" external-system-id="GRADLE">
+      <properties groupId="com.electronwill.night-config" artifactId="core" version="3.8.3" baseVersion="3.8.3" />
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.electronwill.night-config/core/3.8.0/2498dd2b3120dd49e963e2feab8fa5d0c5f80e0a/core-3.8.0.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.electronwill.night-config/core/3.8.3/b442a95f09e349927f5a945ecb594455870fcf4f/core-3.8.3.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.electronwill.night-config/core/3.8.0/5c23046a6c3067c12ad5232ff039625c93caf795/core-3.8.0-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.electronwill.night-config/core/3.8.3/2b679fbb99f3eaa60e1c0591931663da8ac019d0/core-3.8.3-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.electronwill.night-config/core/3.8.0/6384a65c20b63c95a093cf99addf2620af4efb41/core-3.8.0-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.electronwill.night-config/core/3.8.3/9e5afb5d92e1be39089bea5630f4bb0af24c91b2/core-3.8.3-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: com.electronwill.night-config:toml:3.8.0" type="java-imported" external-system-id="GRADLE">
-      <properties groupId="com.electronwill.night-config" artifactId="toml" version="3.8.0" baseVersion="3.8.0" />
+    <library name="Gradle: com.electronwill.night-config:toml:3.8.3" type="java-imported" external-system-id="GRADLE">
+      <properties groupId="com.electronwill.night-config" artifactId="toml" version="3.8.3" baseVersion="3.8.3" />
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.electronwill.night-config/toml/3.8.0/861dbcf2757dd6701c98b3949198549ccb5f62ff/toml-3.8.0.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.electronwill.night-config/toml/3.8.3/90b2fd6efcb4a7d5b9810cf78f9d824994d717f2/toml-3.8.3.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.electronwill.night-config/toml/3.8.0/5e17de30a7211e9d15c34af09e44eafc7a231548/toml-3.8.0-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.electronwill.night-config/toml/3.8.3/3209fc4545df3789243898cc6ec75bd2bc41e2c2/toml-3.8.3-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.electronwill.night-config/toml/3.8.0/b05e667e90a2611f59aa8c463e47c42b24fdbf04/toml-3.8.0-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.electronwill.night-config/toml/3.8.3/56dfa8456ff270f6028c513c9e743af03ad850e3/toml-3.8.3-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: com.github.oshi:oshi-core:6.4.10" type="java-imported" external-system-id="GRADLE">
@@ -150,6 +160,16 @@
       <JAVADOC />
       <SOURCES>
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.oshi/oshi-core/6.4.10/4ed9e291040b618d12880f00fe77f13777dfa7cb/oshi-core-6.4.10-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: com.github.rtyley:animated-gif-lib-for-java:animated-gif-lib-1.7" type="java-imported" external-system-id="GRADLE">
+      <properties groupId="com.github.rtyley" artifactId="animated-gif-lib-for-java" version="animated-gif-lib-1.7" baseVersion="animated-gif-lib-1.7" />
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.rtyley/animated-gif-lib-for-java/animated-gif-lib-1.7/61828127d1ff6117c7419a8603b6533e192c64b6/animated-gif-lib-for-java-animated-gif-lib-1.7.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.rtyley/animated-gif-lib-for-java/animated-gif-lib-1.7/741a529800d4da1947c56bf056140ed5bce0dc6b/animated-gif-lib-for-java-animated-gif-lib-1.7-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: com.google.code.findbugs:jsr305:3.0.2" type="java-imported" external-system-id="GRADLE">
@@ -360,14 +380,14 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/cpw.mods/bootstraplauncher/2.0.2/2ff8a7a38468f435497e71e7a8b2adba7d7c2b6a/bootstraplauncher-2.0.2-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: cpw.mods:modlauncher:11.0.4" type="java-imported" external-system-id="GRADLE">
-      <properties groupId="cpw.mods" artifactId="modlauncher" version="11.0.4" baseVersion="11.0.4" />
+    <library name="Gradle: cpw.mods:modlauncher:11.0.5" type="java-imported" external-system-id="GRADLE">
+      <properties groupId="cpw.mods" artifactId="modlauncher" version="11.0.5" baseVersion="11.0.5" />
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/cpw.mods/modlauncher/11.0.4/6619d4812a3c092310d521ebc4c9503727563df7/modlauncher-11.0.4.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/cpw.mods/modlauncher/11.0.5/b8f0d49294f733fdb6173931b263553e943dc950/modlauncher-11.0.5.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/cpw.mods/modlauncher/11.0.4/3d65afc2ecfb3a7b99196afa6d9da13a6f6e8556/modlauncher-11.0.4-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/cpw.mods/modlauncher/11.0.5/5d96f1d06003174fcf4d212df33c5cc269119bfb/modlauncher-11.0.5-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: cpw.mods:securejarhandler:3.0.8" type="java-imported" external-system-id="GRADLE">
@@ -380,16 +400,48 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/cpw.mods/securejarhandler/3.0.8/5d5308e7acd25f81f52ee96c238c862ed859f309/securejarhandler-3.0.8-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: io.github.llamalad7:mixinextras-neoforge:0.4.1" type="java-imported" external-system-id="GRADLE">
-      <properties groupId="io.github.llamalad7" artifactId="mixinextras-neoforge" version="0.4.1" baseVersion="0.4.1" />
+    <library name="Gradle: dev.latvian.apps:tiny-java-server:1.0.0-build.26" type="java-imported" external-system-id="GRADLE">
+      <properties groupId="dev.latvian.apps" artifactId="tiny-java-server" version="1.0.0-build.26" baseVersion="1.0.0-build.26" />
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.github.llamalad7/mixinextras-neoforge/0.4.1/eff97772ecd0dcf8e52cdbafd3b3ccec425f8314/mixinextras-neoforge-0.4.1.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/dev.latvian.apps/tiny-java-server/1.0.0-build.26/ca9a3054b5640bca74ae72951a5bc6da99f3afb2/tiny-java-server-1.0.0-build.26.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/dev.latvian.apps/tiny-java-server/1.0.0-build.26/1ca55d0367817437e4edc7a2c7c6d83a3d197a07/tiny-java-server-1.0.0-build.26-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: dev.latvian.mods:kubejs-neoforge:2101.7.2-build.277" type="java-imported" external-system-id="GRADLE">
+      <properties groupId="dev.latvian.mods" artifactId="kubejs-neoforge" version="2101.7.2-build.277" baseVersion="2101.7.2-build.277" />
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/dev.latvian.mods/kubejs-neoforge/2101.7.2-build.277/5eb13f4250e2b9451fd8b3ab760f834dc95edae7/kubejs-neoforge-2101.7.2-build.277.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.github.llamalad7/mixinextras-neoforge/0.4.1/64b2b559475aef79914c039cf38b910cd7839afc/mixinextras-neoforge-0.4.1-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/dev.latvian.mods/kubejs-neoforge/2101.7.2-build.277/efb2ef1e90d07700a7283356e06c852f58cc80/kubejs-neoforge-2101.7.2-build.277-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.github.llamalad7/mixinextras-neoforge/0.4.1/f55ace64a615e5605a1af4cbfdfdf0c5cae30020/mixinextras-neoforge-0.4.1-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/dev.latvian.mods/kubejs-neoforge/2101.7.2-build.277/e2f513d7adf79ab88688b4098923114b6a0b24be/kubejs-neoforge-2101.7.2-build.277-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: dev.latvian.mods:rhino:2101.2.7-build.77" type="java-imported" external-system-id="GRADLE">
+      <properties groupId="dev.latvian.mods" artifactId="rhino" version="2101.2.7-build.77" baseVersion="2101.2.7-build.77" />
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/dev.latvian.mods/rhino/2101.2.7-build.77/e71a2c29b46b1b8637c99d79d8fe524bb7122ff2/rhino-2101.2.7-build.77.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/dev.latvian.mods/rhino/2101.2.7-build.77/a6a366edf12e0df9eb67b3379789fef1fda51d75/rhino-2101.2.7-build.77-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: io.github.llamalad7:mixinextras-neoforge:0.5.0" type="java-imported" external-system-id="GRADLE">
+      <properties groupId="io.github.llamalad7" artifactId="mixinextras-neoforge" version="0.5.0" baseVersion="0.5.0" />
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.github.llamalad7/mixinextras-neoforge/0.5.0/d734b83ce6542bb70ea31755c1595b88992dbe65/mixinextras-neoforge-0.5.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.github.llamalad7/mixinextras-neoforge/0.5.0/6c43a148338ba7c804e27c12f4a6c0266edbaaba/mixinextras-neoforge-0.5.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.github.llamalad7/mixinextras-neoforge/0.5.0/91aac133c151c3cc58ec162eeae959e01c5f65dc/mixinextras-neoforge-0.5.0-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: io.netty:netty-buffer:4.1.97.Final" type="java-imported" external-system-id="GRADLE">
@@ -586,34 +638,34 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.neoforged.accesstransformers/at-modlauncher/10.0.1/14efd42caf0e62134fe03c4460c18741e34909cd/at-modlauncher-10.0.1-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: net.neoforged.fancymodloader:earlydisplay:4.0.31" type="java-imported" external-system-id="GRADLE">
-      <properties groupId="net.neoforged.fancymodloader" artifactId="earlydisplay" version="4.0.31" baseVersion="4.0.31" />
+    <library name="Gradle: net.neoforged.fancymodloader:earlydisplay:4.0.41" type="java-imported" external-system-id="GRADLE">
+      <properties groupId="net.neoforged.fancymodloader" artifactId="earlydisplay" version="4.0.41" baseVersion="4.0.41" />
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.neoforged.fancymodloader/earlydisplay/4.0.31/1aa78304adfb2e2830f6aa99d9c6bdebf0b14e0/earlydisplay-4.0.31.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.neoforged.fancymodloader/earlydisplay/4.0.41/53dfbd387ed1b88c7d144bdb6551b7f57d5da6d7/earlydisplay-4.0.41.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.neoforged.fancymodloader/earlydisplay/4.0.31/7a7b0f17b38401ac05d1c7903b109407ffa7fefb/earlydisplay-4.0.31-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.neoforged.fancymodloader/earlydisplay/4.0.41/f297ee5b3aa82d5343d174e2b49b2b2aac8007d7/earlydisplay-4.0.41-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: net.neoforged.fancymodloader:loader:4.0.31" type="java-imported" external-system-id="GRADLE">
-      <properties groupId="net.neoforged.fancymodloader" artifactId="loader" version="4.0.31" baseVersion="4.0.31" />
+    <library name="Gradle: net.neoforged.fancymodloader:loader:4.0.41" type="java-imported" external-system-id="GRADLE">
+      <properties groupId="net.neoforged.fancymodloader" artifactId="loader" version="4.0.41" baseVersion="4.0.41" />
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.neoforged.fancymodloader/loader/4.0.31/3218703063e576c5c1f3edcccc1f3c06cb95bf48/loader-4.0.31.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.neoforged.fancymodloader/loader/4.0.41/3aebc81b9347fa87bb629ffaed20276f2a4c944e/loader-4.0.41.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.neoforged.fancymodloader/loader/4.0.31/1c2aa7a098df2d1cd4ce5ceb00df3712fcf5ef3d/loader-4.0.31-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.neoforged.fancymodloader/loader/4.0.41/5e406ecb879620a6773442ac8f6913593a3e5713/loader-4.0.41-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: net.neoforged:DevLaunch:1.0.1" type="java-imported" external-system-id="GRADLE">
-      <properties groupId="net.neoforged" artifactId="DevLaunch" version="1.0.1" baseVersion="1.0.1" />
+    <library name="Gradle: net.neoforged:DevLaunch:1.0.2" type="java-imported" external-system-id="GRADLE">
+      <properties groupId="net.neoforged" artifactId="DevLaunch" version="1.0.2" baseVersion="1.0.2" />
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.neoforged/DevLaunch/1.0.1/48617810523f426d42430867894faa7fe1b933dd/DevLaunch-1.0.1.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.neoforged/DevLaunch/1.0.2/2e0e9a67793d5bfdedee4f9ea00934dbf3f2e22d/DevLaunch-1.0.2.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.neoforged/DevLaunch/1.0.1/ce08e8e72f218c10ee0816da3fa770a0829183af/DevLaunch-1.0.1-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.neoforged/DevLaunch/1.0.2/2fa28a030340711308bff67c0e363490e9340496/DevLaunch-1.0.2-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: net.neoforged:JarJarFileSystems:0.4.1" type="java-imported" external-system-id="GRADLE">
@@ -656,16 +708,16 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.neoforged/accesstransformers/10.0.1/491e1d524ddcba8f981dee9b6cc79fa12affbf48/accesstransformers-10.0.1-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: net.neoforged:bus:8.0.2" type="java-imported" external-system-id="GRADLE">
-      <properties groupId="net.neoforged" artifactId="bus" version="8.0.2" baseVersion="8.0.2" />
+    <library name="Gradle: net.neoforged:bus:8.0.5" type="java-imported" external-system-id="GRADLE">
+      <properties groupId="net.neoforged" artifactId="bus" version="8.0.5" baseVersion="8.0.5" />
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.neoforged/bus/8.0.2/163c9ef7c4bcca6d850c34e95261b606af91fe06/bus-8.0.2.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.neoforged/bus/8.0.5/5b2d33285ab5d1554e9798ad98c40d6ea3868bd5/bus-8.0.5.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.neoforged/bus/8.0.2/a43e440f72a8d9bfb7b0c871d6ecaee6f405bd34/bus-8.0.2-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.neoforged/bus/8.0.5/99996fbd08ae64dcb18897564b99360e6662845f/bus-8.0.5-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.neoforged/bus/8.0.2/88d2d52449acb992b6f2602a00f22be872bd07b2/bus-8.0.2-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.neoforged/bus/8.0.5/aad64cf0f455585a518c54d7aecf8d656aff912e/bus-8.0.5-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: net.neoforged:coremods:7.0.3" type="java-imported" external-system-id="GRADLE">
@@ -678,6 +730,16 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.neoforged/coremods/7.0.3/346a331677763a8fe0a8adb06fcf946d0977f717/coremods-7.0.3-sources.jar!/" />
       </SOURCES>
     </library>
+    <library name="Gradle: net.neoforged:mergetool:api:2.0.0" type="java-imported" external-system-id="GRADLE">
+      <properties groupId="net.neoforged" artifactId="mergetool" version="2.0.0" baseVersion="2.0.0" />
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.neoforged/mergetool/2.0.0/52fe1949be64e3303aabaaa21e315f551db9c9f4/mergetool-2.0.0-api.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.neoforged/mergetool/2.0.0/2f7663007d5c0b7130af8b1a091a7e700e1a7be1/mergetool-2.0.0-sources.jar!/" />
+      </SOURCES>
+    </library>
     <library name="Gradle: net.neoforged:mergetool:api:2.0.3" type="java-imported" external-system-id="GRADLE">
       <properties groupId="net.neoforged" artifactId="mergetool" version="2.0.3" baseVersion="2.0.3" />
       <CLASSES>
@@ -687,14 +749,6 @@
       <SOURCES>
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.neoforged/mergetool/2.0.3/585e7eb44336dfe60a8cc48ed8a9cd833bc263bb/mergetool-2.0.3-sources.jar!/" />
       </SOURCES>
-    </library>
-    <library name="Gradle: net.neoforged:neoform:zip:1.21.1-20240808.144430" type="java-imported" external-system-id="GRADLE">
-      <properties groupId="net.neoforged" artifactId="neoform" version="1.21.1-20240808.144430" baseVersion="1.21.1-20240808.144430" />
-      <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.neoforged/neoform/1.21.1-20240808.144430/811e2bd86fa2cda2812e5e8e51d718ea8bd6d3f4/neoform-1.21.1-20240808.144430.zip!/" />
-      </CLASSES>
-      <JAVADOC />
-      <SOURCES />
     </library>
     <library name="Gradle: net.sf.jopt-simple:jopt-simple:5.0.4" type="java-imported" external-system-id="GRADLE">
       <properties groupId="net.sf.jopt-simple" artifactId="jopt-simple" version="5.0.4" baseVersion="5.0.4" />
@@ -1062,64 +1116,64 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.openjdk.nashorn/nashorn-core/15.4/ee60739f5fc3d4e6a92df4362ccec9b17014cd24/nashorn-core-15.4-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.ow2.asm:asm-analysis:9.7" type="java-imported" external-system-id="GRADLE">
-      <properties groupId="org.ow2.asm" artifactId="asm-analysis" version="9.7" baseVersion="9.7" />
+    <library name="Gradle: org.ow2.asm:asm-analysis:9.8" type="java-imported" external-system-id="GRADLE">
+      <properties groupId="org.ow2.asm" artifactId="asm-analysis" version="9.8" baseVersion="9.8" />
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm-analysis/9.7/e4a258b7eb96107106c0599f0061cfc1832fe07a/asm-analysis-9.7.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm-analysis/9.8/b9747a320844b6cb1eacd90d8ecfd260a16c01d3/asm-analysis-9.8.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm-analysis/9.7/3987dd3e602dd59b21b20c1c518943b2dce6e8aa/asm-analysis-9.7-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm-analysis/9.8/4d0c273989261987ea48d8116ab18892869cbbd8/asm-analysis-9.8-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm-analysis/9.7/7eadf46ec06b22b1deb423e06fb6cadce70a1cd5/asm-analysis-9.7-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm-analysis/9.8/3ce67cca2a5bf3d1d271fb13e0011714df6c68e6/asm-analysis-9.8-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.ow2.asm:asm-commons:9.7" type="java-imported" external-system-id="GRADLE">
-      <properties groupId="org.ow2.asm" artifactId="asm-commons" version="9.7" baseVersion="9.7" />
+    <library name="Gradle: org.ow2.asm:asm-commons:9.8" type="java-imported" external-system-id="GRADLE">
+      <properties groupId="org.ow2.asm" artifactId="asm-commons" version="9.8" baseVersion="9.8" />
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm-commons/9.7/e86dda4696d3c185fcc95d8d311904e7ce38a53f/asm-commons-9.7.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm-commons/9.8/36e4d212970388e5bd2c5180292012502df461bb/asm-commons-9.8.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm-commons/9.7/3374c4a51c1e13e46f7acbee422f26d3f17592cf/asm-commons-9.7-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm-commons/9.8/bda093545545422f5ad73ec20cdf364a709837f3/asm-commons-9.8-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm-commons/9.7/8b509f2656913c785ef828e747c5a52644ea3d3/asm-commons-9.7-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm-commons/9.8/49977bde316395824ded9e8e4deead6512f3c88/asm-commons-9.8-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.ow2.asm:asm-tree:9.7" type="java-imported" external-system-id="GRADLE">
-      <properties groupId="org.ow2.asm" artifactId="asm-tree" version="9.7" baseVersion="9.7" />
+    <library name="Gradle: org.ow2.asm:asm-tree:9.8" type="java-imported" external-system-id="GRADLE">
+      <properties groupId="org.ow2.asm" artifactId="asm-tree" version="9.8" baseVersion="9.8" />
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm-tree/9.7/e446a17b175bfb733b87c5c2560ccb4e57d69f1a/asm-tree-9.7.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm-tree/9.8/18419ca5b77a2f81097c741e7872e6ab8d2f40d/asm-tree-9.8.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm-tree/9.7/4d360a16d4fd0dcb1c24b9b80ac6dd4cd1fc8669/asm-tree-9.7-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm-tree/9.8/f3f59397635f6bdeb408d1f02c33ff88813c9dfd/asm-tree-9.8-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm-tree/9.7/d51ed23b9b4d0e222d0a0cacaf6296e8a009d81b/asm-tree-9.7-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm-tree/9.8/d51ed23b9b4d0e222d0a0cacaf6296e8a009d81b/asm-tree-9.8-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.ow2.asm:asm-util:9.7" type="java-imported" external-system-id="GRADLE">
-      <properties groupId="org.ow2.asm" artifactId="asm-util" version="9.7" baseVersion="9.7" />
+    <library name="Gradle: org.ow2.asm:asm-util:9.8" type="java-imported" external-system-id="GRADLE">
+      <properties groupId="org.ow2.asm" artifactId="asm-util" version="9.8" baseVersion="9.8" />
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm-util/9.7/c0655519f24d92af2202cb681cd7c1569df6ead6/asm-util-9.7.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm-util/9.8/395f1c1f035258511f27bc9b2583d76e4b143f59/asm-util-9.8.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm-util/9.7/b7c240486e7c1513fb4b67df0fa88aa2cc922cd0/asm-util-9.7-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm-util/9.8/10af499e9d0776c4c8c7b7ace913d6d1b9d5aafd/asm-util-9.8-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm-util/9.7/94c3b1394f70e0cd38be9feb3ba946d5cc24b66c/asm-util-9.7-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm-util/9.8/4a92d0064aa2ffdac4cddc34d3fcd064009a55ec/asm-util-9.8-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.ow2.asm:asm:9.7" type="java-imported" external-system-id="GRADLE">
-      <properties groupId="org.ow2.asm" artifactId="asm" version="9.7" baseVersion="9.7" />
+    <library name="Gradle: org.ow2.asm:asm:9.8" type="java-imported" external-system-id="GRADLE">
+      <properties groupId="org.ow2.asm" artifactId="asm" version="9.8" baseVersion="9.8" />
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm/9.7/73d7b3086e14beb604ced229c302feff6449723/asm-9.7.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm/9.8/dc19ecb3f7889b7860697215cae99c0f9b6f6b4b/asm-9.8.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm/9.7/740fe3c4af5d48e75e626b58f43854cbf28e2204/asm-9.7-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm/9.8/b7ae86f326d614857b502ffd6e8e11c633450435/asm-9.8-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm/9.7/765c0ee4137adc89519f583e9110b938bcd122fa/asm-9.7-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm/9.8/5879fb7cbff7dfd53380f120ed460d3bab6906ef/asm-9.8-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: org.slf4j:slf4j-api:2.0.9" type="java-imported" external-system-id="GRADLE">
