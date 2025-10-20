@@ -127,7 +127,7 @@ configurations {
 }
 
 dependencies {
-    implementation "dev.latvian.mods:kubejs-neoforge:2101.7.2-build.277"
+    implementation "dev.latvian.mods:kubejs-neoforge:2101.7.2-build.286"
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.
