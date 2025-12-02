@@ -17,6 +17,7 @@
 package com.kaloyandonev.moddisable;
 
 import com.kaloyandonev.moddisable.helpers.*;
+import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.ClientTickHandler;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.ClientWorldFolderFinder;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.MigrateTask;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.StaticPathStorage;
@@ -105,8 +106,9 @@ public class Main
                 StaticPathStorage.setSubWorldFolderPath(subWorldFolderPath);
                 LOGGER.info("subWorldFolderPath is {}", subWorldFolderPath);
 
+                ClientTickHandler clientTickHandler = new ClientTickHandler();
                 MigrateTask migrateTask = new MigrateTask();
-                migrateTask.performMigration();
+                migrateTask.performMigration(clientTickHandler);
             }
 
             LOGGER.debug("[Mod Disable] MigrateTask is about to run!");

@@ -23,6 +23,7 @@ import com.kaloyandonev.moddisable.helpers.RecursiveFolderDeleter;
 import net.minecraft.client.Minecraft;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import com.kaloyandonev.moddisable.helpers.isSinglePlayer;
@@ -39,13 +40,11 @@ public class MigrateTask {
 
     private static final Logger logger = LogManager.getLogger();
 
-    private ClientTickHandler clientTickHandler = new ClientTickHandler();
-
-    boolean migrationConfrimed = ClientTickHandler.migrationConfrimed;
 
 
-    public void performMigration(){
-        migrationConfrimed = ClientTickHandler.migrationConfrimed;
+
+    public void performMigration(ClientTickHandler clientTickHandler) {
+        boolean migrationConfrimed = clientTickHandler.migrationConfrimed;
         logger.info("[Mod Disable] [Migration 1.1.0] [DEBUG] migrationConfirmed is " + migrationConfrimed);
         logger.info("[Mod Disable] [Migration 1.1.0] [DEBUG] isSinglePlayer is " + isSinglePlayer.getIsSinglePlayer());
         logger.info("[Mod Disable] [Migration 1.1.0] [DEBUG] checkforDisableModFolder" + Migration_110_Json_Check.checkForDisableModFolder());
@@ -73,9 +72,5 @@ public class MigrateTask {
             }
 
         }
-    }
-
-    private void performMigrationInternal(){
-
     }
 }

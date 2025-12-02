@@ -1,34 +1,9 @@
-//ModDisable
-//A Minecraft Mod to disable other Mods
-//Copyright (C) 2024-2025 Kaloyan Ivanov Donev
-
-//This program is free software: you can redistribute it and/or modify
-//it under the terms of the GNU General Public License as published by
-//the Free Software Foundation, either version 3 of the License, or
-//(at your option) any later version.
-
-//This program is distributed in the hope that it will be useful,
-//but WITHOUT ANY WARRANTY; without even the implied warranty of
-//MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//GNU General Public License for more details.
-
-//You should have received a copy of the GNU General Public License
-// along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
-
 package com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator;
 
-import com.kaloyandonev.moddisable.Main;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.network.chat.Component;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.ClientTickEvent;
 
-@EventBusSubscriber(modid = Main.MODID, bus = EventBusSubscriber.Bus.GAME, value = Dist.CLIENT)
 public class ClientTickHandler {
 
     public static boolean hasRun = false;
@@ -36,9 +11,7 @@ public class ClientTickHandler {
     public static boolean hasRendered = false;
     public static boolean migrationConfrimed;
 
-    @OnlyIn(Dist.CLIENT)
-    @SubscribeEvent
-    public static void onClientTick(ClientTickEvent.Pre event) {
+    public static boolean onClientTick() {
         if (hasRendered == false && Migration_110_Json_Check.checkForDisableModFolder()) {
 
             Minecraft minecraft = Minecraft.getInstance();
@@ -81,6 +54,6 @@ public class ClientTickHandler {
             }
 
         }
+        return migrationConfrimed;
     }
-
 }

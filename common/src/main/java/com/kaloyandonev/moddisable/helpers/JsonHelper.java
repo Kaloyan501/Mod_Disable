@@ -25,7 +25,6 @@ import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.StaticPathStorag
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
-import net.neoforged.fml.loading.FMLPaths;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -156,7 +155,7 @@ public class JsonHelper {
     }
 
     public static boolean defaultDisabledListChecksumManger(){
-        Path configDir = FMLPaths.CONFIGDIR.get();
+        Path configDir = ConfDir.getConfigDir();
         Path configPath = configDir.resolve("ModDisable/DefaultDisabledItemsList.json");
         Path configChecksumPath = configDir.resolve("ModDisable/Checksum.txt");
 

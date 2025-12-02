@@ -1,4 +1,4 @@
-package com.kaloyandonev.moddisable.integrations.kubejs;
+package com.kaloyandonev.moddisable.kubejs;
 
 import dev.latvian.mods.kubejs.plugin.KubeJSPlugin;
 import dev.latvian.mods.kubejs.script.BindingRegistry;
