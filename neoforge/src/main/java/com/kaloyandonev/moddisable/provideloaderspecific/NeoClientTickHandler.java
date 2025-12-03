@@ -19,7 +19,6 @@
 package com.kaloyandonev.moddisable.provideloaderspecific;
 
 import com.kaloyandonev.moddisable.Constants;
-import com.kaloyandonev.moddisable.Main;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.ClientTickHandler;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;

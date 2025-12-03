@@ -16,7 +16,7 @@
     "environment": "*",
     "entrypoints": {
         "main": [
-          "com.kaloyandonev.moddisable.ExampleMod"
+          "com.kaloyandonev.moddisable.FabricMain"
         ]
     },
     "mixins": [

@@ -28,7 +28,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.fml.event.IModBusEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.neoforged.fml.loading.FMLEnvironment;
@@ -62,7 +61,7 @@ import static net.neoforged.neoforge.internal.versions.neoforge.NeoForgeVersion.
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(Constants.MOD_ID)
-public class Main
+public class NeoMain
 {
     // Directly reference a slf4j logger
     public static final Logger LOGGER = LoggerFactory.getLogger(Constants.MOD_ID);
@@ -72,7 +71,7 @@ public class Main
     private static final DeferredRegister<AttachmentType<?>> ATTACHMENT_TYPES = DeferredRegister.create(NeoForgeRegistries.ATTACHMENT_TYPES, MOD_ID);
 
 
-        public Main(IEventBus modBus, ModContainer modContainer)
+        public NeoMain(IEventBus modBus, ModContainer modContainer)
         {
             // Register ourselves for server and other game events we are interested in
             //NeoForge.EVENT_BUS.register(this);
