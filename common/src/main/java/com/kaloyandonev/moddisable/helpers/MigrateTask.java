@@ -22,8 +22,6 @@ import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.ClientTickHandle
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.Migration_110_Json_Check;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.StaticPathStorage;
 import net.minecraft.client.Minecraft;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -31,7 +29,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 
-@OnlyIn(Dist.CLIENT)
+//@OnlyIn(Dist.CLIENT)
 public class MigrateTask {
     //private CommandManager disable_mod = new CommandManager();
     private isSinglePlayer isSinglePlayer = new isSinglePlayer();

@@ -25,11 +25,9 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.client.gui.screens.worldselection.SelectWorldScreen;
 import net.minecraft.network.chat.Component;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 
 
-@OnlyIn(Dist.CLIENT)
+//@OnlyIn(Dist.CLIENT)
 public class ScreenCrator extends Screen {
     private final Component description;
     private MultiLineLabel message = MultiLineLabel.EMPTY;
@@ -67,7 +65,7 @@ public class ScreenCrator extends Screen {
 
     }
 
-    @OnlyIn(Dist.CLIENT)
+    //@OnlyIn(Dist.CLIENT)
     public interface MigratorListener {
         boolean Migraton_pre_1_1_0_proceed(boolean pConfirmed);
     }
