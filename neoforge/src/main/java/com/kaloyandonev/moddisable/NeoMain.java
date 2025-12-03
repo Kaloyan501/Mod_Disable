@@ -84,9 +84,6 @@ public class NeoMain
             ATTACHMENT_TYPES.register(modBus);
             ServerCheckHelper.init(() -> true);
             ConfDir.init(() -> FMLPaths.CONFIGDIR.get());
-
-
-
         }
 
         @SubscribeEvent
