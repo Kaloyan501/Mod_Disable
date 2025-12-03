@@ -16,16 +16,18 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-package com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator;
+package com.kaloyandonev.moddisable.provideloaderspecific;
 
+import com.kaloyandonev.moddisable.Constants;
 import com.kaloyandonev.moddisable.Main;
+import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.ClientTickHandler;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 
-@EventBusSubscriber(modid = Main.MODID, bus = EventBusSubscriber.Bus.GAME, value = Dist.CLIENT)
+@EventBusSubscriber(modid = Constants.MOD_ID, bus = EventBusSubscriber.Bus.GAME, value = Dist.CLIENT)
 public class NeoClientTickHandler {
 
     public static boolean migrationConfrimed;

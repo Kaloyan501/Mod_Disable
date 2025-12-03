@@ -1,4 +1,4 @@
-package com.kaloyandonev.moddisable.helpers;
+package com.kaloyandonev.moddisable.provideloaderspecific.pre_1_1_0_migrator;
 
 import net.neoforged.fml.loading.FMLPaths;
 

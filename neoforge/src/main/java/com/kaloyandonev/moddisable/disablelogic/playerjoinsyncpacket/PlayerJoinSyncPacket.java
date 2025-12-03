@@ -20,26 +20,28 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.kaloyandonev.moddisable.Constants;
 import com.kaloyandonev.moddisable.helpers.PathHelper;
+import com.mojang.datafixers.kinds.Const;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.handling.DirectionalPayloadHandler;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.neoforged.neoforge.network.registration.HandlerThread;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.UUID;
-
-import static com.kaloyandonev.moddisable.Main.MODID;
 
 public class PlayerJoinSyncPacket {
 
@@ -69,7 +71,7 @@ public class PlayerJoinSyncPacket {
             implements CustomPacketPayload
     {
         public static final Type<PlayerJoinRequest> TYPE =
-                new Type<>(ResourceLocation.fromNamespaceAndPath(MODID, "player_join_request"));
+                new Type<>(ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "player_join_request"));
 
         public static final StreamCodec<ByteBuf, PlayerJoinRequest> STREAM_CODEC =
                 StreamCodec.composite(
@@ -88,7 +90,7 @@ public class PlayerJoinSyncPacket {
             implements CustomPacketPayload
     {
         public static final Type<PlayerJoinResponse> TYPE =
-                new Type<>(ResourceLocation.fromNamespaceAndPath(MODID, "player_join_response"));
+                new Type<>(ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "player_join_response"));
 
         public static final StreamCodec<ByteBuf, PlayerJoinResponse> STREAM_CODEC =
                 StreamCodec.composite(
@@ -114,7 +116,8 @@ public class PlayerJoinSyncPacket {
 
             try {
 
-                Path jsonPath = PathHelper.getPlayerJsonFile(req.uuid);
+                MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
+                Path jsonPath = PathHelper.getPlayerJsonFile(req.uuid, server);
 
 
                 String content = Files.readString(jsonPath, StandardCharsets.UTF_8);

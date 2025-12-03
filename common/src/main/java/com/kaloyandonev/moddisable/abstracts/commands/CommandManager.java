@@ -1,31 +1,11 @@
-//ModDisable
-//A Minecraft Mod to disable other Mods
-//Copyright (C) 2024-2025 Kaloyan Ivanov Donev
-
-//This program is free software: you can redistribute it and/or modify
-//it under the terms of the GNU General Public License as published by
-//the Free Software Foundation, either version 3 of the License, or
-//(at your option) any later version.
-
-//This program is distributed in the hope that it will be useful,
-//but WITHOUT ANY WARRANTY; without even the implied warranty of
-//MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//GNU General Public License for more details.
-
-//You should have received a copy of the GNU General Public License
-// along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
-package com.kaloyandonev.moddisable.commands;
+package com.kaloyandonev.moddisable.abstracts.commands;
 
 import com.kaloyandonev.moddisable.helpers.HeldItemManager;
 import com.kaloyandonev.moddisable.helpers.RecipeManager;
-import com.kaloyandonev.moddisable.helpers.isSinglePlayer;
-import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.*;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import net.minecraft.client.Minecraft;
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -34,17 +14,10 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.entity.player.Player;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.common.NeoForge;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-
-import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
-import net.neoforged.fml.loading.FMLEnvironment;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -54,43 +27,11 @@ import java.util.Objects;
 import static com.kaloyandonev.moddisable.helpers.config.InitialStateDataHandler.executeConfigRequest;
 import static com.kaloyandonev.moddisable.helpers.config.InitialStateDataHandler.executeReinitRequest;
 
-
 public class CommandManager {
 
     private static final Logger logger = LogManager.getLogger(CommandManager.class);
-    private final isSinglePlayer isSinglePlayer = new isSinglePlayer();
 
-    public CommandManager(IEventBus modEventBus) {
-
-        modEventBus.addListener(this::ClientCode);
-        modEventBus.addListener(this::onLoadComplete);
-
-        NeoForge.EVENT_BUS.register(this);
-    }
-
-    public void onLoadComplete(FMLLoadCompleteEvent event) {
-        isSinglePlayer.checkisSinglePlayer(event);
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    private void ClientCode(final FMLCommonSetupEvent event) {
-        if (FMLEnvironment.dist == Dist.CLIENT) {
-            logger.warn("ClientCode is about to run!");
-            Minecraft.getInstance().execute(() -> {
-                // Create your screen Creator instance
-                ScreenCrator screenCrator = new ScreenCrator(
-                        Component.literal("Migration Title"), // Title of the screen
-                        Component.literal("Description of the screen"), // Description
-                        confirmed -> false
-                );
-
-                // Open the new screen
-                Minecraft.getInstance().setScreen(screenCrator);
-            });
-        }
-    }
-
-    public static void registerCommand(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext buildContext) {
+    public static void registerCommand(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext buildContext, MinecraftServer server) {
         dispatcher.register(
                 Commands.literal("disable_mod")
                         // 'enable' command
@@ -98,22 +39,22 @@ public class CommandManager {
                                 .requires(source -> source.hasPermission(2))
                                 .then(Commands.literal("namespace")
                                         .then(Commands.literal("hand")
-                                                .executes(context -> execute(context, "enable", "hand"))
+                                                .executes(context -> execute(context, "enable", "hand", server))
                                         )
                                         .then(Commands.argument("namespace", StringArgumentType.string())
-                                                .executes(context -> execute(context, "enable", StringArgumentType.getString(context, "namespace")))
+                                                .executes(context -> execute(context, "enable", StringArgumentType.getString(context, "namespace"), server))
                                         )
                                 )
                                 .then(Commands.literal("item")
                                         .then(Commands.literal("hand")
-                                                .executes(context -> executeWithItem(context, "enable", null, true))
+                                                .executes(context -> executeWithItem(context, "enable", null, true, server))
                                         )
                                         .then(Commands.argument("item", ItemArgument.item(buildContext))
-                                                .executes(context -> executeWithItem(context, "enable", ItemArgument.getItem(context, "item").getItem(), false))
+                                                .executes(context -> executeWithItem(context, "enable", ItemArgument.getItem(context, "item").getItem(), false, server))
                                         )
                                 )
                                 .then(Commands.literal("all")
-                                        .executes(context -> execute(context, "enable", "all"))
+                                        .executes(context -> execute(context, "enable", "all", server))
                                 )
                         )
                         // 'disable' command
@@ -121,22 +62,22 @@ public class CommandManager {
                                 .requires(source -> source.hasPermission(2))
                                 .then(Commands.literal("namespace")
                                         .then(Commands.literal("hand")
-                                                .executes(context -> execute(context, "disable", "hand"))
+                                                .executes(context -> execute(context, "disable", "hand", server))
                                         )
                                         .then(Commands.argument("namespace", StringArgumentType.string())
-                                                .executes(context -> execute(context, "disable", StringArgumentType.getString(context, "namespace")))
+                                                .executes(context -> execute(context, "disable", StringArgumentType.getString(context, "namespace"), server))
                                         )
                                 )
                                 .then(Commands.literal("item")
                                         .then(Commands.literal("hand")
-                                                .executes(context -> executeWithItem(context, "disable", null, true))
+                                                .executes(context -> executeWithItem(context, "disable", null, true, server))
                                         )
                                         .then(Commands.argument("item", ItemArgument.item(buildContext))
-                                                .executes(context -> executeWithItem(context, "disable", ItemArgument.getItem(context, "item").getItem(), false))
+                                                .executes(context -> executeWithItem(context, "disable", ItemArgument.getItem(context, "item").getItem(), false, server))
                                         )
                                 )
                                 .then(Commands.literal("all")
-                                        .executes(context -> execute(context, "disable", "all"))
+                                        .executes(context -> execute(context, "disable", "all", server))
                                 )
                         )
                         // 'config' command
@@ -167,7 +108,7 @@ public class CommandManager {
 
 
     //Method to handle namespaces
-    private static int execute(CommandContext<CommandSourceStack> context, String action, String namespace) {
+    private static int execute(CommandContext<CommandSourceStack> context, String action, String namespace, MinecraftServer server) {
         CommandSourceStack source = context.getSource();
         Player player;
 
@@ -181,7 +122,7 @@ public class CommandManager {
         // Handle "disable all" explicitly
         if (action.equals("disable") && namespace.equals("all")) {
             try {
-                RecipeManager.DisableAll(player.getStringUUID());
+                RecipeManager.DisableAll(player.getStringUUID(), server);
             } catch (IOException e) {
                 logger.error("Disabling all items failed with error:", e);
                 source.sendFailure(Component.literal("Disabling all items failed with error:" + e));
@@ -193,7 +134,7 @@ public class CommandManager {
 
         if (action.equals("enable") && namespace.equals("all")) {
             try {
-                RecipeManager.EnableAll(player.getStringUUID());
+                RecipeManager.EnableAll(player.getStringUUID(), server);
             } catch (IOException e) {
                 logger.error("Enabling all items failed with error:", e);
                 source.sendFailure(Component.literal("[ModDisable] Enabling all items failed with error:" + e));
@@ -210,9 +151,9 @@ public class CommandManager {
             case "enable namespace":
                 try {
                     if (Objects.equals(namespace, "hand")) {
-                        HeldItemManager.EnableHeldNamespace(player, source);
+                        HeldItemManager.EnableHeldNamespace(player, source, server);
                     } else {
-                        RecipeManager.EnableNamespace(player.getStringUUID(), namespace);
+                        RecipeManager.EnableNamespace(player.getStringUUID(), namespace, server);
                     }
                     source.sendSuccess(() -> Component.literal("[ModDisable] Mod namespace enabled!"), false);
                     return 0;
@@ -228,9 +169,9 @@ public class CommandManager {
                 logger.info("[Mod Disable]Namespace argument: {}", namespace);
                 try {
                     if (Objects.equals(namespace, "hand")) {
-                        HeldItemManager.DisableHeldNamespace(player, source);
+                        HeldItemManager.DisableHeldNamespace(player, source, server);
                     } else {
-                        RecipeManager.DisableNamespace(player.getStringUUID(), namespace);
+                        RecipeManager.DisableNamespace(player.getStringUUID(), namespace, server);
                     }
                     source.sendSuccess(() -> Component.literal("[ModDisable] Mod namespace disabled!"), false);
                     return 0;
@@ -252,7 +193,7 @@ public class CommandManager {
     }
 
     //Method to handle items
-    private static int executeWithItem(CommandContext<CommandSourceStack> context, String action, Item item, boolean handFlag) {
+    private static int executeWithItem(CommandContext<CommandSourceStack> context, String action, Item item, boolean handFlag, MinecraftServer server) {
 
         CommandSourceStack source = context.getSource();
         Player player;
@@ -266,11 +207,11 @@ public class CommandManager {
         if ((item == null && handFlag)) {
             switch (action + " " + "hand") {
                 case "enable hand":
-                    HeldItemManager.EnableHeldItem(player, source);
+                    HeldItemManager.EnableHeldItem(player, source, server);
                     source.sendSuccess(() -> Component.literal("[ModDisable] Enabled held item successfully!"), false);
                     return 0;
                 case "disable hand":
-                    HeldItemManager.DisableHeldItem(player, source);
+                    HeldItemManager.DisableHeldItem(player, source, server);
                     source.sendSuccess(() -> Component.literal("[ModDisable] Disabled held item successfully!"), false);
                     return 0;
             }
@@ -284,7 +225,7 @@ public class CommandManager {
                     String idStr = key.toString();
 
                     try {
-                        RecipeManager.EnableItem(player.getStringUUID(), idStr);
+                        RecipeManager.EnableItem(player.getStringUUID(), idStr, server);
                         source.sendSuccess(() -> Component.literal("[ModDisable] Mod item " + itemName + " enabled!"), false);
                         return 0;
                     } catch (IOException e) {
@@ -301,7 +242,7 @@ public class CommandManager {
                     String idStr1 = key1.toString();
 
                     try {
-                        RecipeManager.DisableItem(player.getStringUUID(), idStr1);
+                        RecipeManager.DisableItem(player.getStringUUID(), idStr1, server);
                         source.sendSuccess(() -> Component.literal("[ModDisable] Mod item " + itemName + " disabled!"), false);
                         return 0;
                     } catch (IOException e) {

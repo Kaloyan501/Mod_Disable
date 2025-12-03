@@ -22,7 +22,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.storage.LevelResource;
-import net.neoforged.neoforge.server.ServerLifecycleHooks;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -30,13 +29,10 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
-import java.util.UUID;
-import java.io.Writer;
 
 public class PathHelper {
 
-    public static Path getFullWorldPath() throws IOException {
-        MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
+    public static Path getFullWorldPath(MinecraftServer server) throws IOException {
         Path worldRelative = server.getWorldPath(LevelResource.ROOT);
 
         if (server.isDedicatedServer()) {
@@ -63,9 +59,9 @@ public class PathHelper {
      */
 
 
-    public static Path getPlayerJsonFile(String playerUUID) throws IOException {
+    public static Path getPlayerJsonFile(String playerUUID, MinecraftServer server) throws IOException {
         // Base directory for all player data
-        Path serverDir = PathHelper.getFullWorldPath()
+        Path serverDir = PathHelper.getFullWorldPath(server)
                 .resolve("Mod_Disable_Data");
         // Ensure the directory exists (creates parents if needed)
         Files.createDirectories(serverDir);

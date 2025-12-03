@@ -17,6 +17,7 @@
 
 package com.kaloyandonev.moddisable.helpers.config;
 
+import com.kaloyandonev.moddisable.abstracts.ConfDir;
 import com.kaloyandonev.moddisable.helpers.ServerCheckHelper;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.StaticPathStorage;
 import com.mojang.brigadier.context.CommandContext;
@@ -24,7 +25,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
-import net.neoforged.fml.loading.FMLPaths;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -41,7 +41,7 @@ public class InitialStateDataHandler {
 
         //File GeneralConfigFolder = new File(Minecraft.getInstance().gameDirectory, "config/ModDisable");
 
-        File GeneralConfigFolder = new File(FMLPaths.CONFIGDIR.get().toFile(), "ModDisable");
+        File GeneralConfigFolder = new File(ConfDir.getConfigDir().toFile(), "ModDisable");
 
         if (!GeneralConfigFolder.exists()) {
             logger.info("[Mod Disable] Creating config folder.");

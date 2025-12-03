@@ -17,21 +17,25 @@
 
 package com.kaloyandonev.moddisable.events;
 
+import com.kaloyandonev.moddisable.Constants;
 import com.kaloyandonev.moddisable.Main;
+import io.netty.util.Constant;
+import net.minecraft.server.MinecraftServer;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 
 import net.neoforged.bus.api.SubscribeEvent;
-import com.kaloyandonev.moddisable.commands.CommandManager;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import net.neoforged.neoforge.server.command.ConfigCommand;
 
-@EventBusSubscriber(modid = Main.MODID)
+@EventBusSubscriber(modid = Constants.MOD_ID)
 public class ModEvents {
 
     @SubscribeEvent
     public static void onCommandRegister(RegisterCommandsEvent event){
 
-        CommandManager.registerCommand(event.getDispatcher(), event.getBuildContext());
+        MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
+        com.kaloyandonev.moddisable.abstracts.commands.CommandManager.registerCommand(event.getDispatcher(), event.getBuildContext(), server);
 
         ConfigCommand.register(event.getDispatcher());
     }

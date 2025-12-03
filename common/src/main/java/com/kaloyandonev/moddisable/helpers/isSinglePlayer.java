@@ -19,7 +19,6 @@ package com.kaloyandonev.moddisable.helpers;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.level.Level;
-import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -28,7 +27,7 @@ public class isSinglePlayer {
     public boolean isSinglePlayer;
     private static final Logger logger = LogManager.getLogger(isSinglePlayer.class);
 
-    public void checkisSinglePlayer(FMLLoadCompleteEvent event) {
+    public void checkisSinglePlayer() {
         Minecraft.getInstance().execute(() -> {
             Level world = Minecraft.getInstance().level;
             logger.info("[Mod Disable] [Debug] World is {}" , world);

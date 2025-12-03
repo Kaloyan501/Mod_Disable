@@ -16,19 +16,27 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 package com.kaloyandonev.moddisable;
 
+import com.kaloyandonev.moddisable.abstracts.ConfDir;
 import com.kaloyandonev.moddisable.helpers.*;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.ClientTickHandler;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.ClientWorldFolderFinder;
-import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.MigrateTask;
+import com.kaloyandonev.moddisable.helpers.MigrateTask;
+import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.ScreenCrator;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.StaticPathStorage;
-import com.mojang.datafixers.types.templates.Check;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.fml.event.IModBusEvent;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.fml.loading.FMLPaths;
 import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,7 +47,6 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 
@@ -57,14 +64,13 @@ import static net.neoforged.neoforge.internal.versions.neoforge.NeoForgeVersion.
 @Mod(Constants.MOD_ID)
 public class Main
 {
-    // Define mod id in a common place for everything to reference
-    @Deprecated(forRemoval = true)
-    public static final String MODID = Constants.MOD_ID;
     // Directly reference a slf4j logger
-    public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
+    public static final Logger LOGGER = LoggerFactory.getLogger(Constants.MOD_ID);
+    private final isSinglePlayer isSinglePlayer = new isSinglePlayer();
 
 
     private static final DeferredRegister<AttachmentType<?>> ATTACHMENT_TYPES = DeferredRegister.create(NeoForgeRegistries.ATTACHMENT_TYPES, MOD_ID);
+
 
         public Main(IEventBus modBus, ModContainer modContainer)
         {
@@ -77,11 +83,44 @@ public class Main
             //modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
             NeoForge.EVENT_BUS.register(new UseDetector());
             ATTACHMENT_TYPES.register(modBus);
+            ServerCheckHelper.init(() -> true);
+            ConfDir.init(() -> FMLPaths.CONFIGDIR.get());
+
 
 
         }
 
-    @EventBusSubscriber(modid = MODID, bus = EventBusSubscriber.Bus.GAME)
+        @SubscribeEvent
+        public void generalEventSubscriber(IEventBus modBus){
+            modBus.addListener(this::ClientCode);
+            modBus.addListener(this::onLoadComplete);
+
+            NeoForge.EVENT_BUS.register(this);
+        }
+
+    public void onLoadComplete(FMLLoadCompleteEvent event) {
+        isSinglePlayer.checkisSinglePlayer();
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    private void ClientCode(final FMLCommonSetupEvent event) {
+        if (FMLEnvironment.dist == Dist.CLIENT) {
+            //logger.warn("ClientCode is about to run!");
+            Minecraft.getInstance().execute(() -> {
+                // Create your screen Creator instance
+                ScreenCrator screenCrator = new ScreenCrator(
+                        Component.literal("Migration Title"), // Title of the screen
+                        Component.literal("Description of the screen"), // Description
+                        confirmed -> false
+                );
+
+                // Open the new screen
+                Minecraft.getInstance().setScreen(screenCrator);
+            });
+        }
+    }
+
+    @EventBusSubscriber(modid = Constants.MOD_ID, bus = EventBusSubscriber.Bus.GAME)
     //@OnlyIn(Dist.DEDICATED_SERVER)
     public static class ServerModEvents {
 
@@ -117,7 +156,8 @@ public class Main
             boolean CheckSumInvalid = JsonHelper.defaultDisabledListChecksumManger();
             if (CheckSumInvalid = true){
                 try {
-                    Path WorldFolderPath = PathHelper.getFullWorldPath();
+                    MinecraftServer server1 = ServerLifecycleHooks.getCurrentServer();
+                    Path WorldFolderPath = PathHelper.getFullWorldPath(server1);
                     Path Mod_Disable_DataPath = WorldFolderPath.resolve("Mod_Disable_Data");
 
                     List<String> fileNames = Files.list(Mod_Disable_DataPath).map(p -> p.getFileName().toString()).collect(Collectors.toList());
@@ -153,7 +193,7 @@ public class Main
     }
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
-    @EventBusSubscriber(modid = MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+    @EventBusSubscriber(modid = Constants.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     @SuppressWarnings(value = "unused")
     public static class ClientModEvents
     {

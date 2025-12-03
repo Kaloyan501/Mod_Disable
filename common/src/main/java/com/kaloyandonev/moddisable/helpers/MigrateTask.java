@@ -16,18 +16,16 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-package com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator;
+package com.kaloyandonev.moddisable.helpers;
 
-import com.kaloyandonev.moddisable.helpers.CopyFolderContents;
-import com.kaloyandonev.moddisable.helpers.RecursiveFolderDeleter;
+import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.ClientTickHandler;
+import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.Migration_110_Json_Check;
+import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.StaticPathStorage;
 import net.minecraft.client.Minecraft;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.neoforge.client.event.ClientTickEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import com.kaloyandonev.moddisable.helpers.isSinglePlayer;
-import com.kaloyandonev.moddisable.helpers.processAllDisabledItemsFromJson;
 
 import java.io.File;
 import java.io.IOException;

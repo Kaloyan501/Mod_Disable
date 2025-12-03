@@ -4,7 +4,7 @@ import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import net.neoforged.fml.loading.FMLPaths;
+import com.kaloyandonev.moddisable.abstracts.ConfDir;
 
 import java.io.File;
 import java.io.FileReader;
@@ -16,7 +16,7 @@ import java.util.Set;
 public class PlayerItemHashmapper {
     public static void PlayerItemHashmapper(File playerDisabledItems){
 
-        Path configDir = FMLPaths.CONFIGDIR.get();
+        Path configDir = ConfDir.getConfigDir();
         Path configPath = configDir.resolve("ModDisable/DefaultDisabledItemsList.json");
 
         try {
