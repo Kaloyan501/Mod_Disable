@@ -2,14 +2,18 @@ package com.kaloyandonev.moddisable.abstracts;
 
 import java.nio.file.Path;
 
-public class ConfDir {
-        public static Path getConfigDir() {
-            return Impl.getConfigDir();
-        }
+public abstract class ConfDir {
+    private static Impl IMPL;
 
-        public interface Impl {
-            static Path getConfigDir() {
-                throw new IllegalStateException();
-            }
-        }
+    public static void init(Impl impl) {
+        IMPL = impl;
+    }
+
+    public static Path getConfigDir() {
+        return IMPL.getConfigDir(); // IMPL is null → IllegalStateException
+    }
+
+    public interface Impl {
+        Path getConfigDir();
+    }
 }

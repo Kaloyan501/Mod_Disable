@@ -1,11 +1,13 @@
 package com.kaloyandonev.moddisable;
 
+import com.kaloyandonev.moddisable.abstracts.ConfDir;
 import com.kaloyandonev.moddisable.events.ModEvents;
 import com.kaloyandonev.moddisable.helpers.*;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.ClientTickHandler;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.ClientWorldFolderFinder;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.ScreenCrator;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.StaticPathStorage;
+import com.kaloyandonev.moddisable.provideloaderspecific.ConfigPathProviderFabric;
 import com.mojang.authlib.minecraft.client.MinecraftClient;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
@@ -46,6 +48,8 @@ public class FabricMain implements ModInitializer {
         ServerLifecycleEvents.SERVER_STARTED.register(SererModEvents::onServerStarted);
         ServerLifecycleEvents.SERVER_STARTED.register(SererModEvents::onServerStartedDedicated);
         //ClientPlayConnectionEvents.JOIN.register(this::onLoadComplete);
+        ConfigPathProviderFabric configPathProviderFabric = new ConfigPathProviderFabric();
+        ConfDir.init(() -> configPathProviderFabric.getConfigDir());
     }
     /*
     //TO DO: ADD LISTENER!
@@ -81,9 +85,7 @@ public class FabricMain implements ModInitializer {
             boolean CheckSumInvalid = JsonHelper.defaultDisabledListChecksumManger();
             if (CheckSumInvalid = true){
                 try {
-                    //TO DO: Actually set the server.
-                    MinecraftServer server1 = null;
-                    Path WorldFolderPath = PathHelper.getFullWorldPath(server1);
+                    Path WorldFolderPath = PathHelper.getFullWorldPath(server);
                     Path Mod_Disable_DataPath = WorldFolderPath.resolve("Mod_Disable_Data");
 
                     List<String> fileNames = Files.list(Mod_Disable_DataPath).map(p -> p.getFileName().toString()).collect(Collectors.toList());

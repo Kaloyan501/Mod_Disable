@@ -11,8 +11,9 @@ public class ModEvents {
 
     public static void onCommandRegister(){
         ServerLifecycleEvents.SERVER_STARTED.register(server -> SERVER = server);
-        CommandRegistrationCallback.EVENT.register(((commandDispatcher, commandBuildContext, commandSelection) -> {
-            CommandManager.registerCommand(commandDispatcher, commandBuildContext, SERVER);
-        }));
+        CommandRegistrationCallback.EVENT.register((dispatcher, context, selection) ->
+                CommandManager.registerCommand(dispatcher, context)
+        );
+
     }
 }

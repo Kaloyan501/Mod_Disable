@@ -23,6 +23,7 @@ import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.ClientWorldFolde
 import com.kaloyandonev.moddisable.helpers.MigrateTask;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.ScreenCrator;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.StaticPathStorage;
+import com.kaloyandonev.moddisable.provideloaderspecific.ConfigPathProviderNeoforge;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
@@ -83,7 +84,8 @@ public class NeoMain
             NeoForge.EVENT_BUS.register(new UseDetector());
             ATTACHMENT_TYPES.register(modBus);
             ServerCheckHelper.init(() -> true);
-            ConfDir.init(() -> FMLPaths.CONFIGDIR.get());
+            ConfigPathProviderNeoforge configPathProviderNeoforge = new ConfigPathProviderNeoforge();
+            ConfDir.init(() ->  configPathProviderNeoforge.getConfigDir());
         }
 
         @SubscribeEvent

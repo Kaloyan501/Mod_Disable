@@ -31,7 +31,7 @@ public class CommandManager {
 
     private static final Logger logger = LogManager.getLogger(CommandManager.class);
 
-    public static void registerCommand(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext buildContext, MinecraftServer server) {
+    public static void registerCommand(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext buildContext) {
         dispatcher.register(
                 Commands.literal("disable_mod")
                         // 'enable' command
@@ -39,22 +39,22 @@ public class CommandManager {
                                 .requires(source -> source.hasPermission(2))
                                 .then(Commands.literal("namespace")
                                         .then(Commands.literal("hand")
-                                                .executes(context -> execute(context, "enable", "hand", server))
+                                                .executes(context -> execute(context, "enable", "hand"))
                                         )
                                         .then(Commands.argument("namespace", StringArgumentType.string())
-                                                .executes(context -> execute(context, "enable", StringArgumentType.getString(context, "namespace"), server))
+                                                .executes(context -> execute(context, "enable", StringArgumentType.getString(context, "namespace")))
                                         )
                                 )
                                 .then(Commands.literal("item")
                                         .then(Commands.literal("hand")
-                                                .executes(context -> executeWithItem(context, "enable", null, true, server))
+                                                .executes(context -> executeWithItem(context, "enable", null, true))
                                         )
                                         .then(Commands.argument("item", ItemArgument.item(buildContext))
-                                                .executes(context -> executeWithItem(context, "enable", ItemArgument.getItem(context, "item").getItem(), false, server))
+                                                .executes(context -> executeWithItem(context, "enable", ItemArgument.getItem(context, "item").getItem(), false ))
                                         )
                                 )
                                 .then(Commands.literal("all")
-                                        .executes(context -> execute(context, "enable", "all", server))
+                                        .executes(context -> execute(context, "enable", "all"))
                                 )
                         )
                         // 'disable' command
@@ -62,22 +62,22 @@ public class CommandManager {
                                 .requires(source -> source.hasPermission(2))
                                 .then(Commands.literal("namespace")
                                         .then(Commands.literal("hand")
-                                                .executes(context -> execute(context, "disable", "hand", server))
+                                                .executes(context -> execute(context, "disable", "hand"))
                                         )
                                         .then(Commands.argument("namespace", StringArgumentType.string())
-                                                .executes(context -> execute(context, "disable", StringArgumentType.getString(context, "namespace"), server))
+                                                .executes(context -> execute(context, "disable", StringArgumentType.getString(context, "namespace")))
                                         )
                                 )
                                 .then(Commands.literal("item")
                                         .then(Commands.literal("hand")
-                                                .executes(context -> executeWithItem(context, "disable", null, true, server))
+                                                .executes(context -> executeWithItem(context, "disable", null, true))
                                         )
                                         .then(Commands.argument("item", ItemArgument.item(buildContext))
-                                                .executes(context -> executeWithItem(context, "disable", ItemArgument.getItem(context, "item").getItem(), false, server))
+                                                .executes(context -> executeWithItem(context, "disable", ItemArgument.getItem(context, "item").getItem(), false))
                                         )
                                 )
                                 .then(Commands.literal("all")
-                                        .executes(context -> execute(context, "disable", "all", server))
+                                        .executes(context -> execute(context, "disable", "all"))
                                 )
                         )
                         // 'config' command
@@ -108,9 +108,10 @@ public class CommandManager {
 
 
     //Method to handle namespaces
-    private static int execute(CommandContext<CommandSourceStack> context, String action, String namespace, MinecraftServer server) {
+    private static int execute(CommandContext<CommandSourceStack> context, String action, String namespace) {
         CommandSourceStack source = context.getSource();
         Player player;
+        MinecraftServer server = context.getSource().getServer();
 
         try {
             player = source.getPlayerOrException();
@@ -193,10 +194,11 @@ public class CommandManager {
     }
 
     //Method to handle items
-    private static int executeWithItem(CommandContext<CommandSourceStack> context, String action, Item item, boolean handFlag, MinecraftServer server) {
+    private static int executeWithItem(CommandContext<CommandSourceStack> context, String action, Item item, boolean handFlag) {
 
         CommandSourceStack source = context.getSource();
         Player player;
+        MinecraftServer server = context.getSource().getServer();
         try {
             player = source.getPlayerOrException();
         } catch (CommandSyntaxException e) {

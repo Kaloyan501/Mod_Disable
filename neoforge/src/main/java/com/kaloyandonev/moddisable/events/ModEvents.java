@@ -34,7 +34,7 @@ public class ModEvents {
         public static void onCommandRegister(RegisterCommandsEvent event){
 
         MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
-        CommandManager.registerCommand(event.getDispatcher(), event.getBuildContext(), server);
+        CommandManager.registerCommand(event.getDispatcher(), event.getBuildContext());
 
         ConfigCommand.register(event.getDispatcher());
     }
