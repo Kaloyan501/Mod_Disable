@@ -2,6 +2,7 @@ package com.kaloyandonev.moddisable;
 
 import com.kaloyandonev.moddisable.abstracts.ConfDir;
 import com.kaloyandonev.moddisable.events.ModEvents;
+import com.kaloyandonev.moddisable.events.custom.PlayerInteractEvent;
 import com.kaloyandonev.moddisable.helpers.*;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.ClientTickHandler;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.ClientWorldFolderFinder;
@@ -19,6 +20,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,6 +55,29 @@ public class FabricMain implements ModInitializer {
         //ClientPlayConnectionEvents.JOIN.register(this::onLoadComplete);
         ConfigPathProviderFabric configPathProviderFabric = new ConfigPathProviderFabric();
         ConfDir.init(() -> configPathProviderFabric.getConfigDir());
+
+        //TO DO: REMOVE THIS!
+        PlayerInteractEvent.SheepShearCallback.EVENT.register((player, sheep) -> {
+            // Shear the sheep
+            sheep.setSheared(true);
+
+            // Create diamond item at sheep's position
+            ItemStack stack = new ItemStack(Items.DIAMOND);
+            ItemEntity itemEntity = new ItemEntity(
+                    player.level(),               // world → level()
+                    sheep.getX(),
+                    sheep.getY(),
+                    sheep.getZ(),
+                    stack
+            );
+
+            // Spawn the entity (spawnEntity → addFreshEntity)
+            player.level().addFreshEntity(itemEntity);
+
+            // STOP further processing (ActionResult.FAIL → InteractionResult.FAIL)
+            return InteractionResult.FAIL;
+        });
+
     }
     /*
     //TO DO: ADD LISTENER!
