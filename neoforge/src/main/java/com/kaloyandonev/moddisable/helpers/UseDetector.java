@@ -52,7 +52,7 @@ public class UseDetector {
     private static final Logger logger = LogManager.getLogger();
 
     @SubscribeEvent(priority = EventPriority.HIGH)
-    public void onRightClickItem(PlayerInteractEvent.RightClickItem event) {
+        public void onRightClickItem(PlayerInteractEvent.RightClickItem event) {
         if (!(event.getEntity() instanceof ServerPlayer Splayer)) return;
         Entity entity = event.getEntity();
         if (!(entity instanceof Player pPlayer)) {
