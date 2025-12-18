@@ -1,5 +1,6 @@
 package com.kaloyandonev.moddisable;
 
+import com.kaloyandonev.moddisable.helpers.ServerCheckHelper;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.ScreenCrator;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
@@ -10,7 +11,12 @@ import net.minecraft.network.chat.Component;
 public class FabricMainClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
+
         ClientCode();
+
+        ServerCheckHelper.init(() ->
+                FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT
+        );
     }
 
     private void ClientCode(){

@@ -2,7 +2,6 @@ package com.kaloyandonev.moddisable;
 
 import com.kaloyandonev.moddisable.abstracts.ConfDir;
 import com.kaloyandonev.moddisable.events.ModEvents;
-import com.kaloyandonev.moddisable.events.custom.PlayerInteractEvent;
 import com.kaloyandonev.moddisable.helpers.*;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.ClientTickHandler;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.ClientWorldFolderFinder;
@@ -47,6 +46,7 @@ public class FabricMain implements ModInitializer {
         // project.
 
         // Use Fabric to bootstrap the Common mod.
+        UseDetector.register();
         Constants.LOG.info("Hello Fabric world!");
         CommonClass.init();
         ModEvents.onCommandRegister();
@@ -56,28 +56,9 @@ public class FabricMain implements ModInitializer {
         ConfigPathProviderFabric configPathProviderFabric = new ConfigPathProviderFabric();
         ConfDir.init(() -> configPathProviderFabric.getConfigDir());
 
-        //TO DO: REMOVE THIS!
-        PlayerInteractEvent.SheepShearCallback.EVENT.register((player, sheep) -> {
-            // Shear the sheep
-            sheep.setSheared(true);
-
-            // Create diamond item at sheep's position
-            ItemStack stack = new ItemStack(Items.DIAMOND);
-            ItemEntity itemEntity = new ItemEntity(
-                    player.level(),               // world → level()
-                    sheep.getX(),
-                    sheep.getY(),
-                    sheep.getZ(),
-                    stack
-            );
-
-            // Spawn the entity (spawnEntity → addFreshEntity)
-            player.level().addFreshEntity(itemEntity);
-
-            // STOP further processing (ActionResult.FAIL → InteractionResult.FAIL)
-            return InteractionResult.FAIL;
-        });
-
+        ServerCheckHelper.init(() ->
+                FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT
+        );
     }
     /*
     //TO DO: ADD LISTENER!
