@@ -4,9 +4,11 @@ import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.event.player.UseItemCallback;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -31,7 +33,7 @@ public final class UseDetector {
             ItemStack stack = serverPlayer.getItemInHand(hand);
             BlockPos pos = serverPlayer.blockPosition();
 
-            boolean cancel = runHandleUse(serverPlayer, stack, pos);
+            boolean cancel = runHandleUse(serverPlayer, stack, pos, serverPlayer.getServer());
 
             return cancel
                     ? InteractionResultHolder.fail(stack)
@@ -49,7 +51,7 @@ public final class UseDetector {
             ItemStack stack = serverPlayer.getMainHandItem();
             BlockPos pos = serverPlayer.blockPosition();
 
-            boolean cancel = runHandleUse(serverPlayer, stack, pos);
+            boolean cancel = runHandleUse(serverPlayer, stack, pos, serverPlayer.getServer());
 
             return cancel ? InteractionResult.FAIL : InteractionResult.PASS;
         });
@@ -69,7 +71,7 @@ public final class UseDetector {
 
             BlockPos pos = hitResult.getBlockPos();
 
-            boolean cancel = runHandleUse(serverPlayer, stack, pos);
+            boolean cancel = runHandleUse(serverPlayer, stack, pos, serverPlayer.getServer());
 
             return cancel ? InteractionResult.FAIL : InteractionResult.PASS;
         });
@@ -78,16 +80,16 @@ public final class UseDetector {
     /* =========================================================
        FABRIC BRIDGE — adapts Runnable-based cancellation
        ========================================================= */
-    private static boolean runHandleUse(Player player, ItemStack stack, BlockPos pos) {
+    private static boolean runHandleUse(Player player, ItemStack stack, BlockPos pos, MinecraftServer server) {
         final boolean[] cancel = { false };
-        handleUse(player, stack, pos, () -> cancel[0] = true);
+        handleUse(player, stack, pos, () -> cancel[0] = true, server);
         return cancel[0];
     }
 
     /* =========================================================
        ORIGINAL LOGIC (unchanged)
        ========================================================= */
-    private static void handleUse(Player player, ItemStack itemStack, BlockPos pos, Runnable cancelAction) {
+    private static void handleUse(Player player, ItemStack itemStack, BlockPos pos, Runnable cancelAction, MinecraftServer server) {
         if (player == null || itemStack.isEmpty() || pos == null) return;
 
         if (!ServerCheckHelper.isConnectedToDedicatedServer()) {

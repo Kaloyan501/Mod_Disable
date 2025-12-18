@@ -201,6 +201,8 @@ public class NeoMain
             // Some client setup code
             LOGGER.info("HELLO FROM CLIENT SETUP");
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
+            Minecraft client = Minecraft.getInstance();
+            MinecraftServer server = client.getSingleplayerServer();
             if (ServerCheckHelper.isConnectedToDedicatedServer()) {
                 LOGGER.info("[Mod Disable] t[DEBUG] We are connected to a dedicated server!");
             } else {

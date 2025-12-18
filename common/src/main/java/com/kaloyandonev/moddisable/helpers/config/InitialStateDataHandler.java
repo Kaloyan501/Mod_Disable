@@ -24,6 +24,7 @@ import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.client.Minecraft;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -36,7 +37,7 @@ public class InitialStateDataHandler {
 
     static final Logger logger = LogManager.getLogger();
 
-    public static int executeConfigRequest(CommandContext<CommandSourceStack> context, String action, String argument, CommandSourceStack source) {
+    public static int executeConfigRequest(CommandContext<CommandSourceStack> context, String action, String argument, CommandSourceStack source, MinecraftServer server) {
 
 
         //File GeneralConfigFolder = new File(Minecraft.getInstance().gameDirectory, "config/ModDisable");

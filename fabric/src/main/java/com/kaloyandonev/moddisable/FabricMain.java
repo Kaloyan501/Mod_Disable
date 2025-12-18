@@ -5,24 +5,14 @@ import com.kaloyandonev.moddisable.events.ModEvents;
 import com.kaloyandonev.moddisable.helpers.*;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.ClientTickHandler;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.ClientWorldFolderFinder;
-import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.ScreenCrator;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.StaticPathStorage;
 import com.kaloyandonev.moddisable.provideloaderspecific.ConfigPathProviderFabric;
-import com.mojang.authlib.minecraft.client.MinecraftClient;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
-import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.Minecraft;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +26,7 @@ import java.util.stream.Collectors;
 public class FabricMain implements ModInitializer {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(Constants.MOD_ID);
-    private final isSinglePlayer isSinglePlayer = new isSinglePlayer();
+    //private final isSinglePlayer isSinglePlayer = new isSinglePlayer();
 
     @Override
     public void onInitialize() {
@@ -57,7 +47,7 @@ public class FabricMain implements ModInitializer {
         ConfDir.init(() -> configPathProviderFabric.getConfigDir());
 
         ServerCheckHelper.init(() ->
-                FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT
+                FabricLoader.getInstance().getEnvironmentType() == EnvType.SERVER
         );
     }
     /*
@@ -76,23 +66,23 @@ public class FabricMain implements ModInitializer {
 
             ServerLevel world = server.getLevel(Level.OVERWORLD);
 
-            if (!server.isDedicatedServer()) {
+            //if (!server.isDedicatedServer()) {
                 ClientWorldFolderFinder folderFinder = new ClientWorldFolderFinder();
                 Path subWorldFolderPath = folderFinder.getWorldSubfolderPath(world);
 
                 StaticPathStorage.setSubWorldFolderPath(subWorldFolderPath);
                 LOGGER.info("subWorldFolderPath is {}", subWorldFolderPath);
 
-                ClientTickHandler clientTickHandler = new ClientTickHandler();
-                MigrateTask migrateTask = new MigrateTask();
-                migrateTask.performMigration(clientTickHandler);
-            }
+                //ClientTickHandler clientTickHandler = new ClientTickHandler();
+                //MigrateTask migrateTask = new MigrateTask();
+                //migrateTask.performMigration(clientTickHandler);
+            //}
 
             LOGGER.debug("[Mod Disable] MigrateTask is about to run!");
             processAllDisabledItemsFromJson.processAllDisabledItemsFromJson();
 
             boolean CheckSumInvalid = JsonHelper.defaultDisabledListChecksumManger();
-            if (CheckSumInvalid = true){
+            if (CheckSumInvalid){
                 try {
                     Path WorldFolderPath = PathHelper.getFullWorldPath(server);
                     Path Mod_Disable_DataPath = WorldFolderPath.resolve("Mod_Disable_Data");
@@ -127,14 +117,7 @@ public class FabricMain implements ModInitializer {
     {
         public static void onClientSetup()
         {
-            // Some client setup code
-            LOGGER.info("HELLO FROM CLIENT SETUP");
-            LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
-            if (ServerCheckHelper.isConnectedToDedicatedServer()) {
-                LOGGER.info("[Mod Disable] t[DEBUG] We are connected to a dedicated server!");
-            } else {
-                LOGGER.info("[Mod Disable] [DEBUG] We are NOT connected to a dedicated server!");
-            }
+
         }
     }
 

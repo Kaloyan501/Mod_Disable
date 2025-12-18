@@ -23,6 +23,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -60,7 +61,7 @@ public class UseDetector {
         }
 
         BlockPos pos = pPlayer.blockPosition();
-        handleUse(pPlayer, event.getItemStack(), pos, () -> event.setCanceled(true));
+        handleUse(pPlayer, event.getItemStack(), pos, () -> event.setCanceled(true), pPlayer.getServer());
     }
 
     @SubscribeEvent(priority = EventPriority.HIGH)
@@ -72,7 +73,7 @@ public class UseDetector {
         }
 
         BlockPos pos = pPlayer.blockPosition();
-        handleUse(pPlayer, event.getItem(), pos, () -> event.setCanceled(true));
+        handleUse(pPlayer, event.getItem(), pos, () -> event.setCanceled(true), pPlayer.getServer());
     }
 
     @SubscribeEvent(priority = EventPriority.HIGH)
@@ -84,7 +85,7 @@ public class UseDetector {
         }
 
         BlockPos pos = pPlayer.blockPosition();
-        handleUse(pPlayer, pPlayer.getMainHandItem(), pos, () -> event.setCanceled(true));
+        handleUse(pPlayer, pPlayer.getMainHandItem(), pos, () -> event.setCanceled(true), pPlayer.getServer());
     }
 
     @SubscribeEvent(priority = EventPriority.HIGH)
@@ -108,7 +109,7 @@ public class UseDetector {
 
 
 
-    private static void handleUse(Player player, ItemStack itemStack, BlockPos pos, Runnable cancelAction) {
+    private static void handleUse(Player player, ItemStack itemStack, BlockPos pos, Runnable cancelAction, MinecraftServer server) {
         if (player == null || itemStack.isEmpty() || pos == null) return;
 
         // Check if the item is disabled locally
