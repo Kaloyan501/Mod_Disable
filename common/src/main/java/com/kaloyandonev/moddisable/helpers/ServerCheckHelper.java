@@ -1,28 +1,35 @@
 package com.kaloyandonev.moddisable.helpers;
 
-import net.minecraft.client.Minecraft;
-
 public final class ServerCheckHelper {
 
-    public interface Platform {
-        boolean isClientEnvironment();
-    }
-
-    private static Platform PLATFORM;
-
-    public static void init(Platform impl) {
-        PLATFORM = impl;
+    private ServerCheckHelper() {
     }
 
     /**
-     * Checks if the Minecraft client is connected to a dedicated server.
-     * Loader-agnostic.
+     * @return true if running on the client AND connected to a dedicated server.
+     *         false on singleplayer, menu, LAN, or any dedicated server runtime.
      */
     public static boolean isConnectedToDedicatedServer() {
-        if (!PLATFORM.isClientEnvironment()) {
+        try {
+            // Avoids classloading on dedicated servers
+            Class<?> minecraftClass = Class.forName("net.minecraft.client.Minecraft");
+            Object minecraft = minecraftClass.getMethod("getInstance").invoke(null);
+
+            if (minecraft == null) {
+                return false;
+            }
+
+            boolean singleplayer = (boolean) minecraftClass
+                    .getMethod("isSingleplayer")
+                    .invoke(minecraft);
+
+            return !singleplayer;
+        } catch (Throwable ignored) {
+            // Covers:
+            // - Dedicated server (Fabric/NeoForge)
+            // - Data generators
+            // - Early startup
             return false;
         }
-
-        return !Minecraft.getInstance().isSingleplayer();
     }
 }

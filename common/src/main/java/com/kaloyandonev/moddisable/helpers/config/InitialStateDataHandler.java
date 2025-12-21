@@ -37,7 +37,7 @@ public class InitialStateDataHandler {
 
     static final Logger logger = LogManager.getLogger();
 
-    public static int executeConfigRequest(CommandContext<CommandSourceStack> context, String action, String argument, CommandSourceStack source, MinecraftServer server) {
+    public static int executeConfigRequest(CommandContext<CommandSourceStack> context, String action, String argument, CommandSourceStack source) {
 
 
         //File GeneralConfigFolder = new File(Minecraft.getInstance().gameDirectory, "config/ModDisable");

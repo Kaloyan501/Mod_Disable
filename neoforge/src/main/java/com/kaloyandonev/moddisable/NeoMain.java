@@ -83,7 +83,9 @@ public class NeoMain
             //modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
             NeoForge.EVENT_BUS.register(new UseDetector());
             ATTACHMENT_TYPES.register(modBus);
+            /*
             ServerCheckHelper.init(() -> true);
+             */
             ConfigPathProviderNeoforge configPathProviderNeoforge = new ConfigPathProviderNeoforge();
             ConfDir.init(() ->  configPathProviderNeoforge.getConfigDir());
         }

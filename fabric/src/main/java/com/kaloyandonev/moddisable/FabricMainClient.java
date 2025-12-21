@@ -26,9 +26,11 @@ public class FabricMainClient implements ClientModInitializer {
 
         ClientCode();
 
+        /*
         ServerCheckHelper.init(() ->
                 FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT
         );
+         */
     }
 
     private void ClientCode(){

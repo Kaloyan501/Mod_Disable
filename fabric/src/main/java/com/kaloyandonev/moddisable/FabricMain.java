@@ -46,9 +46,11 @@ public class FabricMain implements ModInitializer {
         ConfigPathProviderFabric configPathProviderFabric = new ConfigPathProviderFabric();
         ConfDir.init(() -> configPathProviderFabric.getConfigDir());
 
+        /*
         ServerCheckHelper.init(() ->
                 FabricLoader.getInstance().getEnvironmentType() == EnvType.SERVER
         );
+         */
     }
     /*
     //TO DO: ADD LISTENER!
