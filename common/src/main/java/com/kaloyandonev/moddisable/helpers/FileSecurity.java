@@ -13,7 +13,7 @@ public class FileSecurity {
 
         // Create byte array to read data in chunks
         byte[] byteArray = new byte[1024];
-        int bytesCount = 0;
+        int bytesCount;
 
         // read the data from file and update that data in
         // the message digest

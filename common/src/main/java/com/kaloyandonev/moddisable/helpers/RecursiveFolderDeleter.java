@@ -18,9 +18,16 @@
 
 package com.kaloyandonev.moddisable.helpers;
 
+import com.kaloyandonev.moddisable.Constants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 
 public class RecursiveFolderDeleter {
+
+    public static final Logger LOGGER = LoggerFactory.getLogger(Constants.MOD_ID);
+
     public static void deleteFolder(File folder) {
         File[] files = folder.listFiles();
         if (files != null) { // If the folder is not empty
@@ -28,10 +35,18 @@ public class RecursiveFolderDeleter {
                 if (file.isDirectory()) {
                     deleteFolder(file); // Recursively delete subdirectories
                 } else {
-                    file.delete(); // Delete files
+                    try{
+                        file.delete(); // Delete files
+                    } catch (SecurityException e){
+                        LOGGER.error(e.toString());
+                    }
                 }
             }
         }
-        folder.delete(); // Delete the folder
+        try {
+            folder.delete(); // Delete the folder
+        } catch (SecurityException e) {
+            LOGGER.error(e.toString());
+        }
     }
 }

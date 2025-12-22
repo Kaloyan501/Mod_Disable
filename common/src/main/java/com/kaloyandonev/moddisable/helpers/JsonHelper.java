@@ -42,7 +42,12 @@ public class JsonHelper {
 
     static {
         if (!dataDir.exists()) {
-            dataDir.mkdir();
+            try {
+                dataDir.mkdir();
+            } catch (SecurityException e){
+                LOGGER.error(e.toString());
+            }
+
         }
     }
 
@@ -52,7 +57,12 @@ public class JsonHelper {
 
         // Ensure the directory exists
         if (!dataDir.exists()) {
-            dataDir.mkdirs(); // Create the directory if it does not exist
+            try {
+                dataDir.mkdirs(); // Create the directory if it does not exist
+            } catch (SecurityException e) {
+                LOGGER.error(e.toString());
+            }
+
         }
         return dataDir;
     }

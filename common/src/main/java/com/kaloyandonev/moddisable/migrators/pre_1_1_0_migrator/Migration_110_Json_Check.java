@@ -34,7 +34,7 @@ public class Migration_110_Json_Check {
         File minecraftRoot = new File(".");
         File disableModFolder = new File(minecraftRoot, DISABLE_MOD_FOLDER_NAME);
 
-        if (lock == false) {
+        if (!lock) {
             if (disableModFolder.exists() && disableModFolder.isDirectory()) {
                 File[] files = disableModFolder.listFiles();
                 if (files != null) {

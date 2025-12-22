@@ -33,13 +33,14 @@ import java.nio.file.Path;
 public class MigrateTask {
     private static final Logger logger = LogManager.getLogger();
     //private CommandManager disable_mod = new CommandManager();
-    private isSinglePlayer isSinglePlayer = new isSinglePlayer();
+    private final isSinglePlayer isSinglePlayer = new isSinglePlayer();
 
     public void performMigration() {
         boolean migrationConfrimed = ClientTickHandler.migrationConfrimed;
         logger.info("[Mod Disable] [Migration 1.1.0] [DEBUG] migrationConfirmed is " + migrationConfrimed);
         logger.info("[Mod Disable] [Migration 1.1.0] [DEBUG] isSinglePlayer is " + isSinglePlayer.getIsSinglePlayer());
         logger.info("[Mod Disable] [Migration 1.1.0] [DEBUG] checkforDisableModFolder" + Migration_110_Json_Check.checkForDisableModFolder());
+
         if (Migration_110_Json_Check.checkForDisableModFolder() && migrationConfrimed) {
             Path path = StaticPathStorage.getSubWorldFolderPath();
 

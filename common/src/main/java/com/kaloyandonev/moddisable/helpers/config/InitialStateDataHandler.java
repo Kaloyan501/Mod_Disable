@@ -45,7 +45,12 @@ public class InitialStateDataHandler {
 
         if (!GeneralConfigFolder.exists()) {
             logger.info("[Mod Disable] Creating config folder.");
-            GeneralConfigFolder.mkdir();
+            try {
+                GeneralConfigFolder.mkdir();
+            } catch (SecurityException e){
+                logger.error(e.toString());
+            }
+
         }
 
 
@@ -127,12 +132,16 @@ public class InitialStateDataHandler {
                 File DefaultDisabledItemsList = new File(GeneralConfigFolder, "DefaultDisabledItemsList.json");
 
                 if (PlayerDisabledItemsFile.exists()) {
-                    PlayerDisabledItemsFile.delete();
+
+
                     try {
+                        PlayerDisabledItemsFile.delete();
                         copyFile(DefaultDisabledItemsList, PlayerDisabledItemsFile);
                         source.sendSuccess(() -> Component.literal("[Mod Disable] Reinit done."), false);
                     } catch (IOException e) {
                         source.sendFailure(Component.literal("[Mod Disable] An exception was thrown while copying the disabled list file. Exception is: " + e));
+                    } catch (SecurityException e) {
+                        logger.error(e.toString());
                     }
                 } else {
                     source.sendFailure(Component.literal("[Mod Disable] Disabled items list for UUID " + argument + " does not exist."));

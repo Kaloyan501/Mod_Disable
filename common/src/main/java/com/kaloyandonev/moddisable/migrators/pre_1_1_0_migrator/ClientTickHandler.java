@@ -12,7 +12,7 @@ public class ClientTickHandler {
     public static boolean migrationConfrimed;
 
     public static boolean onClientTick() {
-        if (hasRendered == false && Migration_110_Json_Check.checkForDisableModFolder()) {
+        if (!hasRendered && Migration_110_Json_Check.checkForDisableModFolder()) {
 
             Minecraft minecraft = Minecraft.getInstance();
 
@@ -34,7 +34,6 @@ public class ClientTickHandler {
                                 confirmed -> {
                                     migrationConfrimed = confirmed;
                                     if (confirmed) {
-                                        migrationConfrimed = true;
                                         ToastNotifier.showToast("Select World", "Select world to migrate data to.");
                                     }
                                     // Handle migration logic here

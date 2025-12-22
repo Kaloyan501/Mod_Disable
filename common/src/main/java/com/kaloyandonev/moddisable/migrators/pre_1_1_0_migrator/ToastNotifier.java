@@ -33,13 +33,11 @@ public class ToastNotifier {
      */
     public static void showToast(String title, String message) {
         Minecraft minecraft = Minecraft.getInstance();
-        if (minecraft != null) {
-            SystemToast.add(
-                    minecraft.getToasts(),
-                    SystemToast.SystemToastId.NARRATOR_TOGGLE,
-                    Component.literal(title),
-                    Component.literal(message)
-            );
-        }
+        SystemToast.add(
+                minecraft.getToasts(),
+                SystemToast.SystemToastId.NARRATOR_TOGGLE,
+                Component.literal(title),
+                Component.literal(message)
+        );
     }
 }
