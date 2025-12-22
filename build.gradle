@@ -2,7 +2,7 @@ plugins {
     id 'idea'
     id 'java-library'
     id 'maven-publish'
-    id 'net.neoforged.moddev' version '2.0.122'
+    id 'net.neoforged.moddev' version '2.0.134'
 }
 
 tasks.named('wrapper', Wrapper).configure {
