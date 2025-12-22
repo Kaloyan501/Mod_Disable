@@ -6,7 +6,6 @@ import net.fabricmc.fabric.api.event.player.UseItemCallback;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -32,7 +31,7 @@ public final class UseDetector {
             ItemStack stack = serverPlayer.getItemInHand(hand);
             BlockPos pos = serverPlayer.blockPosition();
 
-            boolean cancel = runHandleUse(serverPlayer, stack, pos, serverPlayer.getServer());
+            boolean cancel = runHandleUse(serverPlayer, stack, pos);
 
             return cancel
                     ? InteractionResultHolder.fail(stack)
@@ -50,7 +49,7 @@ public final class UseDetector {
             ItemStack stack = serverPlayer.getMainHandItem();
             BlockPos pos = serverPlayer.blockPosition();
 
-            boolean cancel = runHandleUse(serverPlayer, stack, pos, serverPlayer.getServer());
+            boolean cancel = runHandleUse(serverPlayer, stack, pos);
 
             return cancel ? InteractionResult.FAIL : InteractionResult.PASS;
         });
@@ -70,7 +69,7 @@ public final class UseDetector {
 
             BlockPos pos = hitResult.getBlockPos();
 
-            boolean cancel = runHandleUse(serverPlayer, stack, pos, serverPlayer.getServer());
+            boolean cancel = runHandleUse(serverPlayer, stack, pos);
 
             return cancel ? InteractionResult.FAIL : InteractionResult.PASS;
         });
@@ -79,9 +78,9 @@ public final class UseDetector {
     /* =========================================================
        FABRIC BRIDGE — adapts Runnable-based cancellation
        ========================================================= */
-    private static boolean runHandleUse(Player player, ItemStack stack, BlockPos pos, MinecraftServer server) {
+    private static boolean runHandleUse(Player player, ItemStack stack, BlockPos pos) {
         final boolean[] cancel = {false};
-        handleUse(player, stack, pos, () -> cancel[0] = true, server);
+        handleUse(player, stack, pos, () -> cancel[0] = true);
         return cancel[0];
     }
 
@@ -93,7 +92,7 @@ public final class UseDetector {
 
         if (!ServerCheckHelper.isConnectedToDedicatedServer()) {
             if (JsonHelper.isItemDisabled(itemStack.getItem(), player)) {
-                handleItemUse(player, itemStack);
+                handleItemUse(player);
                 syncInventory(player);
                 cancelAction.run();
             }

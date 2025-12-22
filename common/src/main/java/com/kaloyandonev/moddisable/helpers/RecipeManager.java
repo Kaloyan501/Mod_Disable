@@ -30,11 +30,9 @@ import java.io.Reader;
 import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 
 public class RecipeManager {
@@ -204,7 +202,7 @@ public class RecipeManager {
 
     public static void EnableAll(String playerUUID, MinecraftServer server) throws IOException {
         List<String> namespaceList = BuiltInRegistries.ITEM.keySet().stream()
-                .map(ResourceLocation::getNamespace).distinct().collect(Collectors.toList());
+                .map(ResourceLocation::getNamespace).distinct().toList();
 
         for (String namespace : namespaceList) {
             EnableNamespace(playerUUID, namespace, server);

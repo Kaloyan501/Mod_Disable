@@ -24,9 +24,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -40,8 +38,6 @@ import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class UseDetector {
 
@@ -90,7 +86,7 @@ public class UseDetector {
         Player entity = event.getEntity();
 
         BlockPos pos = entity.blockPosition();
-        handleUse(entity, event.getItemStack(), pos, () -> event.setCanceled(true), entity.getServer());
+        handleUse(entity, event.getItemStack(), pos, () -> event.setCanceled(true));
     }
 
     @SubscribeEvent(priority = EventPriority.HIGH)
@@ -102,7 +98,7 @@ public class UseDetector {
         }
 
         BlockPos pos = pPlayer.blockPosition();
-        handleUse(pPlayer, event.getItem(), pos, () -> event.setCanceled(true), pPlayer.getServer());
+        handleUse(pPlayer, event.getItem(), pos, () -> event.setCanceled(true));
     }
 
     @SubscribeEvent(priority = EventPriority.HIGH)
@@ -111,7 +107,7 @@ public class UseDetector {
         Player entity = event.getEntity();
 
         BlockPos pos = entity.blockPosition();
-        handleUse(entity, entity.getMainHandItem(), pos, () -> event.setCanceled(true), entity.getServer());
+        handleUse(entity, entity.getMainHandItem(), pos, () -> event.setCanceled(true));
     }
 
     @SubscribeEvent(priority = EventPriority.HIGH)

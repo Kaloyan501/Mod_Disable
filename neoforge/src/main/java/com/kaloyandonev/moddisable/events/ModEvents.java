@@ -19,11 +19,9 @@ package com.kaloyandonev.moddisable.events;
 
 import com.kaloyandonev.moddisable.Constants;
 import com.kaloyandonev.moddisable.abstracts.commands.CommandManager;
-import net.minecraft.server.MinecraftServer;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
-import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import net.neoforged.neoforge.server.command.ConfigCommand;
 
 @EventBusSubscriber(modid = Constants.MOD_ID)
