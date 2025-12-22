@@ -24,13 +24,13 @@ import org.apache.logging.log4j.Logger;
 
 public class isSinglePlayer {
 
-    public boolean isSinglePlayer;
     private static final Logger logger = LogManager.getLogger(isSinglePlayer.class);
+    public boolean isSinglePlayer;
 
     public void checkisSinglePlayer() {
         Minecraft.getInstance().execute(() -> {
             Level world = Minecraft.getInstance().level;
-            logger.info("[Mod Disable] [Debug] World is {}" , world);
+            logger.info("[Mod Disable] [Debug] World is {}", world);
             if (world != null) {
                 isSinglePlayer = Minecraft.getInstance().isSingleplayer();
                 if (isSinglePlayer) {

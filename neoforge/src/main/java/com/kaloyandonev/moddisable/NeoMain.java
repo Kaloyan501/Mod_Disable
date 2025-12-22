@@ -20,82 +20,68 @@ import com.kaloyandonev.moddisable.abstracts.ConfDir;
 import com.kaloyandonev.moddisable.helpers.*;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.ClientTickHandler;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.ClientWorldFolderFinder;
-import com.kaloyandonev.moddisable.helpers.MigrateTask;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.ScreenCrator;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.StaticPathStorage;
 import com.kaloyandonev.moddisable.provideloaderspecific.ConfigPathProviderNeoforge;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
+import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.attachment.AttachmentType;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import net.minecraft.client.Minecraft;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.ModContainer;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.neoforged.neoforge.common.NeoForge;
-
-import net.neoforged.neoforge.event.server.ServerStartedEvent;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static net.neoforged.neoforge.internal.versions.neoforge.NeoForgeVersion.MOD_ID;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(Constants.MOD_ID)
-public class NeoMain
-{
+public class NeoMain {
     // Directly reference a slf4j logger
     public static final Logger LOGGER = LoggerFactory.getLogger(Constants.MOD_ID);
+    private static final DeferredRegister<AttachmentType<?>> ATTACHMENT_TYPES = DeferredRegister.create(NeoForgeRegistries.ATTACHMENT_TYPES, MOD_ID);
     private final isSinglePlayer isSinglePlayer = new isSinglePlayer();
 
 
-    private static final DeferredRegister<AttachmentType<?>> ATTACHMENT_TYPES = DeferredRegister.create(NeoForgeRegistries.ATTACHMENT_TYPES, MOD_ID);
+    public NeoMain(IEventBus modBus) {
 
-
-        public NeoMain(IEventBus modBus, ModContainer modContainer)
-        {
-            // Register ourselves for server and other game events we are interested in
-            //NeoForge.EVENT_BUS.register(this);
-            // Create the DeferredRegister for attachment types
-
-
-            // Register our mod's ForgeConfigSpec so that Forge can create and load the config file for us
-            //modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
-            NeoForge.EVENT_BUS.register(new UseDetector());
-            ATTACHMENT_TYPES.register(modBus);
+        // Register our mod's ForgeConfigSpec so that Forge can create and load the config file for us
+        //modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+        NeoForge.EVENT_BUS.register(new UseDetector());
+        ATTACHMENT_TYPES.register(modBus);
             /*
             ServerCheckHelper.init(() -> true);
              */
-            ConfigPathProviderNeoforge configPathProviderNeoforge = new ConfigPathProviderNeoforge();
-            ConfDir.init(() ->  configPathProviderNeoforge.getConfigDir());
-        }
+        ConfigPathProviderNeoforge configPathProviderNeoforge = new ConfigPathProviderNeoforge();
+        ConfDir.init(configPathProviderNeoforge);
+    }
 
-        @SubscribeEvent
-        public void generalEventSubscriber(IEventBus modBus){
-            modBus.addListener(this::ClientCode);
-            modBus.addListener(this::onLoadComplete);
+    @SubscribeEvent
+    public void generalEventSubscriber(IEventBus modBus) {
+        modBus.addListener(this::ClientCode);
+        modBus.addListener(this::onLoadComplete);
 
-            NeoForge.EVENT_BUS.register(this);
-        }
+        NeoForge.EVENT_BUS.register(this);
+    }
 
     public void onLoadComplete(FMLLoadCompleteEvent event) {
         isSinglePlayer.checkisSinglePlayer();
@@ -119,18 +105,12 @@ public class NeoMain
         }
     }
 
-    @EventBusSubscriber(modid = Constants.MOD_ID, bus = EventBusSubscriber.Bus.GAME)
-    //@OnlyIn(Dist.DEDICATED_SERVER)
     public static class ServerModEvents {
-
-
         // You can use SubscribeEvent and let the Event Bus discover methods to call
         @SubscribeEvent
         @OnlyIn(Dist.CLIENT)
         //@SuppressWarnings(value = "unused")
-        public static void onServerStarted(ServerStartedEvent event){
-
-
+        public static void onServerStarted(ServerStartedEvent event) {
             //  Do something when the server starts
             LOGGER.warn("HELLO from server started! (Not to be confused with starting!)");
 
@@ -146,34 +126,35 @@ public class NeoMain
 
                 ClientTickHandler clientTickHandler = new ClientTickHandler();
                 MigrateTask migrateTask = new MigrateTask();
-                migrateTask.performMigration(clientTickHandler);
+                migrateTask.performMigration();
             }
 
             LOGGER.debug("[Mod Disable] MigrateTask is about to run!");
-            processAllDisabledItemsFromJson.processAllDisabledItemsFromJson();
+            ProcessAllDisabledItemsFromJson.processAllDisabledItemsFromJson();
 
             boolean CheckSumInvalid = JsonHelper.defaultDisabledListChecksumManager();
-            if (CheckSumInvalid){
+            if (CheckSumInvalid) {
                 try {
                     MinecraftServer server1 = ServerLifecycleHooks.getCurrentServer();
+                    assert server1 != null;
                     Path WorldFolderPath = PathHelper.getFullWorldPath(server1);
                     Path Mod_Disable_DataPath = WorldFolderPath.resolve("Mod_Disable_Data");
 
-                    List<String> fileNames = Files.list(Mod_Disable_DataPath).map(p -> p.getFileName().toString()).collect(Collectors.toList());
+                    List<String> fileNames = Files.list(Mod_Disable_DataPath).map(p -> p.getFileName().toString()).toList();
                     String[] fileNamesArray = fileNames.toArray(new String[0]);
 
                     for (String fileName : fileNamesArray) {
-                        PlayerItemHashmapper.PlayerItemHashmapper(Mod_Disable_DataPath.resolve(fileName).toFile());
+                        PlayerItemHashmapper.hashmapPlayerItems(Mod_Disable_DataPath.resolve(fileName).toFile());
                     }
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    LOGGER.error(e.toString());
                 }
             }
         }
 
         @SubscribeEvent
         @OnlyIn(Dist.DEDICATED_SERVER)
-        public static void onServerStartedDedicated(ServerStartedEvent event){
+        public static void onServerStartedDedicated(ServerStartedEvent event) {
 
             MinecraftServer server = event.getServer();
             ServerLevel world = server.getLevel(Level.OVERWORLD);
@@ -184,21 +165,17 @@ public class NeoMain
 
             StaticPathStorage.setSubWorldFolderPath(subWorldFolderPath);
 
-            processAllDisabledItemsFromJson.processAllDisabledItemsFromJson();
+            ProcessAllDisabledItemsFromJson.processAllDisabledItemsFromJson();
 
 
         }
 
     }
 
-    // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
-    @EventBusSubscriber(modid = Constants.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     @SuppressWarnings(value = "unused")
-    public static class ClientModEvents
-    {
+    public static class ClientModEvents {
         @SubscribeEvent
-        public static void onClientSetup(FMLClientSetupEvent event)
-        {
+        public static void onClientSetup(FMLClientSetupEvent event) {
             // Some client setup code
             LOGGER.info("HELLO FROM CLIENT SETUP");
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());

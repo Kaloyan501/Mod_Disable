@@ -4,7 +4,9 @@ import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import com.kaloyandonev.moddisable.Constants;
 import com.kaloyandonev.moddisable.abstracts.ConfDir;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileReader;
@@ -14,7 +16,10 @@ import java.nio.file.Path;
 import java.util.Set;
 
 public class PlayerItemHashmapper {
-    public static void PlayerItemHashmapper(File playerDisabledItems){
+
+    public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(Constants.MOD_ID);
+
+    public static void hashmapPlayerItems(File playerDisabledItems) {
 
         Path configDir = ConfDir.getConfigDir();
         Path configPath = configDir.resolve("ModDisable/DefaultDisabledItemsList.json");
@@ -27,15 +32,17 @@ public class PlayerItemHashmapper {
             saveDisabledItems(playerDisabledItems.toPath().toString(), playerDisabled);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error(e.toString());
         }
 
     }
+
     public static Set<String> loadJsonAsSet(String path) throws Exception {
         Gson gson = new Gson();
         try (FileReader reader = new FileReader(path)) {
             JsonObject obj = gson.fromJson(reader, JsonObject.class);
-            Type setType = new TypeToken<Set<String>>() {}.getType();
+            Type setType = new TypeToken<Set<String>>() {
+            }.getType();
             return gson.fromJson(obj.get("disabled_items"), setType);
         }
     }

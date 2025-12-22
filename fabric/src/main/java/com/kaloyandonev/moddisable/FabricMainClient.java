@@ -1,8 +1,8 @@
 package com.kaloyandonev.moddisable;
 
 import com.kaloyandonev.moddisable.helpers.MigrateTask;
+import com.kaloyandonev.moddisable.helpers.ProcessAllDisabledItemsFromJson;
 import com.kaloyandonev.moddisable.helpers.ServerCheckHelper;
-import com.kaloyandonev.moddisable.helpers.processAllDisabledItemsFromJson;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.ClientTickHandler;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.ClientWorldFolderFinder;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.ScreenCrator;
@@ -20,7 +20,32 @@ import java.nio.file.Path;
 
 import static com.kaloyandonev.moddisable.FabricMain.LOGGER;
 
+@SuppressWarnings(value = "unused")
 public class FabricMainClient implements ClientModInitializer {
+    public static void ServerFolderFinderInit(ServerLevel world) {
+        ClientWorldFolderFinder folderFinder = new ClientWorldFolderFinder();
+        Path subWorldFolderPath = folderFinder.getWorldSubfolderPath(world);
+
+        StaticPathStorage.setSubWorldFolderPath(subWorldFolderPath);
+        LOGGER.info("subWorldFolderPath is {}", subWorldFolderPath);
+
+        ClientTickHandler clientTickHandler = new ClientTickHandler();
+        MigrateTask migrateTask = new MigrateTask();
+        migrateTask.performMigration();
+    }
+
+    public static void ServerFolderDedicatedInit(MinecraftServer server) {
+        ServerLevel world = server.getLevel(Level.OVERWORLD);
+
+        ClientWorldFolderFinder folderFinder = new ClientWorldFolderFinder();
+        Path subWorldFolderPath = folderFinder.getWorldSubfolderPath(world);
+        LOGGER.info("subWorldFolderPath is {}", subWorldFolderPath);
+
+        StaticPathStorage.setSubWorldFolderPath(subWorldFolderPath);
+
+        ProcessAllDisabledItemsFromJson.processAllDisabledItemsFromJson();
+    }
+
     @Override
     public void onInitializeClient() {
 
@@ -33,7 +58,7 @@ public class FabricMainClient implements ClientModInitializer {
          */
     }
 
-    private void ClientCode(){
+    private void ClientCode() {
         if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
             Minecraft.getInstance().execute(() -> {
                 ScreenCrator screenCrator = new ScreenCrator(
@@ -56,29 +81,5 @@ public class FabricMainClient implements ClientModInitializer {
         } else {
             LOGGER.info("[Mod Disable] [DEBUG] We are NOT connected to a dedicated server!");
         }
-    }
-
-    public static void ServerFolderFinderInit(ServerLevel world){
-        ClientWorldFolderFinder folderFinder = new ClientWorldFolderFinder();
-        Path subWorldFolderPath = folderFinder.getWorldSubfolderPath(world);
-
-        StaticPathStorage.setSubWorldFolderPath(subWorldFolderPath);
-        LOGGER.info("subWorldFolderPath is {}", subWorldFolderPath);
-
-        ClientTickHandler clientTickHandler = new ClientTickHandler();
-        MigrateTask migrateTask = new MigrateTask();
-        migrateTask.performMigration(clientTickHandler);
-    }
-
-    public static void ServerFolderDedicatedInit(MinecraftServer server){
-        ServerLevel world = server.getLevel(Level.OVERWORLD);
-
-        ClientWorldFolderFinder folderFinder = new ClientWorldFolderFinder();
-        Path subWorldFolderPath = folderFinder.getWorldSubfolderPath(world);
-        LOGGER.info("subWorldFolderPath is {}", subWorldFolderPath);
-
-        StaticPathStorage.setSubWorldFolderPath(subWorldFolderPath);
-
-        processAllDisabledItemsFromJson.processAllDisabledItemsFromJson();
     }
 }

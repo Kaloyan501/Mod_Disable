@@ -50,7 +50,7 @@ public class CommandManager {
                                                 .executes(context -> executeWithItem(context, "enable", null, true))
                                         )
                                         .then(Commands.argument("item", ItemArgument.item(buildContext))
-                                                .executes(context -> executeWithItem(context, "enable", ItemArgument.getItem(context, "item").getItem(), false ))
+                                                .executes(context -> executeWithItem(context, "enable", ItemArgument.getItem(context, "item").getItem(), false))
                                         )
                                 )
                                 .then(Commands.literal("all")
@@ -102,7 +102,7 @@ public class CommandManager {
                                 )
                         )
                         .then(Commands.literal("help")
-                                .executes(context -> executeHelp(context)))
+                                .executes(CommandManager::executeHelp))
         );
     }
 
@@ -218,6 +218,7 @@ public class CommandManager {
                     return 0;
             }
         } else {
+            assert item != null;
             ItemStack itemStack = new ItemStack(item);
             String itemName = itemStack.getDisplayName().getString();
             switch (action + " " + "item") {
@@ -264,16 +265,17 @@ public class CommandManager {
     private static int executeHelp(CommandContext<CommandSourceStack> context) {
         CommandSourceStack source = context.getSource();
 
-        source.sendSuccess(() -> Component.literal("[ModDisable] Help\n" +
-                "/disable_mod - Main command to interface with this mod\n" +
-                "/disable_mod enable/disable item <item name goes here> - Enables/disables a specific item\n" +
-                "/disable_mod enable/disable item hand - Disables the item in hand\n" +
-                "/disable_mod enable/disable namespace <namespace goes here> - Disables all items within a namespace (for example, all items starting with minecraft: )\n" +
-                "/disable_mod enable/disable namespace hand - Disables all items within the namespace of the currently held item\n" +
-                "/disable_mod config DefaultDisabledItemsListFromPlayerUUID - generates a default disabled items list for a modpack, allowing large servers to not lag while searching for namespaces for new players. First, disable all namespaces you want to be disabled for new players for your player, then provide your UUID to this command.\n" +
-                "/disable_mod init - Copies the default disabled items list to the player that initiated the command's UUID. Use this instead of manually disabling every mod namespace.\n" +
-                "/disable_mod reinit - Reinits a corrupted disabled items list by doing the same as init. Note: This will delete the selected player's mod unlock progress!\n" +
-                "/disable_mod disable/enable all - disables/enables all items currently registered in the item registry."), false);
+        source.sendSuccess(() -> Component.literal("""
+                [ModDisable] Help
+                /disable_mod - Main command to interface with this mod
+                /disable_mod enable/disable item <item name goes here> - Enables/disables a specific item
+                /disable_mod enable/disable item hand - Disables the item in hand
+                /disable_mod enable/disable namespace <namespace goes here> - Disables all items within a namespace (for example, all items starting with minecraft: )
+                /disable_mod enable/disable namespace hand - Disables all items within the namespace of the currently held item
+                /disable_mod config DefaultDisabledItemsListFromPlayerUUID - generates a default disabled items list for a modpack, allowing large servers to not lag while searching for namespaces for new players. First, disable all namespaces you want to be disabled for new players for your player, then provide your UUID to this command.
+                /disable_mod init - Copies the default disabled items list to the player that initiated the command's UUID. Use this instead of manually disabling every mod namespace.
+                /disable_mod reinit - Reinits a corrupted disabled items list by doing the same as init. Note: This will delete the selected player's mod unlock progress!
+                /disable_mod disable/enable all - disables/enables all items currently registered in the item registry."""), false);
         return 0;
     }
 }

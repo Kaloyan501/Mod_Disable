@@ -24,12 +24,12 @@ import java.nio.file.Path;
 public class StaticPathStorage {
     private static Path subWorldFolderPath;
 
-    public static void setSubWorldFolderPath(Path path){
-        subWorldFolderPath = path;
-    }
-
     public static Path getSubWorldFolderPath() {
         return subWorldFolderPath;
+    }
+
+    public static void setSubWorldFolderPath(Path path) {
+        subWorldFolderPath = path;
     }
 
     public static File getSubWorldFolderFile() {

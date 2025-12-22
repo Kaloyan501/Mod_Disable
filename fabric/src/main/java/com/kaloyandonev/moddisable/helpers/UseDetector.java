@@ -3,8 +3,6 @@ package com.kaloyandonev.moddisable.helpers;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.event.player.UseItemCallback;
-
-import net.minecraft.client.Minecraft;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -18,7 +16,8 @@ import net.minecraft.world.item.ItemStack;
 
 public final class UseDetector {
 
-    private UseDetector() {}
+    private UseDetector() {
+    }
 
     public static void register() {
 
@@ -81,7 +80,7 @@ public final class UseDetector {
        FABRIC BRIDGE — adapts Runnable-based cancellation
        ========================================================= */
     private static boolean runHandleUse(Player player, ItemStack stack, BlockPos pos, MinecraftServer server) {
-        final boolean[] cancel = { false };
+        final boolean[] cancel = {false};
         handleUse(player, stack, pos, () -> cancel[0] = true, server);
         return cancel[0];
     }
@@ -89,7 +88,7 @@ public final class UseDetector {
     /* =========================================================
        ORIGINAL LOGIC (unchanged)
        ========================================================= */
-    private static void handleUse(Player player, ItemStack itemStack, BlockPos pos, Runnable cancelAction, MinecraftServer server) {
+    private static void handleUse(Player player, ItemStack itemStack, BlockPos pos, Runnable cancelAction) {
         if (player == null || itemStack.isEmpty() || pos == null) return;
 
         if (!ServerCheckHelper.isConnectedToDedicatedServer()) {
@@ -98,12 +97,10 @@ public final class UseDetector {
                 syncInventory(player);
                 cancelAction.run();
             }
-        } else {
-            // Dedicated server handling (optional)
         }
     }
 
-    private static void handleItemUse(Player player, ItemStack itemStack) {
+    private static void handleItemUse(Player player) {
         if (!(player instanceof ServerPlayer serverPlayer)) return;
 
         CommandSourceStack source = serverPlayer.createCommandSourceStack();

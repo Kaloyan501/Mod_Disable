@@ -1,4 +1,3 @@
-
 //ModDisable
 //A Minecraft Mod to disable other Mods
 //Copyright (C) 2024-2025 Kaloyan Ivanov Donev
@@ -23,11 +22,10 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 
-public class processAllDisabledItemsFromJson {
+public class ProcessAllDisabledItemsFromJson {
 
+    private static final Logger logger = LogManager.getLogger(ProcessAllDisabledItemsFromJson.class);
     private static File DATA_DIR = StaticPathStorage.getSubWorldFolderFile();
-
-    private static final Logger logger = LogManager.getLogger(processAllDisabledItemsFromJson.class);
 
     // Method to get the data directory with lazy initialization
     private static File getDataDir() {
@@ -42,7 +40,7 @@ public class processAllDisabledItemsFromJson {
 
     public static void processAllDisabledItemsFromJson() {
         getDataDir();
-        if (!getDataDir().exists() || !DATA_DIR.isDirectory()){
+        if (!getDataDir().exists() || !DATA_DIR.isDirectory()) {
             System.out.println("Directory not found: " + DATA_DIR.getAbsolutePath());
             return;
         }
@@ -52,6 +50,7 @@ public class processAllDisabledItemsFromJson {
             logger.debug("[Mod Disable] No files found in dir: {}", DATA_DIR.getAbsolutePath());
         }
 
+        assert files != null;
         for (File file : files) {
             logger.debug("[Mod Disable]Disabling recipes for file: {}", file.getName());
             logger.debug("[Mod Disable]JSON file path is: {}", file.getAbsolutePath());

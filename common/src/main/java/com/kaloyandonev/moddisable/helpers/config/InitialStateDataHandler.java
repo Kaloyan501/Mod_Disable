@@ -24,7 +24,6 @@ import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.client.Minecraft;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -37,7 +36,7 @@ public class InitialStateDataHandler {
 
     static final Logger logger = LogManager.getLogger();
 
-    public static int executeConfigRequest(CommandContext<CommandSourceStack> context, String action, String argument, CommandSourceStack source) {
+    public static int executeConfigRequest(String action, String argument, CommandSourceStack source) {
 
 
         //File GeneralConfigFolder = new File(Minecraft.getInstance().gameDirectory, "config/ModDisable");
@@ -48,7 +47,6 @@ public class InitialStateDataHandler {
             logger.info("[Mod Disable] Creating config folder.");
             GeneralConfigFolder.mkdir();
         }
-
 
 
         switch (action) {
@@ -75,7 +73,7 @@ public class InitialStateDataHandler {
                         return 1;
                     }
                 }
-            return 0;
+                return 0;
 
             case "Init":
                 ServerPlayer player;
@@ -84,7 +82,7 @@ public class InitialStateDataHandler {
                     source.sendFailure(Component.literal("[Mod Disable] This command must be executed by a player!"));
                     return 1;
                 }
-                File PlayerDisabledItemsFile = new File(StaticPathStorage.getSubWorldFolderFile(), player.getUUID().toString() + ".json");
+                File PlayerDisabledItemsFile = new File(StaticPathStorage.getSubWorldFolderFile(), player.getUUID() + ".json");
                 File DefaultDisabledItemsList = new File(GeneralConfigFolder, "DefaultDisabledItemsList.json");
 
                 if (!PlayerDisabledItemsFile.exists()) {
@@ -121,26 +119,25 @@ public class InitialStateDataHandler {
 
         CommandSourceStack source = context.getSource();
 
-        switch(action){
-            case "Reinit":
-                if ("nonconfirm".equals(Confirm)) {
-                    source.sendFailure(Component.literal("[Mod Disable] WARNING! This will delete the mod unlock progress of the player you selected! If you are sure you want to do this, please type the command: /disable_mod config reinit " + argument + " confirm"));
-                }else if ("confirm".equals(Confirm)){
-                    File PlayerDisabledItemsFile = new File(StaticPathStorage.getSubWorldFolderFile(), argument + ".json");
-                    File DefaultDisabledItemsList = new File(GeneralConfigFolder, "DefaultDisabledItemsList.json");
+        if (action.equals("Reinit")) {
+            if ("nonconfirm".equals(Confirm)) {
+                source.sendFailure(Component.literal("[Mod Disable] WARNING! This will delete the mod unlock progress of the player you selected! If you are sure you want to do this, please type the command: /disable_mod config reinit " + argument + " confirm"));
+            } else if ("confirm".equals(Confirm)) {
+                File PlayerDisabledItemsFile = new File(StaticPathStorage.getSubWorldFolderFile(), argument + ".json");
+                File DefaultDisabledItemsList = new File(GeneralConfigFolder, "DefaultDisabledItemsList.json");
 
-                    if (PlayerDisabledItemsFile.exists()) {
-                        PlayerDisabledItemsFile.delete();
-                        try {
-                            copyFile(DefaultDisabledItemsList, PlayerDisabledItemsFile);
-                            source.sendSuccess(() -> Component.literal("[Mod Disable] Reinit done."), false);
-                        } catch (IOException e) {
-                            source.sendFailure(Component.literal("[Mod Disable] An exception was thrown while copying the disabled list file. Exception is: " + e));
-                        }
-                    } else {
-                        source.sendFailure(Component.literal("[Mod Disable] Disabled items list for UUID " + argument + " does not exist."));
+                if (PlayerDisabledItemsFile.exists()) {
+                    PlayerDisabledItemsFile.delete();
+                    try {
+                        copyFile(DefaultDisabledItemsList, PlayerDisabledItemsFile);
+                        source.sendSuccess(() -> Component.literal("[Mod Disable] Reinit done."), false);
+                    } catch (IOException e) {
+                        source.sendFailure(Component.literal("[Mod Disable] An exception was thrown while copying the disabled list file. Exception is: " + e));
                     }
+                } else {
+                    source.sendFailure(Component.literal("[Mod Disable] Disabled items list for UUID " + argument + " does not exist."));
                 }
+            }
         }
 
         return 1;

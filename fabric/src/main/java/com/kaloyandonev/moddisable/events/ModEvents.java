@@ -9,7 +9,7 @@ public class ModEvents {
 
     public static MinecraftServer SERVER;
 
-    public static void onCommandRegister(){
+    public static void onCommandRegister() {
         ServerLifecycleEvents.SERVER_STARTED.register(server -> SERVER = server);
         CommandRegistrationCallback.EVENT.register((dispatcher, context, selection) ->
                 CommandManager.registerCommand(dispatcher, context)

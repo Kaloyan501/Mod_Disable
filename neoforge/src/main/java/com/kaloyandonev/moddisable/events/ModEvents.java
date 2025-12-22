@@ -20,10 +20,9 @@ package com.kaloyandonev.moddisable.events;
 import com.kaloyandonev.moddisable.Constants;
 import com.kaloyandonev.moddisable.abstracts.commands.CommandManager;
 import net.minecraft.server.MinecraftServer;
+import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
-
-import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import net.neoforged.neoforge.server.command.ConfigCommand;
 
@@ -31,9 +30,7 @@ import net.neoforged.neoforge.server.command.ConfigCommand;
 public class ModEvents {
 
     @SubscribeEvent
-        public static void onCommandRegister(RegisterCommandsEvent event){
-
-        MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
+    public static void onCommandRegister(RegisterCommandsEvent event) {
         CommandManager.registerCommand(event.getDispatcher(), event.getBuildContext());
 
         ConfigCommand.register(event.getDispatcher());

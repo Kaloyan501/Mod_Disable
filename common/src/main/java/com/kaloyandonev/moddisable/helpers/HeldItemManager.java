@@ -6,10 +6,11 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+
 import java.io.IOException;
 
 public class HeldItemManager {
-    public static void EnableHeldItem(Player player, CommandSourceStack source, MinecraftServer server){
+    public static void EnableHeldItem(Player player, CommandSourceStack source, MinecraftServer server) {
         Item HeldItem = player.getItemInHand(InteractionHand.MAIN_HAND).getItem();
         try {
             RecipeManager.EnableItem(player.getStringUUID(), HeldItem.toString(), server);
@@ -18,7 +19,7 @@ public class HeldItemManager {
         }
     }
 
-    public static void DisableHeldItem(Player player, CommandSourceStack source, MinecraftServer server){
+    public static void DisableHeldItem(Player player, CommandSourceStack source, MinecraftServer server) {
         Item HeldItem = player.getItemInHand(InteractionHand.MAIN_HAND).getItem();
         try {
             RecipeManager.DisableItem(player.getStringUUID(), HeldItem.toString(), server);
@@ -27,7 +28,7 @@ public class HeldItemManager {
         }
     }
 
-    public static void EnableHeldNamespace(Player player, CommandSourceStack source, MinecraftServer server){
+    public static void EnableHeldNamespace(Player player, CommandSourceStack source, MinecraftServer server) {
         Item HeldItem = player.getItemInHand(InteractionHand.MAIN_HAND).getItem();
         try {
             String input = HeldItem.toString();
@@ -38,7 +39,7 @@ public class HeldItemManager {
         }
     }
 
-    public static void DisableHeldNamespace(Player player, CommandSourceStack source, MinecraftServer server){
+    public static void DisableHeldNamespace(Player player, CommandSourceStack source, MinecraftServer server) {
         Item HeldItem = player.getItemInHand(InteractionHand.MAIN_HAND).getItem();
         try {
             String input = HeldItem.toString();

@@ -19,6 +19,7 @@ package com.kaloyandonev.moddisable.helpers;
 
 import com.kaloyandonev.moddisable.disablelogic.playerjoinsyncpacket.PlayerJoinSyncPacket;
 import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
@@ -30,86 +31,21 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.HitResult;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.entity.living.LivingEntityUseItemEvent;
 import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.bus.api.EventPriority;
-
 import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
-import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class UseDetector {
-    private static final Logger logger = LogManager.getLogger();
 
-    @SubscribeEvent(priority = EventPriority.HIGH)
-        public void onRightClickItem(PlayerInteractEvent.RightClickItem event) {
-        if (!(event.getEntity() instanceof ServerPlayer Splayer)) return;
-        Entity entity = event.getEntity();
-        if (!(entity instanceof Player pPlayer)) {
-            return; // Ignore non-player entities (like bots, NPCs, etc.)
-        }
-
-        BlockPos pos = pPlayer.blockPosition();
-        handleUse(pPlayer, event.getItemStack(), pos, () -> event.setCanceled(true), pPlayer.getServer());
-    }
-
-    @SubscribeEvent(priority = EventPriority.HIGH)
-    public void onUseItemFinish(LivingEntityUseItemEvent.Start event) {
-        if (!(event.getEntity() instanceof ServerPlayer Splayer)) return;
-        LivingEntity entity = event.getEntity();
-        if (!(entity instanceof Player pPlayer)) {
-            return; // Ignore non-player entities
-        }
-
-        BlockPos pos = pPlayer.blockPosition();
-        handleUse(pPlayer, event.getItem(), pos, () -> event.setCanceled(true), pPlayer.getServer());
-    }
-
-    @SubscribeEvent(priority = EventPriority.HIGH)
-    public void onAttackEntity(AttackEntityEvent event) {
-        if (!(event.getEntity() instanceof ServerPlayer Splayer)) return;
-        Entity entity = event.getEntity();
-        if (!(entity instanceof Player pPlayer)) {
-            return; // Ignore non-player entities
-        }
-
-        BlockPos pos = pPlayer.blockPosition();
-        handleUse(pPlayer, pPlayer.getMainHandItem(), pos, () -> event.setCanceled(true), pPlayer.getServer());
-    }
-
-    @SubscribeEvent(priority = EventPriority.HIGH)
-    public void onBlockPlace(BlockEvent.EntityPlaceEvent event){
-        if (!(event.getEntity() instanceof ServerPlayer player)) return;
-
-        BlockState placedState = event.getPlacedBlock();
-        Block placedBlock = placedState.getBlock();
-
-        Boolean isDisabled = JsonHelper.isItemDisabled(placedBlock.asItem(),player);
-
-        if (isDisabled == true) {
-            event.setCanceled(true);
-        } else {
-            return;
-        }
-
-        player.displayClientMessage(Component.literal("This item is disabled!"), true);
-
-    }
-
-
-
-    private static void handleUse(Player player, ItemStack itemStack, BlockPos pos, Runnable cancelAction, MinecraftServer server) {
+    private static void handleUse(Player player, ItemStack itemStack, BlockPos pos, Runnable cancelAction) {
         if (player == null || itemStack.isEmpty() || pos == null) return;
 
         // Check if the item is disabled locally
@@ -143,9 +79,57 @@ public class UseDetector {
     }
 
     private static void syncInventory(Player player) {
-        if (player instanceof ServerPlayer) {
-            ServerPlayer serverPlayer = (ServerPlayer) player;
+        if (player instanceof ServerPlayer serverPlayer) {
             serverPlayer.inventoryMenu.sendAllDataToRemote(); // Sync the inventory
         }
+    }
+
+    @SubscribeEvent(priority = EventPriority.HIGH)
+    public void onRightClickItem(PlayerInteractEvent.RightClickItem event) {
+        if (!(event.getEntity() instanceof ServerPlayer)) return;
+        Player entity = event.getEntity();
+
+        BlockPos pos = entity.blockPosition();
+        handleUse(entity, event.getItemStack(), pos, () -> event.setCanceled(true), entity.getServer());
+    }
+
+    @SubscribeEvent(priority = EventPriority.HIGH)
+    public void onUseItemFinish(LivingEntityUseItemEvent.Start event) {
+        if (!(event.getEntity() instanceof ServerPlayer)) return;
+        LivingEntity entity = event.getEntity();
+        if (!(entity instanceof Player pPlayer)) {
+            return; // Ignore non-player entities
+        }
+
+        BlockPos pos = pPlayer.blockPosition();
+        handleUse(pPlayer, event.getItem(), pos, () -> event.setCanceled(true), pPlayer.getServer());
+    }
+
+    @SubscribeEvent(priority = EventPriority.HIGH)
+    public void onAttackEntity(AttackEntityEvent event) {
+        if (!(event.getEntity() instanceof ServerPlayer)) return;
+        Player entity = event.getEntity();
+
+        BlockPos pos = entity.blockPosition();
+        handleUse(entity, entity.getMainHandItem(), pos, () -> event.setCanceled(true), entity.getServer());
+    }
+
+    @SubscribeEvent(priority = EventPriority.HIGH)
+    public void onBlockPlace(BlockEvent.EntityPlaceEvent event) {
+        if (!(event.getEntity() instanceof ServerPlayer player)) return;
+
+        BlockState placedState = event.getPlacedBlock();
+        Block placedBlock = placedState.getBlock();
+
+        boolean isDisabled = JsonHelper.isItemDisabled(placedBlock.asItem(), player);
+
+        if (isDisabled) {
+            event.setCanceled(true);
+        } else {
+            return;
+        }
+
+        player.displayClientMessage(Component.literal("This item is disabled!"), true);
+
     }
 }

@@ -31,16 +31,12 @@ import java.nio.file.Path;
 
 //@OnlyIn(Dist.CLIENT)
 public class MigrateTask {
+    private static final Logger logger = LogManager.getLogger();
     //private CommandManager disable_mod = new CommandManager();
     private isSinglePlayer isSinglePlayer = new isSinglePlayer();
 
-    private static final Logger logger = LogManager.getLogger();
-
-
-
-
-    public void performMigration(ClientTickHandler clientTickHandler) {
-        boolean migrationConfrimed = clientTickHandler.migrationConfrimed;
+    public void performMigration() {
+        boolean migrationConfrimed = ClientTickHandler.migrationConfrimed;
         logger.info("[Mod Disable] [Migration 1.1.0] [DEBUG] migrationConfirmed is " + migrationConfrimed);
         logger.info("[Mod Disable] [Migration 1.1.0] [DEBUG] isSinglePlayer is " + isSinglePlayer.getIsSinglePlayer());
         logger.info("[Mod Disable] [Migration 1.1.0] [DEBUG] checkforDisableModFolder" + Migration_110_Json_Check.checkForDisableModFolder());
@@ -53,17 +49,15 @@ public class MigrateTask {
 
             CopyFolderContents fileCopier = new CopyFolderContents();
             Path sourcePath = disabledItemsPath.toPath();
-            Path destinationPath = path;
 
             try {
 
-                fileCopier.CopyFolderContents(sourcePath, destinationPath);
+                fileCopier.copyFolderContents(sourcePath, path);
                 logger.info("[Mod Disable] [Migrator 1.1.0] Files copied successfully.");
                 RecursiveFolderDeleter.deleteFolder(sourcePath.toFile());
-                processAllDisabledItemsFromJson.processAllDisabledItemsFromJson();
-            }
-            catch (IOException e){
-                e.printStackTrace();
+                ProcessAllDisabledItemsFromJson.processAllDisabledItemsFromJson();
+            } catch (IOException e) {
+                logger.error(e.toString());
                 logger.info("[Mod Disable] [Migrator 1.1.0] Files copy error.");
             }
 

@@ -7,7 +7,7 @@ public final class ServerCheckHelper {
 
     /**
      * @return true if running on the client AND connected to a dedicated server.
-     *         false on singleplayer, menu, LAN, or any dedicated server runtime.
+     * false on singleplayer, menu, LAN, or any dedicated server runtime.
      */
     public static boolean isConnectedToDedicatedServer() {
         try {

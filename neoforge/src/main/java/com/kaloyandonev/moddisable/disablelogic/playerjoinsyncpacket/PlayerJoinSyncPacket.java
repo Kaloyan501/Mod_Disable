@@ -22,7 +22,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.kaloyandonev.moddisable.Constants;
 import com.kaloyandonev.moddisable.helpers.PathHelper;
-import com.mojang.datafixers.kinds.Const;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -36,6 +35,9 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.neoforged.neoforge.network.registration.HandlerThread;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
+import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -44,6 +46,8 @@ import java.nio.file.Path;
 import java.util.UUID;
 
 public class PlayerJoinSyncPacket {
+
+    public static final Logger LOGGER = LoggerFactory.getLogger(Constants.MOD_ID);
 
     @SubscribeEvent
     public static void register(final RegisterPayloadHandlersEvent ev) {
@@ -68,8 +72,7 @@ public class PlayerJoinSyncPacket {
     }
 
     public record PlayerJoinRequest(String itemName, String uuid)
-            implements CustomPacketPayload
-    {
+            implements CustomPacketPayload {
         public static final Type<PlayerJoinRequest> TYPE =
                 new Type<>(ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "player_join_request"));
 
@@ -81,14 +84,13 @@ public class PlayerJoinSyncPacket {
                 );
 
         @Override
-        public Type<? extends CustomPacketPayload> type() {
+        public @NotNull Type<? extends CustomPacketPayload> type() {
             return TYPE;
         }
     }
 
     public record PlayerJoinResponse(String itemName, String uuid, boolean isDisabled)
-            implements CustomPacketPayload
-    {
+            implements CustomPacketPayload {
         public static final Type<PlayerJoinResponse> TYPE =
                 new Type<>(ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "player_join_response"));
 
@@ -96,17 +98,17 @@ public class PlayerJoinSyncPacket {
                 StreamCodec.composite(
                         ByteBufCodecs.STRING_UTF8, PlayerJoinResponse::itemName,
                         ByteBufCodecs.STRING_UTF8, PlayerJoinResponse::uuid,
-                        ByteBufCodecs.BOOL,        PlayerJoinResponse::isDisabled,
+                        ByteBufCodecs.BOOL, PlayerJoinResponse::isDisabled,
                         PlayerJoinResponse::new
                 );
 
         @Override
-        public Type<? extends CustomPacketPayload> type() {
+        public @NotNull Type<? extends CustomPacketPayload> type() {
             return TYPE;
         }
     }
 
-    public class ServerPayloadHandler {
+    public static class ServerPayloadHandler {
         public static void onRequest(PlayerJoinRequest req, IPayloadContext ctx) {
             String item = req.itemName();
             UUID id = UUID.fromString(req.uuid());
@@ -135,8 +137,8 @@ public class PlayerJoinSyncPacket {
                         break;
                     }
                 }
-            } catch (IOException ex) {
-                ex.printStackTrace();
+            } catch (IOException e) {
+                LOGGER.error(e.toString());
             }
 
             PlayerJoinResponse response = new PlayerJoinResponse(item, id.toString(), isDisabled);
@@ -145,11 +147,8 @@ public class PlayerJoinSyncPacket {
         }
     }
 
-    public class ClientPayloadHandler {
+    public static class ClientPayloadHandler {
         public static void onResponse(PlayerJoinResponse resp, IPayloadContext ctx) {
-            // … same body as your handleDataOnMain …
         }
     }
-
-
 }

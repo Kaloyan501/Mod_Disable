@@ -17,10 +17,13 @@
 package com.kaloyandonev.moddisable.helpers;
 
 import com.google.gson.*;
+import com.kaloyandonev.moddisable.Constants;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.storage.LevelResource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -35,6 +38,9 @@ import java.util.stream.Collectors;
 
 
 public class RecipeManager {
+
+    public static final Logger LOGGER = LoggerFactory.getLogger(Constants.MOD_ID);
+
     private static Path FindPlayerFolder(String playerUUID, MinecraftServer server) {
         if (server == null) {
             throw new IllegalStateException("Server not available yet.");
@@ -51,7 +57,7 @@ public class RecipeManager {
         try {
             Files.createDirectories(playerFile.getParent());
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.error(e.toString());
         }
 
         return playerFile;
@@ -62,10 +68,9 @@ public class RecipeManager {
      * Function to read the disabled items JSON list of the player or create it if not available,
      * and remove the specified item from the array (i.e., enable it).
      *
-     * @param playerUUID - UUID of the player, used to get the disabled items JSON file.
+     * @param playerUUID   - UUID of the player, used to get the disabled items JSON file.
      * @param itemToEnable - The item that is going to be enabled (removed from the disabled list).
-     *  @param server - MinecraftServer object to work on.
-     * @throws IOException
+     * @param server       - MinecraftServer object to work on.
      */
     public static void EnableItem(String playerUUID, String itemToEnable, MinecraftServer server) throws IOException {
         Path path = FindPlayerFolder(playerUUID, server);
@@ -105,14 +110,14 @@ public class RecipeManager {
 
     /**
      * Function to read the disabled items JSON list of the player or create it if not available and add the string to the array.
-     * @param playerUUID - UUID of the player, used to get the disabled items list JSON file.
+     *
+     * @param playerUUID    - UUID of the player, used to get the disabled items list JSON file.
      * @param ItemToDisable - The item that is going to get disabled.
-     * @param server - MinecraftServer object to work on.
-     * @throws IOException
+     * @param server        - MinecraftServer object to work on.
      */
 
 
-    public static void DisableItem(String playerUUID, String ItemToDisable, MinecraftServer server) throws IOException{
+    public static void DisableItem(String playerUUID, String ItemToDisable, MinecraftServer server) throws IOException {
         Path path = FindPlayerFolder(playerUUID, server);
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -127,16 +132,15 @@ public class RecipeManager {
         }
 
         JsonArray arr = jObj.getAsJsonArray("disabled_items");
-        String newItem = ItemToDisable;
         boolean found = false;
         for (JsonElement e : arr) {
-            if (newItem.equals(e.getAsString())) {
+            if (ItemToDisable.equals(e.getAsString())) {
                 found = true;
                 break;
             }
         }
         if (!found) {
-            arr.add(newItem);
+            arr.add(ItemToDisable);
         }
 
         try (Writer writer = Files.newBufferedWriter(path)) {
@@ -145,7 +149,7 @@ public class RecipeManager {
 
     }
 
-    public static void DisableNamespace(String playerUUID, String namespace, MinecraftServer server) throws IOException{
+    public static void DisableNamespace(String playerUUID, String namespace, MinecraftServer server) throws IOException {
         Path path = FindPlayerFolder(playerUUID, server);
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -154,7 +158,7 @@ public class RecipeManager {
             try (Reader reader = Files.newBufferedReader(path)) {
                 jObj = JsonParser.parseReader(reader).getAsJsonObject();
             } catch (IOException e) {
-                e.printStackTrace();
+                LOGGER.error(e.toString());
             }
         } else {
             jObj = new JsonObject();
@@ -162,6 +166,7 @@ public class RecipeManager {
         }
 
         JsonArray arr;
+        assert jObj != null;
         arr = jObj.getAsJsonArray("disabled_items");
 
 
@@ -169,7 +174,7 @@ public class RecipeManager {
             boolean found = false;
             String id = BuiltInRegistries.ITEM.getKey(item).toString();
             if (id.split(":")[0].contains(namespace)) {
-                for (JsonElement e: arr) {
+                for (JsonElement e : arr) {
                     if (id.equals(e.getAsString())) {
                         found = true;
                         break;
@@ -179,7 +184,6 @@ public class RecipeManager {
                     arr.add(id);
                 }
             }
-            found = false;
         });
 
         try (Writer writer = Files.newBufferedWriter(path)) {
@@ -189,29 +193,24 @@ public class RecipeManager {
     }
 
     public static void DisableAll(String playerUUID, MinecraftServer server) throws IOException {
-    Set<String> namespaces = BuiltInRegistries.ITEM.keySet().stream()
-            .map(ResourceLocation::getNamespace)
-            .collect(Collectors.toSet());
 
-    List<String> namespaceList = new ArrayList<>(namespaces);
+        List<String> namespaceList = BuiltInRegistries.ITEM.keySet().stream()
+                .map(ResourceLocation::getNamespace).distinct().toList();
 
-        for (int i = 0; i < namespaceList.size(); i++) {
-            String namespace = namespaceList.get(i);
+        for (String namespace : namespaceList) {
             DisableNamespace(playerUUID, namespace, server);
         }
     }
 
     public static void EnableAll(String playerUUID, MinecraftServer server) throws IOException {
-        Set<String> namespaces = BuiltInRegistries.ITEM.keySet().stream()
-                .map(ResourceLocation::getNamespace)
-                .collect(Collectors.toSet());
-        List <String> namespaceList = new ArrayList<>(namespaces);
+        List<String> namespaceList = BuiltInRegistries.ITEM.keySet().stream()
+                .map(ResourceLocation::getNamespace).distinct().collect(Collectors.toList());
 
-        for (int i =0; i < namespaceList.size(); i++) {
-            String namespace = namespaceList.get(i);
+        for (String namespace : namespaceList) {
             EnableNamespace(playerUUID, namespace, server);
         }
     }
+
     public static void EnableNamespace(String playerUUID, String namespace, MinecraftServer server) throws IOException {
         Path path = FindPlayerFolder(playerUUID, server);
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -259,7 +258,6 @@ public class RecipeManager {
             gson.toJson(jObj, writer);
         }
     }
-
 
 
 }

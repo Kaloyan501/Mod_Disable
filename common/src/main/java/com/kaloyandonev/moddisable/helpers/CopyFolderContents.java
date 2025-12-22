@@ -20,6 +20,7 @@ package com.kaloyandonev.moddisable.helpers;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.nio.file.*;
@@ -29,7 +30,7 @@ public class CopyFolderContents {
 
     private static final Logger logger = LogManager.getLogger();
 
-    public void CopyFolderContents(Path sourceDir, Path destinationDir) throws IOException {
+    public void copyFolderContents(Path sourceDir, Path destinationDir) throws IOException {
         if (Files.notExists(destinationDir)) {
             try {
                 Files.createDirectories(destinationDir);
@@ -39,9 +40,9 @@ public class CopyFolderContents {
             }
         }
 
-        Files.walkFileTree(sourceDir, new SimpleFileVisitor<Path>() {
+        Files.walkFileTree(sourceDir, new SimpleFileVisitor<>() {
             @Override
-            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+            public @NotNull FileVisitResult visitFile(@NotNull Path file, @NotNull BasicFileAttributes attrs) throws IOException {
                 Path relativePath = sourceDir.relativize(file);
                 Path targetPath = destinationDir.resolve(relativePath);
 
@@ -52,13 +53,12 @@ public class CopyFolderContents {
                 }
 
 
-
                 Files.copy(file, targetPath, StandardCopyOption.REPLACE_EXISTING);
                 return FileVisitResult.CONTINUE;
             }
 
             @Override
-            public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+            public @NotNull FileVisitResult postVisitDirectory(@NotNull Path dir, IOException exc){
                 return FileVisitResult.CONTINUE;
             }
         });
