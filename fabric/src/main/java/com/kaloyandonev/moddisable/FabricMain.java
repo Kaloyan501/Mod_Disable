@@ -3,14 +3,11 @@ package com.kaloyandonev.moddisable;
 import com.kaloyandonev.moddisable.abstracts.ConfDir;
 import com.kaloyandonev.moddisable.events.ModEvents;
 import com.kaloyandonev.moddisable.helpers.*;
-import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.ClientTickHandler;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.ClientWorldFolderFinder;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.StaticPathStorage;
 import com.kaloyandonev.moddisable.provideloaderspecific.ConfigPathProviderFabric;
-import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
@@ -44,7 +41,7 @@ public class FabricMain implements ModInitializer {
         ServerLifecycleEvents.SERVER_STARTED.register(SererModEvents::onServerStartedDedicated);
         //ClientPlayConnectionEvents.JOIN.register(this::onLoadComplete);
         ConfigPathProviderFabric configPathProviderFabric = new ConfigPathProviderFabric();
-        ConfDir.init(() -> configPathProviderFabric.getConfigDir());
+        ConfDir.init(configPathProviderFabric::getConfigDir);
 
         /*
         ServerCheckHelper.init(() ->
@@ -83,20 +80,20 @@ public class FabricMain implements ModInitializer {
             LOGGER.debug("[Mod Disable] MigrateTask is about to run!");
             processAllDisabledItemsFromJson.processAllDisabledItemsFromJson();
 
-            boolean CheckSumInvalid = JsonHelper.defaultDisabledListChecksumManger();
+            boolean CheckSumInvalid = JsonHelper.defaultDisabledListChecksumManager();
             if (CheckSumInvalid){
                 try {
                     Path WorldFolderPath = PathHelper.getFullWorldPath(server);
                     Path Mod_Disable_DataPath = WorldFolderPath.resolve("Mod_Disable_Data");
 
-                    List<String> fileNames = Files.list(Mod_Disable_DataPath).map(p -> p.getFileName().toString()).collect(Collectors.toList());
+                    List<String> fileNames = Files.list(Mod_Disable_DataPath).map(p -> p.getFileName().toString()).toList();
                     String[] fileNamesArray = fileNames.toArray(new String[0]);
 
                     for (String fileName : fileNamesArray) {
                         PlayerItemHashmapper.PlayerItemHashmapper(Mod_Disable_DataPath.resolve(fileName).toFile());
                     }
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    LOGGER.error(e.toString());
                 }
             }
         }
@@ -114,13 +111,4 @@ public class FabricMain implements ModInitializer {
             processAllDisabledItemsFromJson.processAllDisabledItemsFromJson();
         }
     }
-
-    public static class ClientModEvents
-    {
-        public static void onClientSetup()
-        {
-
-        }
-    }
-
 }

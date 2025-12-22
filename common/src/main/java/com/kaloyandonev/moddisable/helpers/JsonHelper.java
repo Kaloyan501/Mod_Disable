@@ -21,6 +21,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.*;
+import com.kaloyandonev.moddisable.Constants;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.StaticPathStorage;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.player.Player;
@@ -28,6 +29,7 @@ import net.minecraft.world.item.Item;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import com.kaloyandonev.moddisable.abstracts.ConfDir;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileReader;
@@ -42,6 +44,7 @@ public class JsonHelper {
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private static File dataDir = StaticPathStorage.getSubWorldFolderFile();
+    public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(Constants.MOD_ID);
 
     private static final Logger logger = LogManager.getLogger();
 
@@ -64,31 +67,8 @@ public class JsonHelper {
         }
     }
 
-
-    public static void disableItem(Item item, Player player){
-        File playerFile = getPlayerFile(player);
-
-        JsonObject data = readPlayerData(playerFile);
-
-
-
-        if (!data.has(jsonFieldName)) {
-            data.add(jsonFieldName, new JsonArray());
-        }
-
-        JsonArray disabledItems = data.getAsJsonArray(jsonFieldName);
-        if ((BuiltInRegistries.ITEM.getKey(item).toString()).equals("minecraft:air")){
-            logger.info("[Mod Disable] [JsonHelper] Item minecraft:air will NOT be added to JSON");
-        } else {
-            disabledItems.add(BuiltInRegistries.ITEM.getKey(item).toString());
-        }
-
-
-        writePlayerData(playerFile, data);
-    }
-
     public static File getPlayerFile(Player player){
-        return new File(getDataDir(), player.getUUID().toString() + ".json");
+        return new File(getDataDir(), player.getUUID() + ".json");
     }
 
     public static JsonObject readPlayerData(File file) {
@@ -109,24 +89,6 @@ public class JsonHelper {
         }
     }
 
-    public static void enableItem(Item item, Player player){
-        File playerFile = getPlayerFile(player);
-
-        JsonObject data = readPlayerData(playerFile);
-
-            JsonArray disabledItems = data.getAsJsonArray(jsonFieldName);
-            JsonArray newDisabledItems = new JsonArray();
-
-            for (JsonElement element : disabledItems) {
-                if (!element.getAsString().equals(BuiltInRegistries.ITEM.getKey(item).toString())){
-                    newDisabledItems.add(element);
-                }
-            }
-
-            data.add(jsonFieldName, newDisabledItems);
-            writePlayerData(playerFile, data);
-    }
-
     public static boolean isItemDisabled(Item item, Player player){
         File playerFile = getPlayerFile(player);
 
@@ -145,17 +107,7 @@ public class JsonHelper {
         return false;
     }
 
-    public static JsonArray readJsonArrayFromFile(String filePath) {
-        try (FileReader reader = new FileReader(filePath)) {
-            JsonObject jsonObject = JsonParser.parseReader(reader).getAsJsonObject();
-            return jsonObject.getAsJsonArray("disabled_items");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public static boolean defaultDisabledListChecksumManger(){
+    public static boolean defaultDisabledListChecksumManager(){
         Path configDir = ConfDir.getConfigDir();
         Path configPath = configDir.resolve("ModDisable/DefaultDisabledItemsList.json");
         Path configChecksumPath = configDir.resolve("ModDisable/Checksum.txt");

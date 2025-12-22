@@ -32,7 +32,6 @@ import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.neoforged.fml.loading.FMLEnvironment;
-import net.neoforged.fml.loading.FMLPaths;
 import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
@@ -153,8 +152,8 @@ public class NeoMain
             LOGGER.debug("[Mod Disable] MigrateTask is about to run!");
             processAllDisabledItemsFromJson.processAllDisabledItemsFromJson();
 
-            boolean CheckSumInvalid = JsonHelper.defaultDisabledListChecksumManger();
-            if (CheckSumInvalid = true){
+            boolean CheckSumInvalid = JsonHelper.defaultDisabledListChecksumManager();
+            if (CheckSumInvalid){
                 try {
                     MinecraftServer server1 = ServerLifecycleHooks.getCurrentServer();
                     Path WorldFolderPath = PathHelper.getFullWorldPath(server1);
