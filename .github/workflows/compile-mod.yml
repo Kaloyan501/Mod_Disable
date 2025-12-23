@@ -69,7 +69,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: build-artifact
-        path: build/libs/*.jar  # Changed to 'libs' to reflect the correct output directory
+        path: buildSrc/libs/*.jar  # Changed to 'libs' to reflect the correct output directory
         if-no-files-found: warn  # Handle the case where no files are found
         include-hidden-files: false
 
