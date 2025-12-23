@@ -60,17 +60,28 @@ jobs:
     - name: Make gradlew executable
       run: chmod +x ./gradlew
 
-    # Run Gradle build with increased verbosity
-    - name: Build with Gradle
-      run: ./gradlew build --info
+    # Build for Fabric with verbose
+    - name: Build with Gradle for Fabric
+      run: ./gradlew :fabric:build --info
+      
+    # Build for NeoForge with verbose
+    - name: Build with Gradle for forge
+      run: ./gradlew :neoforge:build --info
 
-    # Upload build artifact
-    - name: Upload build artifact
+    # Upload NeoForge Build Artifacts
+    - name: Upload NeoForge build artifact
       uses: actions/upload-artifact@v4
       with:
         name: build-artifact
-        path: buildSrc/build/libs/*.jar  # Changed to 'libs' to reflect the correct output directory
-        if-no-files-found: warn  # Handle the case where no files are found
+        path: fabric/build/libs/*.jar  # Changed to 'libs' to reflect the correct output directory
+        include-hidden-files: false
+        
+    # Upload Fabric Build Artifacts
+    - name: Upload Fabric build artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-artifact
+        path: neoforge/build/libs/*.jar  # Changed to 'libs' to reflect the correct output directory
         include-hidden-files: false
 
 
@@ -99,7 +110,7 @@ jobs:
         draft: false
         prerelease: ${{ github.event.inputs.release_type == 'beta' }}
 
-    # Upload JAR to GitHub Release
+    # Upload Fabric JAR to GitHub Release
     - name: Upload JAR to Release
       if: ${{ success() }}
       uses: actions/upload-release-asset@v1
@@ -107,6 +118,19 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: buildSrc/build/libs/${{ github.event.inputs.jar_filename }}  # Update path to 'libs' directory
+        asset_path: fabric/build/libs/${{ github.event.inputs.jar_filename }}  # Update path to 'libs' directory
         asset_name: ${{ github.event.inputs.jar_filename }}  # Use the provided JAR filename
         asset_content_type: application/java-archive
+        
+    # Upload Neoforge JAR to GitHub Release
+    - name: Upload JAR to Release
+      if: ${{ success() }}
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: neoforge/build/libs/${{ github.event.inputs.jar_filename }}  # Update path to 'libs' directory
+        asset_name: ${{ github.event.inputs.jar_filename }}  # Use the provided JAR filename
+        asset_content_type: application/java-archive
+    
