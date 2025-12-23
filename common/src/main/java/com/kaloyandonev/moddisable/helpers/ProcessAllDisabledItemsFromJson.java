@@ -35,7 +35,7 @@ public class ProcessAllDisabledItemsFromJson {
         if (!DATA_DIR.exists()) {
             try {
                 DATA_DIR.mkdirs(); // Create the directory if it does not exist
-            } catch (SecurityException e){
+            } catch (SecurityException e) {
                 logger.error(e.toString());
             }
 

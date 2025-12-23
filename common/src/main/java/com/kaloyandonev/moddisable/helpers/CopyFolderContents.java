@@ -58,7 +58,7 @@ public class CopyFolderContents {
             }
 
             @Override
-            public @NotNull FileVisitResult postVisitDirectory(@NotNull Path dir, IOException exc){
+            public @NotNull FileVisitResult postVisitDirectory(@NotNull Path dir, IOException exc) {
                 return FileVisitResult.CONTINUE;
             }
         });

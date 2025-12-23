@@ -12,7 +12,7 @@ import java.io.IOException;
 public class KubeJSItemManager {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(Constants.MOD_ID);
-    
+
     public void enableItem(String playerUUID, String itemToEnable, MinecraftServer server) {
         try {
             RecipeManager.EnableItem(playerUUID, itemToEnable, server);

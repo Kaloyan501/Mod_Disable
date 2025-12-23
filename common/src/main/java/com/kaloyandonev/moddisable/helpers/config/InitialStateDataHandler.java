@@ -47,7 +47,7 @@ public class InitialStateDataHandler {
             logger.info("[Mod Disable] Creating config folder.");
             try {
                 GeneralConfigFolder.mkdir();
-            } catch (SecurityException e){
+            } catch (SecurityException e) {
                 logger.error(e.toString());
             }
 

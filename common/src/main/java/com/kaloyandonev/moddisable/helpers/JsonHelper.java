@@ -44,7 +44,7 @@ public class JsonHelper {
         if (!dataDir.exists()) {
             try {
                 dataDir.mkdir();
-            } catch (SecurityException e){
+            } catch (SecurityException e) {
                 LOGGER.error(e.toString());
             }
 

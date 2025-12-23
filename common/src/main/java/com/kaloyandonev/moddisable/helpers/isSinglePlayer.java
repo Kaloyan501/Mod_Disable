@@ -17,9 +17,7 @@
 
 package com.kaloyandonev.moddisable.helpers;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.level.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

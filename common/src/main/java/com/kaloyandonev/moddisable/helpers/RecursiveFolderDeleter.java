@@ -35,9 +35,9 @@ public class RecursiveFolderDeleter {
                 if (file.isDirectory()) {
                     deleteFolder(file); // Recursively delete subdirectories
                 } else {
-                    try{
+                    try {
                         file.delete(); // Delete files
-                    } catch (SecurityException e){
+                    } catch (SecurityException e) {
                         LOGGER.error(e.toString());
                     }
                 }

@@ -95,7 +95,7 @@ public class FabricMain implements ModInitializer {
                 } catch (IOException e) {
                     LOGGER.error(e.toString());
                 }
-            }   
+            }
         }
 
         //TO DO: Make this only execude on dedicated
