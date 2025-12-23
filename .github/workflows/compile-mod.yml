@@ -1,0 +1,112 @@
+name: Compile and Release Minecraft Mod
+
+permissions:
+  contents: write
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to compile from'
+        required: true
+        default: 'main'
+      release_type:
+        description: 'Is this a beta or release?'
+        required: true
+        type: choice
+        options:
+          - beta
+          - release
+      release_name:
+        description: 'Name of the release'
+        required: true
+      jar_filename:
+        description: 'Name of the JAR file (e.g., mod-disable-1.2.0-mc1.20.1.jar)'
+        required: true
+      changelog:
+        description: 'Changelog for this release (if release_type is release)'
+        required: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Checkout the specified branch
+    - name: Checkout code
+      uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.inputs.branch }}
+
+    # Set up JDK 17
+    - name: Set up JDK 17
+      uses: actions/setup-java@v2
+      with:
+        java-version: '17'
+        distribution: 'adopt'
+
+    # Cache Gradle dependencies
+    - name: Cache Gradle packages
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/gradle.properties.forge') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
+
+    # Set execute permissions on gradlew
+    - name: Make gradlew executable
+      run: chmod +x ./gradlew
+
+    # Run Gradle build with increased verbosity
+    - name: Build with Gradle
+      run: ./gradlew build --info
+
+    # Upload build artifact
+    - name: Upload build artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-artifact
+        path: build/libs/*.jar  # Changed to 'libs' to reflect the correct output directory
+        if-no-files-found: warn  # Handle the case where no files are found
+        include-hidden-files: false
+
+
+    # Check if release with the same tag already exists
+    #- name: Check if release exists
+    #  id: check_release
+    #  run: |
+    #    release_exists=$(curl -s "https://api.github.com/repos/${{ github.repository }}/releases/tags/${{ github.event.inputs.release_name }}" | grep -c '"id":')
+    #    echo "Release exists: $release_exists"
+    #    if [ $release_exists -gt 0 ]; then
+    #      echo "Release with tag ${{ github.event.inputs.release_name }} already exists!"
+    #      exit 0
+    #    fi
+
+    # Create a GitHub Release with user-provided release name and tag
+    - name: Create GitHub Release
+      if: ${{ success() }}
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.event.inputs.release_name }}  # Tag will be same as release name
+        release_name: ${{ github.event.inputs.release_name }}  # Release name
+        body: ${{ github.event.inputs.changelog || 'No changelog provided.' }}
+        draft: false
+        prerelease: ${{ github.event.inputs.release_type == 'beta' }}
+
+    # Upload JAR to GitHub Release
+    - name: Upload JAR to Release
+      if: ${{ success() }}
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: build/libs/${{ github.event.inputs.jar_filename }}  # Update path to 'libs' directory
+        asset_name: ${{ github.event.inputs.jar_filename }}  # Use the provided JAR filename
+        asset_content_type: application/java-archive

@@ -1,0 +1,65 @@
+# .github/workflows/build-check.yml
+name: Build Check
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: read       # for checkout/cache
+  checks: write        # only needed if you keep the custom Checks API steps
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      # (optional) If you still want to use the Checks API:
+      - name: Start check
+        id: init
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const resp = await github.rest.checks.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              name: 'Build Check',
+              head_sha: context.sha,
+              status: 'in_progress'
+            });
+            core.setOutput('check_run_id', resp.data.id);
+
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '17'
+
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*','**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - run: chmod +x ./gradlew
+      - run: ./gradlew build --info
+
+      # (optional) Complete custom check
+      - name: Complete check
+        uses: actions/github-script@v6
+        if: steps.build.outcome != ''
+        with:
+          script: |
+            await github.rest.checks.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              check_run_id: ${{ steps.init.outputs.check_run_id }},
+              status: 'completed',
+              conclusion: ${{ steps.build.outcome == 'success' && 'success' || 'failure' }}
+            });
