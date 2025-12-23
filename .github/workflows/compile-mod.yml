@@ -69,7 +69,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: build-artifact
-        path: buildSrc/libs/*.jar  # Changed to 'libs' to reflect the correct output directory
+        path: buildSrc/build/libs/*.jar  # Changed to 'libs' to reflect the correct output directory
         if-no-files-found: warn  # Handle the case where no files are found
         include-hidden-files: false
 
@@ -107,6 +107,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: buildSrc/libs/${{ github.event.inputs.jar_filename }}  # Update path to 'libs' directory
+        asset_path: buildSrc/build/libs/${{ github.event.inputs.jar_filename }}  # Update path to 'libs' directory
         asset_name: ${{ github.event.inputs.jar_filename }}  # Use the provided JAR filename
         asset_content_type: application/java-archive
