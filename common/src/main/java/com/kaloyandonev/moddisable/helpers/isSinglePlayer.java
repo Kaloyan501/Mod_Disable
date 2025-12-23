@@ -18,6 +18,7 @@
 package com.kaloyandonev.moddisable.helpers;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,6 +28,7 @@ public class isSinglePlayer {
     private static final Logger logger = LogManager.getLogger(isSinglePlayer.class);
     public boolean isSinglePlayer;
 
+    /*
     public void checkisSinglePlayer() {
         Minecraft.getInstance().execute(() -> {
             Level world = Minecraft.getInstance().level;
@@ -41,6 +43,16 @@ public class isSinglePlayer {
     }
 
     public boolean getIsSinglePlayer() {
+        return isSinglePlayer;
+    }
+     */
+
+
+    public void update(MinecraftServer server) {
+        this.isSinglePlayer = !server.isDedicatedServer();
+    }
+
+    public boolean isSinglePlayer() {
         return isSinglePlayer;
     }
 

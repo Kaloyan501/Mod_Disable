@@ -20,11 +20,9 @@ import com.kaloyandonev.moddisable.abstracts.ConfDir;
 import com.kaloyandonev.moddisable.helpers.*;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.ClientTickHandler;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.ClientWorldFolderFinder;
-import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.ScreenCrator;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.StaticPathStorage;
 import com.kaloyandonev.moddisable.provideloaderspecific.ConfigPathProviderNeoforge;
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
@@ -34,9 +32,6 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
-import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.server.ServerStartedEvent;
@@ -77,32 +72,15 @@ public class NeoMain {
 
     @SubscribeEvent
     public void generalEventSubscriber(IEventBus modBus) {
-        modBus.addListener(this::ClientCode);
+        modBus.addListener(NeoClientSetup::ClientCode);
         modBus.addListener(this::onLoadComplete);
 
         NeoForge.EVENT_BUS.register(this);
     }
 
-    public void onLoadComplete(FMLLoadCompleteEvent event) {
-        isSinglePlayer.checkisSinglePlayer();
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    private void ClientCode(final FMLCommonSetupEvent event) {
-        if (FMLEnvironment.dist == Dist.CLIENT) {
-            //logger.warn("ClientCode is about to run!");
-            Minecraft.getInstance().execute(() -> {
-                // Create your screen Creator instance
-                ScreenCrator screenCrator = new ScreenCrator(
-                        Component.literal("Migration Title"), // Title of the screen
-                        Component.literal("Description of the screen"), // Description
-                        confirmed -> false
-                );
-
-                // Open the new screen
-                Minecraft.getInstance().setScreen(screenCrator);
-            });
-        }
+    public void onLoadComplete(ServerStartedEvent event) {
+        MinecraftServer server = event.getServer();
+        isSinglePlayer.update(server);
     }
 
     public static class ServerModEvents {

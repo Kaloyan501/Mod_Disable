@@ -38,7 +38,7 @@ public class MigrateTask {
     public void performMigration() {
         boolean migrationConfrimed = ClientTickHandler.migrationConfrimed;
         logger.info("[Mod Disable] [Migration 1.1.0] [DEBUG] migrationConfirmed is " + migrationConfrimed);
-        logger.info("[Mod Disable] [Migration 1.1.0] [DEBUG] isSinglePlayer is " + isSinglePlayer.getIsSinglePlayer());
+        logger.info("[Mod Disable] [Migration 1.1.0] [DEBUG] isSinglePlayer is " + isSinglePlayer.isSinglePlayer);
         logger.info("[Mod Disable] [Migration 1.1.0] [DEBUG] checkforDisableModFolder" + Migration_110_Json_Check.checkForDisableModFolder());
 
         if (Migration_110_Json_Check.checkForDisableModFolder() && migrationConfrimed) {
