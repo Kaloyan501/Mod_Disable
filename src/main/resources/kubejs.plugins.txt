@@ -1,1 +1,0 @@
-com.kaloyandonev.moddisable.integrations.kubejs.PluginDef moddisable
