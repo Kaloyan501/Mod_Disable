@@ -107,6 +107,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: build/libs/${{ github.event.inputs.jar_filename }}  # Update path to 'libs' directory
+        asset_path: buildSrc/libs/${{ github.event.inputs.jar_filename }}  # Update path to 'libs' directory
         asset_name: ${{ github.event.inputs.jar_filename }}  # Use the provided JAR filename
         asset_content_type: application/java-archive
