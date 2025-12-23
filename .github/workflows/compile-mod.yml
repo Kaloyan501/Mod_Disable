@@ -110,27 +110,22 @@ jobs:
         draft: false
         prerelease: ${{ github.event.inputs.release_type == 'beta' }}
 
-    # Upload Fabric JAR to GitHub Release
-    - name: Upload JAR to Release
-      if: ${{ success() }}
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: fabric/build/libs/${{ github.event.inputs.jar_filename }}  # Update path to 'libs' directory
-        asset_name: ${{ github.event.inputs.jar_filename }}  # Use the provided JAR filename
-        asset_content_type: application/java-archive
+    - name: Upload all JARs from NeoForge and Fabric
+  if: ${{ success() }}
+  env:
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    UPLOAD_URL: ${{ steps.create_release.outputs.upload_url }}
+  run: |
+    for file in neoforge/build/libs/*.jar fabric/build/libs/*.jar; do
+      echo "Uploading $file..."
+      curl -sL \
+        -X POST \
+        -H "Authorization: token $GITHUB_TOKEN" \
+        -H "Content-Type: application/java-archive" \
+        --data-binary @"$file" \
+        "$UPLOAD_URL?name=$(basename $file)"
+    done
+
         
-    # Upload Neoforge JAR to GitHub Release
-    - name: Upload JAR to Release
-      if: ${{ success() }}
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: neoforge/build/libs/${{ github.event.inputs.jar_filename }}  # Update path to 'libs' directory
-        asset_name: ${{ github.event.inputs.jar_filename }}  # Use the provided JAR filename
-        asset_content_type: application/java-archive
+    
     
