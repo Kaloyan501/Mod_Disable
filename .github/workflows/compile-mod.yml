@@ -76,7 +76,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: build-artifact
-        path: fabric/build/libs/*.jar  # Changed to 'libs' to reflect the correct output directory
+        path: fabric/build/libs/${{ github.event.inputs.jar_filename_neoforge }}  # Changed to 'libs' to reflect the correct output directory
         include-hidden-files: false
         
     # Upload Fabric Build Artifacts
@@ -84,7 +84,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: build-artifact
-        path: neoforge/build/libs/*.jar  # Changed to 'libs' to reflect the correct output directory
+        path: neoforge/build/libs/${{ github.event.inputs.jar_filename_fabric }}  # Changed to 'libs' to reflect the correct output directory
         include-hidden-files: false
 
 
@@ -114,7 +114,7 @@ jobs:
         prerelease: ${{ github.event.inputs.release_type == 'beta' }}
 
     # Upload Fabric JAR to GitHub Release
-    - name: Upload JAR to Release
+    - name: Upload Fabric JAR to Release
       if: ${{ success() }}
       uses: actions/upload-release-asset@v1
       env:
@@ -125,8 +125,8 @@ jobs:
         asset_name: ${{ github.event.inputs.jar_filename }}  # Use the provided JAR filename
         asset_content_type: application/java-archive
         
-    # Upload Fabric JAR to GitHub Release
-    - name: Upload JAR to Release
+    # Upload NeoForge JAR to GitHub Release
+    - name: Upload NeoForge JAR to Release
       if: ${{ success() }}
       uses: actions/upload-release-asset@v1
       env:
