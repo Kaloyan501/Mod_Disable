@@ -18,10 +18,10 @@
 package com.kaloyandonev.moddisable.helpers.config;
 
 import com.kaloyandonev.moddisable.abstracts.ConfDir;
+import com.kaloyandonev.moddisable.helpers.ConfigFolderFinder;
 import com.kaloyandonev.moddisable.helpers.ServerCheckHelper;
 import com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator.StaticPathStorage;
 import com.mojang.brigadier.context.CommandContext;
-import net.minecraft.client.Minecraft;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -120,7 +120,8 @@ public class InitialStateDataHandler {
 
     public static int executeReinitRequest(CommandContext<CommandSourceStack> context, String action, String argument, String Confirm) {
 
-        File GeneralConfigFolder = new File(Minecraft.getInstance().gameDirectory, "config/ModDisable");
+        //File GeneralConfigFolder = new File(Minecraft.getInstance().gameDirectory, "config/ModDisable");
+        File GeneralConfigFolder = new File(ConfigFolderFinder.getModConfigFolder().toURI());
 
         CommandSourceStack source = context.getSource();
 

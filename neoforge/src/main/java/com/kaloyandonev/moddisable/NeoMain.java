@@ -62,6 +62,8 @@ public class NeoMain {
         // Register our mod's ForgeConfigSpec so that Forge can create and load the config file for us
         //modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
         NeoForge.EVENT_BUS.register(new UseDetector());
+        NeoForge.EVENT_BUS.register(new ServerModEvents());
+        NeoForge.EVENT_BUS.register(this);
         ATTACHMENT_TYPES.register(modBus);
             /*
             ServerCheckHelper.init(() -> true);
@@ -71,13 +73,6 @@ public class NeoMain {
     }
 
     @SubscribeEvent
-    public void generalEventSubscriber(IEventBus modBus) {
-        modBus.addListener(NeoClientSetup::ClientCode);
-        modBus.addListener(this::onLoadComplete);
-
-        NeoForge.EVENT_BUS.register(this);
-    }
-
     public void onLoadComplete(ServerStartedEvent event) {
         MinecraftServer server = event.getServer();
         isSinglePlayer.update(server);
@@ -88,7 +83,7 @@ public class NeoMain {
         @SubscribeEvent
         @OnlyIn(Dist.CLIENT)
         //@SuppressWarnings(value = "unused")
-        public static void onServerStarted(ServerStartedEvent event) {
+        public void onServerStarted(ServerStartedEvent event) {
             //  Do something when the server starts
             LOGGER.warn("HELLO from server started! (Not to be confused with starting!)");
 
@@ -132,7 +127,7 @@ public class NeoMain {
 
         @SubscribeEvent
         @OnlyIn(Dist.DEDICATED_SERVER)
-        public static void onServerStartedDedicated(ServerStartedEvent event) {
+        public void onServerStartedDedicated(ServerStartedEvent event) {
 
             MinecraftServer server = event.getServer();
             ServerLevel world = server.getLevel(Level.OVERWORLD);
@@ -153,7 +148,7 @@ public class NeoMain {
     @SuppressWarnings(value = "unused")
     public static class ClientModEvents {
         @SubscribeEvent
-        public static void onClientSetup(FMLClientSetupEvent event) {
+        public void onClientSetup(FMLClientSetupEvent event) {
             // Some client setup code
             LOGGER.info("HELLO FROM CLIENT SETUP");
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
