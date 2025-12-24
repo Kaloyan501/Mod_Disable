@@ -20,8 +20,11 @@ on:
       release_name:
         description: 'Name of the release'
         required: true
-      jar_filename:
-        description: 'Name of the JAR file (e.g., mod-disable-1.2.0-mc1.20.1.jar)'
+      jar_filename_fabric:
+        description: 'Name of the JAR file for Fabric (e.g., moddisable-fabric-1.21.1-1.5.0.jar)'
+        required: true
+      jar_filename_neoforge:
+        description: 'Name of the JAR file for NeoForge (e.g., moddisable-neoforge-1.21.1-1.5.0.jar)'
         required: true
       changelog:
         description: 'Changelog for this release (if release_type is release)'
@@ -38,11 +41,11 @@ jobs:
       with:
         ref: ${{ github.event.inputs.branch }}
 
-    # Set up JDK 17
-    - name: Set up JDK 17
+    # Set up JDK 21
+    - name: Set up JDK 21
       uses: actions/setup-java@v2
       with:
-        java-version: '17'
+        java-version: '21'
         distribution: 'adopt'
 
     # Cache Gradle dependencies
@@ -60,17 +63,28 @@ jobs:
     - name: Make gradlew executable
       run: chmod +x ./gradlew
 
-    # Run Gradle build with increased verbosity
-    - name: Build with Gradle
-      run: ./gradlew build --info
+    # Build for Fabric with verbose
+    - name: Build with Gradle for Fabric
+      run: ./gradlew :fabric:build --info
+      
+    # Build for NeoForge with verbose
+    - name: Build with Gradle for forge
+      run: ./gradlew :neoforge:build --info
 
-    # Upload build artifact
-    - name: Upload build artifact
+    # Upload NeoForge Build Artifacts
+    - name: Upload NeoForge build artifact
       uses: actions/upload-artifact@v4
       with:
         name: build-artifact
-        path: build/libs/*.jar  # Changed to 'libs' to reflect the correct output directory
-        if-no-files-found: warn  # Handle the case where no files are found
+        path: fabric/build/libs/${{ github.event.inputs.jar_filename_neoforge }}  # Changed to 'libs' to reflect the correct output directory
+        include-hidden-files: false
+        
+    # Upload Fabric Build Artifacts
+    - name: Upload Fabric build artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-artifact
+        path: neoforge/build/libs/${{ github.event.inputs.jar_filename_fabric }}  # Changed to 'libs' to reflect the correct output directory
         include-hidden-files: false
 
 
@@ -99,14 +113,29 @@ jobs:
         draft: false
         prerelease: ${{ github.event.inputs.release_type == 'beta' }}
 
-    # Upload JAR to GitHub Release
-    - name: Upload JAR to Release
+    # Upload Fabric JAR to GitHub Release
+    - name: Upload Fabric JAR to Release
       if: ${{ success() }}
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: build/libs/${{ github.event.inputs.jar_filename }}  # Update path to 'libs' directory
-        asset_name: ${{ github.event.inputs.jar_filename }}  # Use the provided JAR filename
+        asset_path: fabric/build/libs/${{ github.event.inputs.jar_filename_fabric }}  # Update path to 'libs' directory
+        asset_name: ${{ github.event.inputs.jar_filename_fabric }}  # Use the provided JAR filename
         asset_content_type: application/java-archive
+        
+    # Upload NeoForge JAR to GitHub Release
+    - name: Upload NeoForge JAR to Release
+      if: ${{ success() }}
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: neoforge/build/libs/${{ github.event.inputs.jar_filename_neoforge }}  # Update path to 'libs' directory
+        asset_name: ${{ github.event.inputs.jar_filename_neoforge }}  # Use the provided JAR filename
+        asset_content_type: application/java-archive
+        
+    
+    
