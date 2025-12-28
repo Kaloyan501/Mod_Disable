@@ -57,9 +57,9 @@ dependencies {
     // fabric and neoforge both bundle mixinextras, so it is safe to use it in common
     compileOnly group: 'io.github.llamalad7', name: 'mixinextras-common', version: '0.3.5'
     annotationProcessor group: 'io.github.llamalad7', name: 'mixinextras-common', version: '0.3.5'
-    api("dev.latvian.mods:kubejs-neoforge:2101.7.2-build.348")
-    runtimeOnly("dev.latvian.mods:kubejs-neoforge:2101.7.2-build.348")
-    interfaceInjectionData("dev.latvian.mods:kubejs-neoforge:2101.7.2-build.348") // optional
+    api("dev.latvian.mods:kubejs-neoforge:2101.7.2-build.351")
+    runtimeOnly("dev.latvian.mods:kubejs-neoforge:2101.7.2-build.351")
+    interfaceInjectionData("dev.latvian.mods:kubejs-neoforge:2101.7.2-build.351") // optional
 }
 
 configurations {
