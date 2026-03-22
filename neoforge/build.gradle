@@ -79,10 +79,10 @@ repositories {
 }
 
 dependencies {
-    api("dev.latvian.mods:kubejs-neoforge:2101.7.2-build.353")
-    runtimeOnly("dev.latvian.mods:kubejs-neoforge:2101.7.2-build.353")
-    compileOnly("dev.latvian.mods:kubejs-neoforge:2101.7.2-build.353")
-    interfaceInjectionData("dev.latvian.mods:kubejs-neoforge:2101.7.2-build.353") // optional
+    api("dev.latvian.mods:kubejs-neoforge:2101.7.2-build.354")
+    runtimeOnly("dev.latvian.mods:kubejs-neoforge:2101.7.2-build.354")
+    compileOnly("dev.latvian.mods:kubejs-neoforge:2101.7.2-build.354")
+    interfaceInjectionData("dev.latvian.mods:kubejs-neoforge:2101.7.2-build.354") // optional
 }
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
