@@ -19,7 +19,7 @@ package com.kaloyandonev.moddisable.helpers;
 import com.google.gson.*;
 import com.kaloyandonev.moddisable.Constants;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.storage.LevelResource;
 import org.slf4j.Logger;
@@ -193,7 +193,7 @@ public class RecipeManager {
     public static void DisableAll(String playerUUID, MinecraftServer server) throws IOException {
 
         List<String> namespaceList = BuiltInRegistries.ITEM.keySet().stream()
-                .map(ResourceLocation::getNamespace).distinct().toList();
+                .map(Identifier::getNamespace).distinct().toList();
 
         for (String namespace : namespaceList) {
             DisableNamespace(playerUUID, namespace, server);
@@ -202,7 +202,7 @@ public class RecipeManager {
 
     public static void EnableAll(String playerUUID, MinecraftServer server) throws IOException {
         List<String> namespaceList = BuiltInRegistries.ITEM.keySet().stream()
-                .map(ResourceLocation::getNamespace).distinct().toList();
+                .map(Identifier::getNamespace).distinct().toList();
 
         for (String namespace : namespaceList) {
             EnableNamespace(playerUUID, namespace, server);

@@ -26,12 +26,11 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 
-@EventBusSubscriber(modid = Constants.MOD_ID, bus = EventBusSubscriber.Bus.GAME, value = Dist.CLIENT)
+@EventBusSubscriber(modid = Constants.MOD_ID, value = Dist.CLIENT)
 public class NeoClientTickHandler {
 
     public static boolean migrationConfrimed;
 
-    @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public static void onClientTick(ClientTickEvent.Pre event) {
         migrationConfrimed = ClientTickHandler.onClientTick();

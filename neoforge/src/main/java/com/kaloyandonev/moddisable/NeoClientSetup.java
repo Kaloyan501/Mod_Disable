@@ -10,7 +10,6 @@ import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 
 @EventBusSubscriber(
         modid = Constants.MOD_ID,
-        bus = EventBusSubscriber.Bus.MOD,
         value = Dist.CLIENT
 )
 public final class NeoClientSetup {

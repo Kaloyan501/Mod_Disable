@@ -18,7 +18,8 @@
 
 package com.kaloyandonev.moddisable.migrators.pre_1_1_0_migrator;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.TextAlignment;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.MultiLineLabel;
 import net.minecraft.client.gui.screens.Screen;
@@ -28,7 +29,6 @@ import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
 
 
-//@OnlyIn(Dist.CLIENT)
 public class ScreenCrator extends Screen {
     protected final ScreenCrator.MigratorListener listener;
     private final Component description;
@@ -61,11 +61,11 @@ public class ScreenCrator extends Screen {
 
 
     @Override
-    public void render(@NotNull GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
-        super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
-        this.message.renderCentered(pGuiGraphics, this.width / 2, 70);
-        pGuiGraphics.drawCenteredString(this.font, this.title, this.width / 2, 50, 15744024);
+    public void extractRenderState(@NotNull GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
+        super.extractRenderState(guiGraphics, mouseX, mouseY, partialTick);
 
+        this.message.visitLines(TextAlignment.CENTER, this.width / 2, 70, this.font.lineHeight, guiGraphics.textRenderer());
+        guiGraphics.centeredText(this.font, this.title, this.width / 2, 50, 15744024);
     }
 
     @SuppressWarnings(value = "unused")

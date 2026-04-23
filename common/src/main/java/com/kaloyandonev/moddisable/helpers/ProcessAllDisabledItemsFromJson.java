@@ -25,20 +25,23 @@ import java.io.File;
 public class ProcessAllDisabledItemsFromJson {
 
     private static final Logger logger = LogManager.getLogger(ProcessAllDisabledItemsFromJson.class);
-    private static File DATA_DIR = StaticPathStorage.getSubWorldFolderFile();
+    private static File DATA_DIR;
 
-    // Method to get the data directory with lazy initialization
     private static File getDataDir() {
-        DATA_DIR = StaticPathStorage.getSubWorldFolderFile();
+        if (DATA_DIR == null) {
+            DATA_DIR = StaticPathStorage.getSubWorldFolderFile();
 
-        // Ensure the directory exists
-        if (!DATA_DIR.exists()) {
-            try {
-                DATA_DIR.mkdirs(); // Create the directory if it does not exist
-            } catch (SecurityException e) {
-                logger.error(e.toString());
+            if (DATA_DIR == null) {
+                throw new IllegalStateException("subWorldFolderPath is not initialized yet");
             }
 
+            if (!DATA_DIR.exists()) {
+                try {
+                    DATA_DIR.mkdirs();
+                } catch (SecurityException e) {
+                    logger.error(e.toString());
+                }
+            }
         }
         return DATA_DIR;
     }

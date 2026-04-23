@@ -18,12 +18,13 @@
 package com.kaloyandonev.moddisable.helpers;
 
 import com.kaloyandonev.moddisable.disablelogic.playerjoinsyncpacket.PlayerJoinSyncPacket;
+import net.minecraft.client.Minecraft;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -56,10 +57,12 @@ public class UseDetector {
             Item item = itemStack.getItem();
             Registry<Item> registry = BuiltInRegistries.ITEM;
 
-            ResourceLocation key = registry.getKey(item);
+            Identifier key = registry.getKey(item);
             String idStr = key.toString();
 
-            PacketDistributor.sendToServer(new PlayerJoinSyncPacket.PlayerJoinRequest(idStr, player.getStringUUID()));
+            Minecraft.getInstance().getConnection().send(
+                    new PlayerJoinSyncPacket.PlayerJoinRequest(idStr, player.getStringUUID())
+            );
         }
     }
 
@@ -68,9 +71,11 @@ public class UseDetector {
 
         // Notify the player if the item is disabled
         if (!JsonHelper.isItemDisabled(itemStack.getItem(), player) && player instanceof ServerPlayer) {
-            CommandSourceStack sourceStack = player.createCommandSourceStack();
-            sourceStack.sendFailure(Component.literal("This item is disabled!"));
-            player.displayClientMessage(Component.literal("This item is disabled!"), true);
+            if (player instanceof ServerPlayer serverPlayer) {
+                CommandSourceStack sourceStack = serverPlayer.createCommandSourceStack();
+                sourceStack.sendFailure(Component.literal("This item is disabled!"));
+                player.sendSystemMessage(Component.literal("This item is disabled!"));
+            }
         }
     }
 
@@ -125,7 +130,7 @@ public class UseDetector {
             return;
         }
 
-        player.displayClientMessage(Component.literal("This item is disabled!"), true);
+        player.sendSystemMessage(Component.literal("This item is disabled!"), true);
 
     }
 }

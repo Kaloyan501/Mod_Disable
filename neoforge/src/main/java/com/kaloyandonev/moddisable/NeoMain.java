@@ -46,13 +46,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
-import static net.neoforged.neoforge.internal.versions.neoforge.NeoForgeVersion.MOD_ID;
+import static com.kaloyandonev.moddisable.Constants.MOD_ID;
 
 // The value here should match an entry in the META-INF/mods.toml file
-@Mod(Constants.MOD_ID)
+@Mod(MOD_ID)
 public class NeoMain {
     // Directly reference a slf4j logger
-    public static final Logger LOGGER = LoggerFactory.getLogger(Constants.MOD_ID);
+    public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
     private static final DeferredRegister<AttachmentType<?>> ATTACHMENT_TYPES = DeferredRegister.create(NeoForgeRegistries.ATTACHMENT_TYPES, MOD_ID);
     private final isSinglePlayer isSinglePlayer = new isSinglePlayer();
 
@@ -79,72 +79,75 @@ public class NeoMain {
     }
 
     public static class ServerModEvents {
-        // You can use SubscribeEvent and let the Event Bus discover methods to call
+
         @SubscribeEvent
-        @OnlyIn(Dist.CLIENT)
-        //@SuppressWarnings(value = "unused")
         public void onServerStarted(ServerStartedEvent event) {
-            //  Do something when the server starts
+
             LOGGER.warn("HELLO from server started! (Not to be confused with starting!)");
 
             MinecraftServer server = event.getServer();
             ServerLevel world = server.getLevel(Level.OVERWORLD);
 
+            // =========================
+            // 1. WORLD PATH INITIALIZATION
+            // =========================
+            Path subWorldFolderPath = null;
+
             if (!server.isDedicatedServer()) {
                 ClientWorldFolderFinder folderFinder = new ClientWorldFolderFinder();
-                Path subWorldFolderPath = folderFinder.getWorldSubfolderPath(world);
-
-                StaticPathStorage.setSubWorldFolderPath(subWorldFolderPath);
-                LOGGER.info("subWorldFolderPath is {}", subWorldFolderPath);
+                subWorldFolderPath = folderFinder.getWorldSubfolderPath(world);
 
                 ClientTickHandler clientTickHandler = new ClientTickHandler();
                 MigrateTask migrateTask = new MigrateTask();
                 migrateTask.performMigration();
+
+            } else {
+                // Dedicated server path resolution
+                ClientWorldFolderFinder folderFinder = new ClientWorldFolderFinder();
+                subWorldFolderPath = folderFinder.getWorldSubfolderPath(world);
             }
 
+            // Critical: must always happen BEFORE any processing
+            if (subWorldFolderPath == null) {
+                LOGGER.error("[Mod Disable] Failed to resolve subWorldFolderPath");
+                return;
+            }
+
+            StaticPathStorage.setSubWorldFolderPath(subWorldFolderPath);
+            LOGGER.info("subWorldFolderPath is {}", subWorldFolderPath);
+
+            // =========================
+            // 2. JSON PROCESSING
+            // =========================
             LOGGER.debug("[Mod Disable] MigrateTask is about to run!");
             ProcessAllDisabledItemsFromJson.processAllDisabledItemsFromJson();
 
-            boolean CheckSumInvalid = JsonHelper.defaultDisabledListChecksumManager();
-            if (CheckSumInvalid) {
+            // =========================
+            // 3. CHECKSUM VALIDATION
+            // =========================
+            boolean checkSumInvalid = JsonHelper.defaultDisabledListChecksumManager();
+
+            if (checkSumInvalid) {
                 try {
-                    MinecraftServer server1 = ServerLifecycleHooks.getCurrentServer();
-                    assert server1 != null;
-                    Path WorldFolderPath = PathHelper.getFullWorldPath(server1);
-                    Path Mod_Disable_DataPath = WorldFolderPath.resolve("Mod_Disable_Data");
+                    Path worldFolderPath = PathHelper.getFullWorldPath(server);
+                    Path modDisableDataPath = worldFolderPath.resolve("Mod_Disable_Data");
 
-                    List<String> fileNames = Files.list(Mod_Disable_DataPath).map(p -> p.getFileName().toString()).toList();
-                    String[] fileNamesArray = fileNames.toArray(new String[0]);
+                    List<String> fileNames = Files.list(modDisableDataPath)
+                            .map(p -> p.getFileName().toString())
+                            .toList();
 
-                    for (String fileName : fileNamesArray) {
-                        PlayerItemHashmapper.hashmapPlayerItems(Mod_Disable_DataPath.resolve(fileName).toFile());
+                    for (String fileName : fileNames) {
+                        PlayerItemHashmapper.hashmapPlayerItems(
+                                modDisableDataPath.resolve(fileName).toFile()
+                        );
                     }
+
                 } catch (IOException e) {
-                    LOGGER.error(e.toString());
+                    LOGGER.error("Checksum processing failed", e);
                 }
             }
         }
-
-        @SubscribeEvent
-        @OnlyIn(Dist.DEDICATED_SERVER)
-        public void onServerStartedDedicated(ServerStartedEvent event) {
-
-            MinecraftServer server = event.getServer();
-            ServerLevel world = server.getLevel(Level.OVERWORLD);
-
-            ClientWorldFolderFinder folderFinder = new ClientWorldFolderFinder();
-            Path subWorldFolderPath = folderFinder.getWorldSubfolderPath(world);
-            LOGGER.info("subWorldFolderPath is {}", subWorldFolderPath);
-
-            StaticPathStorage.setSubWorldFolderPath(subWorldFolderPath);
-
-            ProcessAllDisabledItemsFromJson.processAllDisabledItemsFromJson();
-
-
-        }
-
     }
-
     @SuppressWarnings(value = "unused")
     public static class ClientModEvents {
         @SubscribeEvent

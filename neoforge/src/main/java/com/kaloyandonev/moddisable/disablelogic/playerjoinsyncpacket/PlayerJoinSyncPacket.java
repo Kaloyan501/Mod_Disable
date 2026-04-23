@@ -26,13 +26,12 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.client.network.event.RegisterClientPayloadHandlersEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
-import net.neoforged.neoforge.network.handling.DirectionalPayloadHandler;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
-import net.neoforged.neoforge.network.registration.HandlerThread;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import org.jetbrains.annotations.NotNull;
@@ -51,30 +50,27 @@ public class PlayerJoinSyncPacket {
 
     @SubscribeEvent
     public static void register(final RegisterPayloadHandlersEvent ev) {
-        PayloadRegistrar r = ev.registrar("player_join_sync")
-                .executesOn(HandlerThread.NETWORK);
+        PayloadRegistrar r = ev.registrar("player_join_sync");
 
-        // Client → Server: use ServerPayloadHandler::handleDataOnMain
         r.playToServer(
                 PlayerJoinRequest.TYPE,
                 PlayerJoinRequest.STREAM_CODEC,
-                new DirectionalPayloadHandler<>(null,
-                        ServerPayloadHandler::onRequest)
+                ServerPayloadHandler::handleDataOnMain
         );
+    }
 
-        // Server → Client: use ClientPayloadHandler::handleDataOnMain
-        r.playToClient(
+    @SubscribeEvent
+    public static void registerClient(final RegisterClientPayloadHandlersEvent ev) {
+        ev.register(
                 PlayerJoinResponse.TYPE,
-                PlayerJoinResponse.STREAM_CODEC,
-                new DirectionalPayloadHandler<>(ClientPayloadHandler::onResponse,
-                        null)
+                ClientPayloadHandler::handleDataOnMain
         );
     }
 
     public record PlayerJoinRequest(String itemName, String uuid)
             implements CustomPacketPayload {
         public static final Type<PlayerJoinRequest> TYPE =
-                new Type<>(ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "player_join_request"));
+                new Type<>(Identifier.fromNamespaceAndPath(Constants.MOD_ID, "player_join_request"));
 
         public static final StreamCodec<ByteBuf, PlayerJoinRequest> STREAM_CODEC =
                 StreamCodec.composite(
@@ -92,7 +88,7 @@ public class PlayerJoinSyncPacket {
     public record PlayerJoinResponse(String itemName, String uuid, boolean isDisabled)
             implements CustomPacketPayload {
         public static final Type<PlayerJoinResponse> TYPE =
-                new Type<>(ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "player_join_response"));
+                new Type<>(Identifier.fromNamespaceAndPath(Constants.MOD_ID, "player_join_response"));
 
         public static final StreamCodec<ByteBuf, PlayerJoinResponse> STREAM_CODEC =
                 StreamCodec.composite(
@@ -109,18 +105,15 @@ public class PlayerJoinSyncPacket {
     }
 
     public static class ServerPayloadHandler {
-        public static void onRequest(PlayerJoinRequest req, IPayloadContext ctx) {
+        public static void handleDataOnMain(PlayerJoinRequest req, IPayloadContext ctx) {
             String item = req.itemName();
             UUID id = UUID.fromString(req.uuid());
 
             boolean isDisabled = false;
 
-
             try {
-
                 MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
-                Path jsonPath = PathHelper.getPlayerJsonFile(req.uuid, server);
-
+                Path jsonPath = PathHelper.getPlayerJsonFile(req.uuid(), server);
 
                 String content = Files.readString(jsonPath, StandardCharsets.UTF_8);
 
@@ -129,7 +122,6 @@ public class PlayerJoinSyncPacket {
                         .getAsJsonObject();
 
                 JsonArray arr = obj.getAsJsonArray("disabled_items");
-
 
                 for (JsonElement e : arr) {
                     if (item.equals(e.getAsString())) {
@@ -141,14 +133,16 @@ public class PlayerJoinSyncPacket {
                 LOGGER.error(e.toString());
             }
 
-            PlayerJoinResponse response = new PlayerJoinResponse(item, id.toString(), isDisabled);
-            ctx.reply(response);
+            PlayerJoinResponse response =
+                    new PlayerJoinResponse(item, id.toString(), isDisabled);
 
+            ctx.reply(response);
         }
     }
 
     public static class ClientPayloadHandler {
-        public static void onResponse(PlayerJoinResponse resp, IPayloadContext ctx) {
+        public static void handleDataOnMain(PlayerJoinResponse resp, IPayloadContext ctx) {
+            // your logic here
         }
     }
 }

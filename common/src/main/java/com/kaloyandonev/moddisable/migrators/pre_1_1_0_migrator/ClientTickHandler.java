@@ -25,7 +25,7 @@ public class ClientTickHandler {
                 }
 
                 // Check if the delay has passed to show your screen
-                if (System.currentTimeMillis() - startTime > 5000) { // Adjust delay as needed
+                if (System.currentTimeMillis() - startTime > 100) { // Adjust delay as needed
                     // Show your custom screen
                     minecraft.execute(() -> {
                         ScreenCrator screenCrator = new ScreenCrator(
@@ -44,7 +44,6 @@ public class ClientTickHandler {
                         // Set the custom screen
                         minecraft.setScreen(screenCrator);
                     });
-
                     // Reset the flag and timer to prevent repeated screen setting
                     hasRun = false;
                     startTime = 0;

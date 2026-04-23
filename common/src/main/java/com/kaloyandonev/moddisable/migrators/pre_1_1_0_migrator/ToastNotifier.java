@@ -34,7 +34,7 @@ public class ToastNotifier {
     public static void showToast(String title, String message) {
         Minecraft minecraft = Minecraft.getInstance();
         SystemToast.add(
-                minecraft.getToasts(),
+                minecraft.getToastManager(),
                 SystemToast.SystemToastId.NARRATOR_TOGGLE,
                 Component.literal(title),
                 Component.literal(message)

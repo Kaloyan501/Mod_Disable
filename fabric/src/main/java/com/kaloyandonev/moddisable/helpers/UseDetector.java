@@ -8,7 +8,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -25,7 +24,7 @@ public final class UseDetector {
            ===================== */
         UseItemCallback.EVENT.register((player, world, hand) -> {
             if (!(player instanceof ServerPlayer serverPlayer)) {
-                return InteractionResultHolder.pass(player.getItemInHand(hand));
+                return InteractionResult.PASS;
             }
 
             ItemStack stack = serverPlayer.getItemInHand(hand);
@@ -34,8 +33,8 @@ public final class UseDetector {
             boolean cancel = runHandleUse(serverPlayer, stack, pos);
 
             return cancel
-                    ? InteractionResultHolder.fail(stack)
-                    : InteractionResultHolder.pass(stack);
+                    ? InteractionResult.FAIL
+                    : InteractionResult.PASS;
         });
 
         /* =====================
@@ -104,7 +103,7 @@ public final class UseDetector {
 
         CommandSourceStack source = serverPlayer.createCommandSourceStack();
         source.sendFailure(Component.literal("This item is disabled!"));
-        serverPlayer.displayClientMessage(Component.literal("This item is disabled!"), true);
+        serverPlayer.sendSystemMessage(Component.literal("This item is disabled!"), true);
     }
 
     private static void syncInventory(Player player) {

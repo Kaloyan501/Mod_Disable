@@ -13,8 +13,9 @@ import net.minecraft.commands.arguments.item.ItemArgument;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.permissions.Permissions;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -36,7 +37,7 @@ public class CommandManager {
                 Commands.literal("disable_mod")
                         // 'enable' command
                         .then(Commands.literal("enable")
-                                .requires(source -> source.hasPermission(2))
+                                .requires(source -> source.permissions().hasPermission(Permissions.COMMANDS_GAMEMASTER))
                                 .then(Commands.literal("namespace")
                                         .then(Commands.literal("hand")
                                                 .executes(context -> execute(context, "enable", "hand"))
@@ -50,7 +51,7 @@ public class CommandManager {
                                                 .executes(context -> executeWithItem(context, "enable", null, true))
                                         )
                                         .then(Commands.argument("item", ItemArgument.item(buildContext))
-                                                .executes(context -> executeWithItem(context, "enable", ItemArgument.getItem(context, "item").getItem(), false))
+                                                .executes(context -> executeWithItem(context, "enable", ItemArgument.getItem(context, "item").item().value(), false))
                                         )
                                 )
                                 .then(Commands.literal("all")
@@ -59,7 +60,7 @@ public class CommandManager {
                         )
                         // 'disable' command
                         .then(Commands.literal("disable")
-                                .requires(source -> source.hasPermission(2))
+                                .requires(source -> source.permissions().hasPermission(Permissions.COMMANDS_GAMEMASTER))
                                 .then(Commands.literal("namespace")
                                         .then(Commands.literal("hand")
                                                 .executes(context -> execute(context, "disable", "hand"))
@@ -73,7 +74,7 @@ public class CommandManager {
                                                 .executes(context -> executeWithItem(context, "disable", null, true))
                                         )
                                         .then(Commands.argument("item", ItemArgument.item(buildContext))
-                                                .executes(context -> executeWithItem(context, "disable", ItemArgument.getItem(context, "item").getItem(), false))
+                                                .executes(context -> executeWithItem(context, "disable", ItemArgument.getItem(context, "item").item().value(), false))
                                         )
                                 )
                                 .then(Commands.literal("all")
@@ -83,7 +84,7 @@ public class CommandManager {
                         // 'config' command
                         .then(Commands.literal("config")
                                 .then(Commands.literal("DefaultDisabledItemsListFromPlayerUUID")
-                                        .requires(source -> source.hasPermission(2))
+                                        .requires(source -> source.permissions().hasPermission(Permissions.COMMANDS_GAMEMASTER))
                                         .then(Commands.argument("player", StringArgumentType.string())
                                                 .executes(context -> executeConfigRequest("DefaultDisabledItemsListFromPlayerUUID", StringArgumentType.getString(context, "player"), context.getSource()))
                                         )
@@ -92,7 +93,7 @@ public class CommandManager {
                                         .executes(context -> executeConfigRequest("Init", "Null", context.getSource()))
                                 )
                                 .then(Commands.literal("reinit")
-                                        .requires(source -> source.hasPermission(2))
+                                        .requires(source -> source.permissions().hasPermission(Permissions.COMMANDS_GAMEMASTER))
                                         .then(Commands.argument("PlayerUUID", StringArgumentType.string())
                                                 .executes(context -> executeReinitRequest(context, "Reinit", StringArgumentType.getString(context, "PlayerUUID"), "nonconfirm"))
                                                 .then(Commands.argument("confirm", StringArgumentType.string())
@@ -224,7 +225,7 @@ public class CommandManager {
             switch (action + " " + "item") {
                 case "enable item":
                     Registry<Item> registry = BuiltInRegistries.ITEM;
-                    ResourceLocation key = registry.getKey(item);
+                    Identifier key = registry.getKey(item);
                     String idStr = key.toString();
 
                     try {
@@ -241,7 +242,7 @@ public class CommandManager {
                     //break;
                 case "disable item":
                     Registry<Item> registry1 = BuiltInRegistries.ITEM;
-                    ResourceLocation key1 = registry1.getKey(item);
+                    Identifier key1 = registry1.getKey(item);
                     String idStr1 = key1.toString();
 
                     try {
