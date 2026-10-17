@@ -48,18 +48,23 @@ jobs:
             ${{ runner.os }}-gradle-
 
       - run: chmod +x ./gradlew
-      - run: ./gradlew build --info
+      - id: build
+        run: ./gradlew build --info
 
       # (optional) Complete custom check
       - name: Complete check
+        if: always()
         uses: actions/github-script@v6
-        if: steps.build.outcome != ''
         with:
           script: |
-            await github.rest.checks.update({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              check_run_id: ${{ steps.init.outputs.check_run_id }},
-              status: 'completed',
-              conclusion: ${{ steps.build.outcome == 'success' && 'success' || 'failure' }}
-            });
+            const checkRunId = ${{ steps.init.outputs.check_run_id }};
+            if (checkRunId) {
+              const conclusion = ${{ steps.build.outcome == 'success' && 'success' || 'failure' }};
+              await github.rest.checks.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                check_run_id: checkRunId,
+                status: 'completed',
+                conclusion: conclusion
+              });
+            }
