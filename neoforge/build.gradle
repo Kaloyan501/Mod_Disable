@@ -25,6 +25,26 @@ repositories {
     interfaceInjectionData("dev.latvian.mods:kubejs-neoforge:$kubejs_version") // optional
 }*/
 
+dependencies {
+
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.11.4'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.11.4'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.11.4'
+    testImplementation 'org.assertj:assertj-core:3.27.3'
+    testImplementation "net.neoforged:neoforge:${neoforge_version}"
+    testRuntimeOnly 'org.slf4j:slf4j-api:2.0.13'
+    testRuntimeOnly 'org.slf4j:slf4j-simple:2.0.13'
+}
+
+sourceSets.main.resources { srcDir 'src/generated/resources' }
+
+sourceSets {
+    test {
+        compileClasspath += sourceSets.main.compileClasspath
+        runtimeClasspath += sourceSets.main.runtimeClasspath
+    }
+}
+
 neoForge {
     version = neoforge_version
     // Automatically enable neoforge AccessTransformers if the file exists
@@ -53,6 +73,11 @@ neoForge {
             this.file("runs/server").createParentDirectories()
             gameDirectory = this.mkdir(this.file("runs/server"))
         }
+        gameTestServer {
+            type = "gameTestServer"
+            this.file("runs/gametest").createParentDirectories()
+            gameDirectory = this.mkdir(this.file("runs/gametest"))
+        }
     }
     mods {
         "${mod_id}" {
@@ -60,8 +85,6 @@ neoForge {
         }
     }
 }
-
-sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 // Implement mcgradleconventions loader attribute
 def loaderAttribute = Attribute.of('io.github.mcgradleconventions.loader', String)
@@ -80,4 +103,14 @@ sourceSets.configureEach {
             }
         }
     }
+}
+
+tasks.named('test', Test) {
+    useJUnitPlatform()
+    // Headless Minecraft server boot for integration tests
+    systemProperty('java.awt.headless', 'true')
+    systemProperty('file.encoding', 'UTF-8')
+    minHeapSize = '512m'
+    maxHeapSize = '2g'
+    jvmArgs = ['--add-opens', 'java.base/java.lang=ALL-UNNAMED']
 }

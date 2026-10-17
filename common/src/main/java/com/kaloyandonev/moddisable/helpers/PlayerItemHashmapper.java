@@ -3,6 +3,7 @@ package com.kaloyandonev.moddisable.helpers;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.kaloyandonev.moddisable.Constants;
 import com.kaloyandonev.moddisable.abstracts.ConfDir;
@@ -43,7 +44,11 @@ public class PlayerItemHashmapper {
             JsonObject obj = gson.fromJson(reader, JsonObject.class);
             Type setType = new TypeToken<Set<String>>() {
             }.getType();
-            return gson.fromJson(obj.get("disabled_items"), setType);
+            JsonElement disabledItems = obj.get("disabled_items");
+            if (disabledItems == null || disabledItems.isJsonNull()) {
+                return java.util.Collections.emptySet();
+            }
+            return gson.fromJson(disabledItems, setType);
         }
     }
 

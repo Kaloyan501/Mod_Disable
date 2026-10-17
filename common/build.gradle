@@ -17,6 +17,29 @@ dependencies {
     // fabric and neoforge both bundle mixinextras, so it is safe to use it in common
     compileOnly group: 'io.github.llamalad7', name: 'mixinextras-common', version: '0.5.5'
     annotationProcessor group: 'io.github.llamalad7', name: 'mixinextras-common', version: '0.5.5'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.11.4'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.11.4'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.11.4'
+    testImplementation 'org.assertj:assertj-core:3.27.3'
+    testImplementation 'com.google.code.gson:gson:2.10.1'
+    testRuntimeOnly 'org.slf4j:slf4j-api:2.0.13'
+    testRuntimeOnly 'org.slf4j:slf4j-simple:2.0.13'
+    testRuntimeOnly 'org.apache.logging.log4j:log4j-api:2.23.1'
+    testImplementation 'com.google.guava:guava:33.4.0-jre'
+    testRuntimeOnly 'com.mojang:logging:1.6.11'
+}
+
+tasks.named('test', Test) {
+    useJUnitPlatform()
+    // Headless Minecraft server boot for integration tests
+    systemProperty('java.awt.headless', 'true')
+    systemProperty('file.encoding', 'UTF-8')
+    // Give the test JVM enough memory to boot a dedicated server
+    minHeapSize = '512m'
+    maxHeapSize = '2g'
+    // Forward system properties needed by Minecraft
+    jvmArgs = ['--add-opens', 'java.base/java.lang=ALL-UNNAMED']
 }
 
 configurations {

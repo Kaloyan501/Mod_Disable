@@ -26,3 +26,52 @@ For the disabled items list to be created, the /disable_mod init command must be
 quest or other means.
 
 <h1>The creator of this program is not responsible for any damage done by it and it does not come with ANY warranty.</h1>
+
+# Testing
+
+This mod tests itself through real Minecraft on both supported loaders (Fabric and NeoForge). Every new feature must include tests.
+
+## Running Tests
+
+### All loaders (recommended)
+```bash
+./gradlew check
+```
+Runs unit tests for `common`, `fabric`, and `neoforge`, plus Fabric game tests that boot a real Minecraft server.
+
+### Specific loader
+```bash
+./gradlew :fabric:test   # Fabric unit + game tests
+./gradlew :neoforge:test # NeoForge unit tests
+./gradlew :common:test   # Common unit tests
+```
+
+## Test Structure
+
+| Module | Test Type | Location | Runs Through Minecraft? |
+|--------|-----------|----------|------------------------|
+| `common` | Unit tests | `src/test/java` | No (pure logic) |
+| `fabric` | Unit tests | `src/test/java` | No (pure logic) |
+| `fabric` | Game tests | `src/gametest/java` | **Yes** (real Minecraft server) |
+| `neoforge` | Unit tests | `src/test/java` | No (pure logic) |
+
+### Test Coverage
+
+Tests cover every major component of the mod:
+
+- **RecipeManager** — disable/enable item, namespace, all items; JSON persistence; idempotency
+- **FileSecurity** — checksum computation and consistency
+- **StaticPathStorage** — world path get/set
+- **PlayerItemHashmapper** — JSON load/save, default list intersection
+- **CopyFolderContents** — recursive folder copy with replacement
+- **RecursiveFolderDeleter** — recursive deletion
+- **Migration_110_Json_Check** — UUID filename validation
+- **Command registration** — verified accessible via reflection
+- **Game tests (Fabric)** — vanilla item registry, mock player creation in a real test level
+
+### Adding New Features
+
+1. Write unit tests for any new pure-logic classes in `common/src/test/java`
+2. Write unit tests for loader-specific logic in `fabric/src/test/java` or `neoforge/src/test/java`
+3. Write game tests for any in-Minecraft behavior (item use, commands, events) in `fabric/src/gametest/java` (Fabric) or via `RegisterGameTestsEvent` (NeoForge)
+4. All tests must pass on both loaders before merging

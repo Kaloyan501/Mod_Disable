@@ -6,6 +6,23 @@ dependencies {
     minecraft "com.mojang:minecraft:${minecraft_version}"
     implementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
     implementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
+
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.11.4'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.11.4'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.11.4'
+    testImplementation 'org.assertj:assertj-core:3.27.3'
+    testRuntimeOnly 'org.slf4j:slf4j-api:2.0.13'
+    testRuntimeOnly 'org.slf4j:slf4j-simple:2.0.13'
+}
+
+fabricApi {
+    configureTests {
+        createSourceSet = true
+        modId = mod_id
+        enableGameTests = true
+        enableClientGameTests = true
+        eula = true
+    }
 }
 
 loom {
@@ -46,4 +63,27 @@ sourceSets.configureEach {
             }
         }
     }
+}
+
+sourceSets {
+    test {
+        compileClasspath += sourceSets.main.compileClasspath
+        runtimeClasspath += sourceSets.main.runtimeClasspath
+    }
+    gametest {
+        compileClasspath += configurations.testCompileClasspath
+        compileClasspath += sourceSets.main.compileClasspath
+        runtimeClasspath += configurations.testRuntimeClasspath
+        runtimeClasspath += sourceSets.main.runtimeClasspath
+    }
+}
+
+tasks.named('test', Test) {
+    useJUnitPlatform()
+    // Headless Minecraft server boot for integration tests
+    systemProperty('java.awt.headless', 'true')
+    systemProperty('file.encoding', 'UTF-8')
+    minHeapSize = '512m'
+    maxHeapSize = '2g'
+    jvmArgs = ['--add-opens', 'java.base/java.lang=ALL-UNNAMED']
 }

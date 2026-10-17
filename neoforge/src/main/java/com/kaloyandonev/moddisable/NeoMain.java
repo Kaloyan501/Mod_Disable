@@ -70,6 +70,9 @@ public class NeoMain {
              */
         ConfigPathProviderNeoforge configPathProviderNeoforge = new ConfigPathProviderNeoforge();
         ConfDir.init(configPathProviderNeoforge);
+
+        // Register game tests (only fires during runGameTestServer)
+        modBus.addListener(NeoForgeGameTestRegistry::registerGameTests);
     }
 
     @SubscribeEvent

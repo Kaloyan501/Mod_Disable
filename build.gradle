@@ -4,3 +4,8 @@ plugins {
     // see https://projects.neoforged.net/neoforged/moddevgradle for new versions
     id 'net.neoforged.moddev' version '2.0.148' apply false
 }
+
+tasks.register('check') {
+    dependsOn(':common:test', ':fabric:test', ':neoforge:test')
+    description = 'Runs all module test suites (common, fabric, neoforge) through Minecraft'
+}

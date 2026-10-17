@@ -61,6 +61,23 @@ public class RecipeManager {
         return playerFile;
     }
 
+    /**
+     * Resolves the player data file path from a world root path (package-private for testing).
+     */
+    static Path FindPlayerFolder(String playerUUID, Path worldRoot) {
+        Path playerFile = worldRoot
+                .resolve("Mod_Disable_Data")
+                .resolve(playerUUID + ".json");
+
+        try {
+            Files.createDirectories(playerFile.getParent());
+        } catch (IOException e) {
+            LOGGER.error(e.toString());
+        }
+
+        return playerFile;
+    }
+
 
     /**
      * Function to read the disabled items JSON list of the player or create it if not available,
@@ -71,7 +88,13 @@ public class RecipeManager {
      * @param server       - MinecraftServer object to work on.
      */
     public static void EnableItem(String playerUUID, String itemToEnable, MinecraftServer server) throws IOException {
-        Path path = FindPlayerFolder(playerUUID, server);
+        enableItemAtPath(FindPlayerFolder(playerUUID, server), itemToEnable);
+    }
+
+    /**
+     * Package-private overload for testing: operates on a given player file path directly.
+     */
+    static void enableItemAtPath(Path path, String itemToEnable) throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         JsonObject jObj;
 
@@ -116,7 +139,13 @@ public class RecipeManager {
 
 
     public static void DisableItem(String playerUUID, String ItemToDisable, MinecraftServer server) throws IOException {
-        Path path = FindPlayerFolder(playerUUID, server);
+        disableItemAtPath(FindPlayerFolder(playerUUID, server), ItemToDisable);
+    }
+
+    /**
+     * Package-private overload for testing: operates on a given player file path directly.
+     */
+    static void disableItemAtPath(Path path, String itemToDisable) throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
         JsonObject jObj;
@@ -132,13 +161,13 @@ public class RecipeManager {
         JsonArray arr = jObj.getAsJsonArray("disabled_items");
         boolean found = false;
         for (JsonElement e : arr) {
-            if (ItemToDisable.equals(e.getAsString())) {
+            if (itemToDisable.equals(e.getAsString())) {
                 found = true;
                 break;
             }
         }
         if (!found) {
-            arr.add(ItemToDisable);
+            arr.add(itemToDisable);
         }
 
         try (Writer writer = Files.newBufferedWriter(path)) {
@@ -148,7 +177,13 @@ public class RecipeManager {
     }
 
     public static void DisableNamespace(String playerUUID, String namespace, MinecraftServer server) throws IOException {
-        Path path = FindPlayerFolder(playerUUID, server);
+        disableNamespaceAtPath(FindPlayerFolder(playerUUID, server), namespace, server);
+    }
+
+    /**
+     * Package-private overload for testing: operates on a given player file path directly.
+     */
+    static void disableNamespaceAtPath(Path path, String namespace, MinecraftServer server) throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
         JsonObject jObj = null;
@@ -210,7 +245,13 @@ public class RecipeManager {
     }
 
     public static void EnableNamespace(String playerUUID, String namespace, MinecraftServer server) throws IOException {
-        Path path = FindPlayerFolder(playerUUID, server);
+        enableNamespaceAtPath(FindPlayerFolder(playerUUID, server), namespace, server);
+    }
+
+    /**
+     * Package-private overload for testing: operates on a given player file path directly.
+     */
+    static void enableNamespaceAtPath(Path path, String namespace, MinecraftServer server) throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         JsonObject jObj;
 
