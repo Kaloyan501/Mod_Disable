@@ -59,7 +59,7 @@ jobs:
           script: |
             const checkRunId = ${{ steps.init.outputs.check_run_id }};
             if (checkRunId) {
-              const conclusion = ${{ steps.build.outcome == 'success' && 'success' || 'failure' }};
+              const conclusion = '${{ steps.build.outcome }}';
               await github.rest.checks.update({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
